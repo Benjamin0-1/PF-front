@@ -1,0 +1,34 @@
+.DeleteUserByUsername {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+  }
+  
+  .DeleteUserByUsername input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .DeleteUserByUsername button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .DeleteUserByUsername button:hover {
+    background-color: #0056b3;
+  }
+  
+  .DeleteUserByUsername p {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  

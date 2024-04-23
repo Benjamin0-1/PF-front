@@ -1,0 +1,55 @@
+.DeleteUserById {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .DeleteUserById h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .DeleteUserById form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .DeleteUserById label {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .DeleteUserById input[type="text"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .DeleteUserById p {
+    margin-top: 5px;
+    font-size: 14px;
+    color: red;
+  }
+  
+  .DeleteUserById .success {
+    color: green;
+  }
+  
+  .DeleteUserById button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .DeleteUserById button:hover {
+    background-color: #0056b3;
+  }
+  

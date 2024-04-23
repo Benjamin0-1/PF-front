@@ -1,0 +1,60 @@
+.UpdateProduct {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.UpdateProduct h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.UpdateProduct form {
+    display: flex;
+    flex-direction: column;
+}
+
+.UpdateProduct label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.UpdateProduct input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.UpdateProduct textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.UpdateProduct button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.UpdateProduct button:hover {
+    background-color: #0056b3;
+}
+
+.UpdateProduct .error {
+    color: #ff0000;
+    margin-bottom: 10px;
+}
+
+.UpdateProduct .success {
+    color: #008000;
+    margin-bottom: 10px;
+}
