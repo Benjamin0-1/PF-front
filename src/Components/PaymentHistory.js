@@ -14,6 +14,10 @@ function PaymentHistory() {
     const [userPaymentHistory, setUserPaymentHistory] = useState([]);
     const [productNames, setProductNames] = useState({});
 
+    if (!accessToken) {
+        window.location.href = '/login'
+    }
+
     const getProductName = async (productId) => {
         try {
             const response = await fetch(`${DETAIL_URL}/${productId}`);

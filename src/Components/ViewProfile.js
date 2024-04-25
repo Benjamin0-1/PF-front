@@ -10,6 +10,10 @@ function ViewProfile() {
     const [profileInfo, setProfileInfo] = useState({});
     const [generalError, setGeneralError] = useState('');
 
+    if (!accessToken) {
+        window.location.href = '/login'
+    }
+
     const fetchProfile = async () => {
         try {
             const response = await FetchWithAuth(URL, {

@@ -17,6 +17,7 @@ import ResetPassword from './Components/ResetPassword';
 import ViewProfile from './Components/ViewProfile';
 import UpdateProduct from './Components/AdminComponents/UpdateProduct';
 import PaymentHistory from './Components/PaymentHistory';
+import ReportedProduct from './Components/AdminComponents/ReportedProduct';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path='/viewprofile' element={< ViewProfile />} />
         <Route path='updateproduct' element={< UpdateProduct />} />
         <Route  path='/paymenthistory'  element={< PaymentHistory />}/>
+        <Route path='/reportedproducts' element={< ReportedProduct />} />
       <Route path='*' element={<h1>404 Not Found</h1>}/> 
       </Routes>
     </Router>

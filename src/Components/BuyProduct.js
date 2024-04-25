@@ -13,6 +13,10 @@ const BuyProduct = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
 
+    if (!accessToken) {
+        window.location.href = '/login'
+    }
+
     useEffect(() => {
         const loadStripe = async () => {
             if (!window.Stripe) {
