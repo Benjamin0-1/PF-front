@@ -52,6 +52,14 @@ function ViewProfile() {
                 <p>Admin: {profileInfo.is_admin ? 'Yes' : 'No'}</p>
                 <p>Two Factor Authentication: {profileInfo.two_factor_authentication ? 'Enabled' : 'Disabled'}</p>
                 <p>Te uniste en la fecha: {profileInfo.createdAt}</p>
+                {profileInfo.Shipping && (
+                    <div>
+                        <h3>Shipping Information</h3>
+                        <p>Country: {profileInfo.Shipping.country || 'Aun no has agregado informacion de envio'}</p>
+                        <p>City: {profileInfo.Shipping.city || 'Aun no has agregado informacion de envio'}</p>
+                        <p>Zip Code: {profileInfo.Shipping.zip_code || 'Aun no has agregado informacion de envio'}</p>
+                    </div>
+                )}
             </div>
             {generalError && <p>{generalError}</p>}
         </div>

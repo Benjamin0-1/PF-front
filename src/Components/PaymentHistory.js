@@ -6,7 +6,7 @@ const accessToken = localStorage.getItem('accessToken');
 
 const PORT = process.env.PORT || 3001;
 const URL = `http://localhost:${PORT}/payment-history`;
-const DETAIL_URL = `http://localhost:${PORT}/product-detail`
+const DETAIL_URL = `http://localhost:${PORT}/product-detail`;
 
 function PaymentHistory() {
     const [generalError, setGeneralError] = useState('');
@@ -15,7 +15,7 @@ function PaymentHistory() {
     const [productNames, setProductNames] = useState({});
 
     if (!accessToken) {
-        window.location.href = '/login'
+        window.location.href = '/login';
     }
 
     const getProductName = async (productId) => {
@@ -41,15 +41,6 @@ function PaymentHistory() {
         }
     };
 
-    const calculateTotalAmount = (products) => {
-        let totalAmount = 0;
-        for (const product of products) {
-            totalAmount += product.price * product.quantity;
-        }
-        return totalAmount;
-    };
-
-
     const fetchDetails = async () => {
         try {
             const response = await FetchWithAuth(URL, {
@@ -74,7 +65,6 @@ function PaymentHistory() {
             const data = await response.json();
             setUserPaymentHistory(data);
 
-            
             const productNamesMap = {};
             for (const payment of data) {
                 const productName = await getProductName(payment.productId);
@@ -85,13 +75,12 @@ function PaymentHistory() {
         } catch (error) {
             console.log(`ERROR: ${error}`);
         }
-    }
+    };
 
     useEffect(() => {
         fetchDetails();
     }, []);
 
-    // FALTA INCLUIR EL TOTAL DE CADA TRANSACTION. (editar PaymentHistory ? ).
     return (
         <div className="PaymentHistory">
             {generalError && <p>{generalError}</p>}
@@ -105,13 +94,18 @@ function PaymentHistory() {
                             <p>Quantity: {payment.quantity}</p>
                             <p>Total amount: {payment.total_transaction_amount || 'Error mostrando detalles.'}</p>
                             <p>Purchase Date: {new Date(payment.purchaseDate).toLocaleString()}</p>
+                            <div>
+                                <h3>Shipping Information</h3>
+                                <p>Country: {payment.Shipping ? payment.Shipping.country : 'No disponible'}</p>
+                                <p>City: {payment.Shipping ? payment.Shipping.city : 'No disponible'}</p>
+                                <p>Zip Code: {payment.Shipping ? payment.Shipping.zip_code : 'No disponible'}</p>
+                            </div>
                         </li>
                     ))}
                 </ul>
             )}
         </div>
     );
-
 }
 
 export default PaymentHistory;

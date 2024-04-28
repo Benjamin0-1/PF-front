@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
+import './BuyProduct.css';
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -12,10 +13,16 @@ const BuyProduct = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
+    const [shippingAddresses, setShippingAddresses] = useState([]);
+    const [reqShippingId, setReqShippingId] = useState(null);
 
     if (!accessToken) {
         window.location.href = '/login'
     }
+
+    useEffect(() => {
+        fetchShippingAddresses();
+    }, []);
 
     useEffect(() => {
         const loadStripe = async () => {
@@ -25,17 +32,54 @@ const BuyProduct = () => {
                 stripeScript.async = true;
                 stripeScript.onload = () => {
                     console.log('Stripe.js has loaded.');
+                    // Now you can safely use Stripe here
                 };
                 document.body.appendChild(stripeScript);
+            } else {
+                console.log('Stripe.js is already loaded.');
+                // Now you can safely use Stripe here
             }
         };
-
+    
         loadStripe();
-
+    
         return () => {
             // Cleanup function
         };
     }, []);
+    
+    
+
+    const fetchShippingAddresses = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            const response = await FetchWithAuth('http://localhost:3001/shipping-info', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            const data = await response.json();
+            if (data.length === 0) {
+                setError('You have zero shipping addresses');
+            } else {
+                setShippingAddresses(data);
+            }
+        } catch (error) {
+            console.log(`ERROR: ${error}`);
+            setError('Failed to fetch shipping addresses');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSelectAddress = (shippingId) => {
+        setReqShippingId(shippingId);
+    };
 
     const handleBuy = async () => {
         try {
@@ -48,7 +92,7 @@ const BuyProduct = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
                 },
-                body: JSON.stringify({ products })
+                body: JSON.stringify({ products, reqShippingId })
             });
 
             const data = await response.json();
@@ -97,30 +141,47 @@ const BuyProduct = () => {
         setProducts(updatedProducts);
     };
 
+    // add more erros: noAddrSelectedError, noStockError, productIdNotFoundError. 
+
     return (
-        <div>
+        <div className="container">
             <h2>Buy Products</h2>
             {error && <p>Error: {error}</p>}
             {loading && <p>Loading...</p>}
             {success && <p>Redirecting to checkout...</p>}
+            <div className="shipping-addresses">
+                <h3>Shipping Addresses: {shippingAddresses.length}</h3>
+                {shippingAddresses.map((address) => (
+                    <div className="shipping-address" key={address.shippingId} onClick={() => handleSelectAddress(address.shippingId)}>
+                        <p>Nickname: {address.nickname}</p>
+                        <p>Country: {address.country}</p>
+                        <p>City: {address.city}</p>
+                        <p>Zip Code: {address.zip_code}</p>
+                        <button className="select-btn">Select Address</button>
+                    </div>
+                ))}
+            </div>
             {products.map((product, index) => (
-                <div key={index}>
+                <div className="container" key={index}>
                     <input
                         type="text"
+                        className="product-input"
                         placeholder="Enter Product ID"
                         value={product.id}
                         onChange={(e) => handleProductChange(index, e.target.value)}
                     />
                     <input
                         type="number"
+                        className="quantity-input"
                         value={product.quantity}
                         onChange={(e) => handleQuantityChange(index, parseInt(e.target.value))}
                     />
-                    <button onClick={() => removeProduct(index)}>Remove</button>
+
+                    <button className="remove-button" onClick={() => removeProduct(index)}>Remove</button>
                 </div>
             ))}
-            <button onClick={addProduct}>Add Product</button>
-            <button onClick={handleBuy} disabled={loading}>Buy</button>
+            <button className="add-product-button" onClick={addProduct}>Add Product</button>
+            <button className="buy-button" onClick={handleBuy} disabled={loading}>Buy</button>
         </div>
     );
 };
