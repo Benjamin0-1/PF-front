@@ -5,8 +5,10 @@ import './PaymentHistory.css';
 const accessToken = localStorage.getItem('accessToken');
 
 const PORT = process.env.PORT || 3001;
-const URL = `http://localhost:${PORT}/payment-history`;
-const DETAIL_URL = `http://localhost:${PORT}/product-detail`;
+let URL = `http://localhost:${PORT}/payment-history`;
+let DETAIL_URL = `http://localhost:${PORT}/product-detail`;
+
+URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/payment-history'; // <-- 
 
 function PaymentHistory() {
     const [generalError, setGeneralError] = useState('');
@@ -99,6 +101,7 @@ function PaymentHistory() {
                                 <p>Country: {payment.Shipping ? payment.Shipping.country : 'No disponible'}</p>
                                 <p>City: {payment.Shipping ? payment.Shipping.city : 'No disponible'}</p>
                                 <p>Zip Code: {payment.Shipping ? payment.Shipping.zip_code : 'No disponible'}</p>
+                                <p>Order ID: {payment.orderId}</p>
                             </div>
                         </li>
                     ))}

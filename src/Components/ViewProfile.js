@@ -4,7 +4,7 @@ import './ViewProfile.css';
 
 const accessToken = localStorage.getItem('accessToken');
 
-const URL = 'http://localhost:3001/profile-info';
+const URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/profile-info';
 
 function ViewProfile() {
     const [profileInfo, setProfileInfo] = useState({});

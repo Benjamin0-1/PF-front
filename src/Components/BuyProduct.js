@@ -4,7 +4,9 @@ import './BuyProduct.css';
 
 const accessToken = localStorage.getItem('accessToken');
 
-const URL = 'http://localhost:3001/create-checkout-session';
+let URL = 'http://localhost:3001/create-checkout-session';
+//                                          https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/create-checkout-session
+URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/create-checkout-session';
 
 const PUBLISHABLE_KEY = 'pk_test_51P7RX608Xe3eKAmZNBa0XOqO2r1gfHIWZfrOxantEvF9QZ8HJgooaHnw86z2mbu2lDpSO1kOzbQ3Rl2IzivzoFVb00n6EW77lL';
 
@@ -15,6 +17,7 @@ const BuyProduct = () => {
     const [success, setSuccess] = useState(false);
     const [shippingAddresses, setShippingAddresses] = useState([]);
     const [reqShippingId, setReqShippingId] = useState(null);
+    const [productNotFoundError, setProductNotFoundError] = useState('');
 
     if (!accessToken) {
         window.location.href = '/login'
@@ -95,11 +98,19 @@ const BuyProduct = () => {
                 body: JSON.stringify({ products, reqShippingId })
             });
 
+            if (response.status === 404) {
+                setProductNotFoundError('No existe un producto seleccionado.');
+                setError('');
+                return;
+            }
+
             const data = await response.json();
             const { id } = data;
             redirectToCheckout(id);
         } catch (error) {
             setError('Failed to initiate checkout');
+            setProductNotFoundError('');
+
         } finally {
             setLoading(false);
         }

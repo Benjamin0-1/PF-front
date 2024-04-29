@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import './PasswordRecovery.css';
 
 const accessToken = localStorage.getItem('accessToken');
 const URL = 'http://localhost:3001/reset-password-request';
+const PROFILE_URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/profile-info';
 
 function PasswordRecovery() {
     const [email, setEmail] = useState('');
@@ -12,8 +13,32 @@ function PasswordRecovery() {
     const [invalidEmailFormatError, setInvalidEmailFormatError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [userNotFoundError, setUserNotFoundError] = useState('');
+    const [emailPlaceholder, setEmailPlaceholder] = useState('');
 
     const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$/;
+
+    const fetchUserEmail = async () => {    // <-- para que aparezca el valor del email del usuario especifico, dando una mejor experiencia.
+        try {
+            
+            const response = await FetchWithAuth(PROFILE_URL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            if (!response.ok) {
+                console.log(`error mostrando email: ${response.status}`);
+            };
+
+            const data = await response.json();
+            setEmailPlaceholder(data.email)
+
+        } catch (error) {
+            console.log(`error mostrando email: ${error}`);
+        }
+    };
 
     const handleSubmit = async () => {
         if (!emailRegex.test(email)) {
@@ -62,8 +87,13 @@ function PasswordRecovery() {
     // Function to navigate to the password reset form page
     const handleNextPage = () => {
         window.location.href = '/resetpassword'; // Change the URL to the correct route
-    }
+    };
 
+    useEffect(() => {
+        fetchUserEmail();
+    }, []);
+
+    // value={emailPlaceholder} <-- puede ser cambiado para que el usuario pueda manualmente introducir su email
     return (
         <div className="PasswordRecovery">
             <h1>Password Recovery</h1>
@@ -72,8 +102,9 @@ function PasswordRecovery() {
                 <label htmlFor="email">Email:</label>
                 <input
                     type="email"
+                    placeholder={emailPlaceholder || 'Enter your email'}
                     id="email"
-                    value={email}
+                    value={emailPlaceholder}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 {invalidEmailFormatError && <p>{invalidEmailFormatError}</p>}

@@ -95,7 +95,7 @@ function UpdateProduct() {
                 },
                 body: JSON.stringify({
                     brandId,
-                    productName,
+                    product: productName, // <-- bug arreglado.
                     stock,
                     price,
                     description
@@ -192,6 +192,7 @@ function UpdateProduct() {
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         </div>
     );
+
     
     
 }

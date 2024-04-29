@@ -18,6 +18,9 @@ import ViewProfile from './Components/ViewProfile';
 import UpdateProduct from './Components/AdminComponents/UpdateProduct';
 import PaymentHistory from './Components/PaymentHistory';
 import ReportedProduct from './Components/AdminComponents/ReportedProduct';
+import CreateBrand from './Components/AdminComponents/CreateBrand';
+import CreateReview from './Components/CreateReview';
+import ReportProduct from './Components/ReportProduct';
 
 function App() {
   return (
@@ -40,6 +43,9 @@ function App() {
         <Route path='updateproduct' element={< UpdateProduct />} />
         <Route  path='/paymenthistory'  element={< PaymentHistory />}/>
         <Route path='/reportedproducts' element={< ReportedProduct />} />
+        <Route path='createbrand' element={< CreateBrand />} />
+        <Route path='/createreview' element={< CreateReview/>} />
+        <Route path='reportproduct' element={< ReportProduct />} />
       <Route path='*' element={<h1>404 Not Found</h1>}/> 
       </Routes>
     </Router>
