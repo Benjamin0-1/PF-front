@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import './DeleteUserById.css';
 import * as yup from 'yup';
 import FetchWithAuth from "../Auth/FetchWithAuth";
+import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -72,6 +73,8 @@ function DeleteUserById() {
     // puede ser type="number".
     return (
         <div className="DeleteUserById">
+            <AdminNavBar/>
+            <br/>
             <h2>Eliminar usuario por ID</h2>
             <form onSubmit={handleDelete}>
                 <label htmlFor="userId">User ID:</label>

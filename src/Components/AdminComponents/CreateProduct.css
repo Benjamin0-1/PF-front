@@ -54,3 +54,24 @@
 .CreateProduct p {
     margin-top: 10px;
 }
+
+.BrandItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.BrandName {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.BrandId {
+    font-size: 14px;
+    color: #666;
+}

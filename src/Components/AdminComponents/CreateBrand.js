@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth"; // <-- verifica el importe, aqui funciona.
 import './CreateBrand.css'; // estilos.
+import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken'); // <-- verifica el importe, aqui funciona.
 
@@ -46,6 +47,9 @@ function CreateBrand() {
 
     return (
         <div className="create-brand-container">
+            < AdminNavBar/>
+            <br/>
+            <br/>
             <input type="text" value={brandName} onChange={handleChange} placeholder="Nombre de la marca" className="brand-input" />
             <button onClick={handleCreation} className="create-button">Crear Marca</button>
             {generalError && <p className="error-message">{generalError}</p>}

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState ,useEffect} from 'react';
+import FetchWithAuth from './Components/Auth/FetchWithAuth';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Signup from './Components/Signup';
 import DeleteUserById from './Components/AdminComponents/DeleteUserById';
@@ -21,13 +22,46 @@ import ReportedProduct from './Components/AdminComponents/ReportedProduct';
 import CreateBrand from './Components/AdminComponents/CreateBrand';
 import CreateReview from './Components/CreateReview';
 import ReportProduct from './Components/ReportProduct';
+import BanUser from './Components/AdminComponents/BanUser';
+import Home from './Components/Home';
+import Detail from './Components/Detail';
+import AdminNavBar from './Components/AdminComponents/AdminNavBar';
 
 function App() {
+
+  /*
+  const [isAdmin, setIsAdmin] = useState(false);
+  const accessToken = localStorage.getItem('accessToken');
+  useEffect(() => {
+    const checkIsAdmin = async () => {
+      try {
+        const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        const data = await response.json();
+        if (!data.is_admin) {
+          window.location.href = '/notadmin';
+        }
+      } catch (error) {
+        console.log(`error: ${error}`);
+      }
+    };
+
+    checkIsAdmin();
+  }, []); */
+
+
+
   return (
     <Router>
       <Routes>  
         <Route path='/signup' element={< Signup />} />
         <Route path='/login' element={< Login />} />
+        <Route path='/home' element={< Home />} />
         <Route path='/deleteuserbyid' element={< DeleteUserById />} />
         <Route path='/donate' element={< Donation />} />
         <Route path='/buy' element={< BuyProduct />} />
@@ -46,7 +80,10 @@ function App() {
         <Route path='createbrand' element={< CreateBrand />} />
         <Route path='/createreview' element={< CreateReview/>} />
         <Route path='reportproduct' element={< ReportProduct />} />
+        <Route path='banuser' element={< BanUser />} />
+        <Route path='/detail/:id' element={< Detail />} />
       <Route path='*' element={<h1>404 Not Found</h1>}/> 
+      <Route path='/notadmin'  element={<h1>No eres un admin, no puedes acceder al dashboard</h1>} />
       </Routes>
     </Router>
   );

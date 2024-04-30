@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
+import AdminNavBar from "./AdminNavBar";
 import './AllUsers.css';
 
 const URL = 'http://localhost:3001/allusers';
@@ -44,6 +45,9 @@ function AllUsers() {
 
     return (
         <div className="AllUsers">
+            <AdminNavBar/>
+            <br/>
+            <br/>
             <h2>Total: {users.length}</h2>
             {noUsersError && <p>{noUsersError}</p>}
             {users.length > 0 && (

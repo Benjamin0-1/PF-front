@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import './SendMassiveEmail.css';
+import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -40,6 +41,8 @@ function SendMassiveEmail() {
 
     return (
         <div className="SendMassiveEmail">
+            <AdminNavBar/>
+            <br/>
             <h2>Send email to all users</h2>
             <div>
                 <label htmlFor="subject">Subject:</label>

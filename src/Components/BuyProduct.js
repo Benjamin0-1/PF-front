@@ -6,7 +6,7 @@ const accessToken = localStorage.getItem('accessToken');
 
 let URL = 'http://localhost:3001/create-checkout-session';
 //                                          https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/create-checkout-session
-URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/create-checkout-session';
+//URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/create-checkout-session';
 
 const PUBLISHABLE_KEY = 'pk_test_51P7RX608Xe3eKAmZNBa0XOqO2r1gfHIWZfrOxantEvF9QZ8HJgooaHnw86z2mbu2lDpSO1kOzbQ3Rl2IzivzoFVb00n6EW77lL';
 

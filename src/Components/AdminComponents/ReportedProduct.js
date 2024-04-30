@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 
 import FetchWithAuth from "../Auth/FetchWithAuth";
+import AdminNavBar from "./AdminNavBar";
 
 const PORT = process.env.PORT || 3001;
 const URL = `http://localhost:${PORT}/`;
@@ -52,6 +53,8 @@ function ReportedProduct() {
 
     return (
         <div className="ReportedProduct">
+            < AdminNavBar/>
+            <br/>
             <h2>Reported Products: {records.length}</h2>
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
             {noRecordsFoundError && <p style={{ color: 'red' }}>{noRecordsFoundError}</p>}

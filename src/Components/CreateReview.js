@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 3001; // <-- esto funciona en localhost y herok
 //const URL  = `https://proyecto-final-backend-0e01b3696ca9.herokuapp.com:${PORT}/review`; // <-- luego modificar para heroku, PORT debe quedarse igual.
 const URL  = `https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/review`;
 
+const BRAND_DETAIL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/allbrands'; // <-- para ver las marcas y su id, mejorando la experiencia de admin dashboard.
+
 function CreateReview() {
     const [generalError, setGeneralError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -23,6 +25,8 @@ function CreateReview() {
     if (!accessToken) {
         window.location.href = '/login'
     };
+
+    
 
     const handleCreation = async () => {
         try {

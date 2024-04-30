@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './DeleteUserByEmail.css';
 import FetchWithAuth from "../Auth/FetchWithAuth";
+import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -46,6 +47,8 @@ function DeleteUserByEmail() {
 
     return (
         <div className="DeleteUserByEmail">
+            <AdminNavBar/>
+            <br/>
             <h2>Delete User By Email</h2>
             <input 
                 type="text" 

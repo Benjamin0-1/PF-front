@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './DeleteUserByUsername.css';
+import AdminNavBar from "./AdminNavBar";
 
 // los tokens siempre se obtienen del /login.
 const accessToken = localStorage.getItem('accessToken');
@@ -54,6 +55,9 @@ function DeleteUserByUsername() {
 
     return (
         <div className="DeleteUserByUsername">
+            < AdminNavBar/>
+            <br />
+            <br />
             <input 
                 type="text" 
                 placeholder="Username to delete" 

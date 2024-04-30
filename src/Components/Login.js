@@ -12,7 +12,7 @@ function Login() {
         e.preventDefault();
 
         try {
-            const response = await axios.post('https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/login', {
+            const response = await axios.post('http://localhost:3001/login', {
                 username: username,
                 password: password
             });
@@ -23,7 +23,7 @@ function Login() {
                 localStorage.setItem('refreshToken', data.refreshToken);
                 setSuccessMessage('Login successful');
                 setError('');
-                window.location.href = '/allbrands' // <-- DEBE IR A HOME.
+                window.location.href = '/home' // <-- DEBE IR A HOME.
             } else {
                 setError('Login failed. Please check your credentials.');
                 setSuccessMessage('');

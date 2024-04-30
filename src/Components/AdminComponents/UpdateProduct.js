@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import './UpdateProduct.css';
+import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
 
 const URL = 'http://localhost:3001/update-product';
+
+//MEJORAS QUE FALTA: <-- PODER EDITAR CATEGORIA Y TAMBIEN BRAND (POR ID).
 
 const DETAIL_URL = 'http://localhost:3001/product-detail'
 
@@ -126,6 +129,8 @@ function UpdateProduct() {
 
     return (
         <div className="UpdateProduct">
+            <AdminNavBar/>
+            <br/>
             <h2>Update Product</h2>
             <div>
                 <label htmlFor="productId">Product ID to update:</label>
