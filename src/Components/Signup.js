@@ -149,6 +149,7 @@ function Signup() {
                 {usernameAlreadyExistsError && <p style={{color: 'red'}}>{usernameAlreadyExistsError}</p>}
                 {accountAlreadyDeletedError && <p style={{color: 'red'}}>{accountAlreadyDeletedError}</p>}
                 <button type="submit">Sign Up</button>
+                <p style={{ marginTop: '10px', fontSize: '14px' }}>Already have an account? : <a style={{ textDecoration: 'none', color: 'blue' }} href='/login'>Login</a></p>
             </form>
         </div>
     );

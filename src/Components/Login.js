@@ -75,7 +75,9 @@ function Login() {
                 {notFound && <p style={{ color: 'red' }}>{notFound}</p>}
                 <button type="submit">Login</button>
                 <p style={{ marginTop: '10px', fontSize: '14px' }}>Forgot password: <a style={{ textDecoration: 'none', color: 'blue' }} href='/passwordrecovery'>Reset password</a></p>
+                <p style={{ marginTop: '10px', fontSize: '14px' }}>or create an account: <a style={{ textDecoration: 'none', color: 'blue' }} href='/signup'>Signup</a></p>
             </form>
+
         </div>
     );
     
