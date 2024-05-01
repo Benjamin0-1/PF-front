@@ -4,6 +4,8 @@ import './Newsletter.css';
 function Newsletter() {
     const [email, setEmail] = useState('');
 
+    // here goes a real function which will interact with a new server route.
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(`Email submitted: ${email}`);

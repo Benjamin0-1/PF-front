@@ -37,7 +37,7 @@ function Signup() {
     const URL = 'http://localhost';
 
     const handleSubmit = async (e) => {
-        setIsLoading(true)
+        
 
         e.preventDefault();
 
@@ -69,7 +69,21 @@ function Signup() {
             setInvalidEmailFormat('Formato de email invalido');
             setGeneralError('');
             return;
-        }
+        };
+
+        if (formData.password.length < 8) {
+            setPasswordTooShortError('La contraseña debe contener al menos 8 caracteres');
+            setGeneralError('');
+            setInvalidEmailFormat('');
+            return
+        };
+
+        if (formData.password !== formData.confirmPassword) {
+            setPasswordsDontMatchError('las contraseñas deben ser iguales');
+            setPasswordTooShortError('');
+            setGeneralError('');
+            return;
+        };
 
         try {
             const response = await fetch(`${URL}:${PORT}/signup`, {
@@ -97,6 +111,8 @@ function Signup() {
                 }
             };
 
+            setIsLoading(true);
+
             //limpiar todos los campos luego de un signup exitoso.
             setFormData({
                 username: '',
@@ -115,7 +131,7 @@ function Signup() {
             setGeneralError('Ha ocurrido un error');
             setEmailError('');
         } finally {
-            setIsLoading(true)
+            setIsLoading(false)
         }
     };
 
