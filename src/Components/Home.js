@@ -33,6 +33,18 @@ function Home() {
         }
     }, []);
 
+    const handleSortByPriceAsc = () => {
+        setSortByPriceAsc(!sortByPriceAsc);
+        setSortByPriceDesc(false);
+        setAlphabeticalOrder(false);
+    };
+
+    const handleSortByPriceDesc = () => {
+        setSortByPriceDesc(!sortByPriceDesc);
+        setSortByPriceAsc(false);
+        setAlphabeticalOrder(false);
+    };
+
 
     // filters.
     const handleFilter = async (filterUrl) => {
@@ -48,8 +60,6 @@ function Home() {
             
         }
     };
-
-
 
 
     const handleSearch = async () => {
@@ -93,37 +103,42 @@ function Home() {
                 let apiUrl = 'http://localhost:3001/allproducts';
                 if (alphabeticalOrder) {
                     apiUrl = 'http://localhost:3001/products/alphorder';
+                } else if (sortByPriceAsc) {
+                    apiUrl = 'http://localhost:3001/searchbyprice/asc';
+                } else if (sortByPriceDesc) {
+                    apiUrl = 'http://localhost:3001/searchbyprice/desc';
                 }
-    
+        
                 const response = await fetch(apiUrl);
-    
+        
                 if (!response.ok) {
                     setGeneralError('Ha ocurrido un error');
                     return;
                 }
-    
+        
                 const data = await response.json();
                 if (data.length === 0) {
                     setNoProductsFoundError('No hay productos disponibles, te notificaremos cuando los haya !');
                     setGeneralError('');
                     return;
                 }
-    
+        
                 // Pagination logic
                 const paginatedProducts = paginate(data, 9); // Assuming 5 products per page
                 setProducts(paginatedProducts[currentPage - 1] || []);
                 setTotalPages(paginatedProducts.length);
                 setGeneralError('');
                 setNoProductsFoundError('');
-    
+        
             } catch (error) {
                 console.log(`Error: ${error}`);
                 setGeneralError('Ha ocurrido un error.');
             }
         };
+        
     
         fetchAllProducts();
-    }, [currentPage, alphabeticalOrder]); // Add currentPage and alphabeticalOrder as dependencies
+    }, [currentPage, alphabeticalOrder, sortByPriceDesc, sortByPriceAsc]); 
     
     
     
@@ -150,16 +165,6 @@ function Home() {
         setCurrentPage(prevPage => prevPage - 1);
     };
 
-    const handleSortByPriceAsc = () => {
-        setSortByPriceAsc(!sortByPriceAsc);
-        setSortByPriceDesc(false); 
-    };
-    
-    const handleSortByPriceDesc = () => {
-        setSortByPriceDesc(!sortByPriceDesc);
-        setSortByPriceAsc(false); 
-    };
-    
     
     
 
@@ -182,18 +187,23 @@ function Home() {
                     </div>
                 )}
             </div>
-    
+
             <div className="toggle-button">
-                <button onClick={() => setAlphabeticalOrder(!alphabeticalOrder)}>
-                    {alphabeticalOrder ? 'sort by recommended' : 'Sort Alphabetically'}
-                </button>
-            </div>
+                    <button onClick={() => setAlphabeticalOrder(!alphabeticalOrder)}>
+                        {alphabeticalOrder ? 'normal order' : 'Sort Alphabetically'}
+                    </button>
+                    <button onClick={handleSortByPriceAsc}>
+                        {sortByPriceAsc ? 'normal order' : 'Sort by Price Ascending'}
+                    </button>
+                    <button onClick={handleSortByPriceDesc}>
+                        {sortByPriceDesc ? 'normal order' : 'Sort by Price Descending'}
+                    </button>
+                </div>
 
 
-    
             {/* Render the Filter component */}
             <Filter handleFilter={handleFilter} />
-    
+
             <div className="products-container">
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map(product => (
@@ -211,26 +221,25 @@ function Home() {
                                 <h3>{product.product}</h3>
                                 <p>{product.description}</p>
                                 <img src={product.image} alt={product.product} />
-                                <p>price: {product.price}</p>
+                                <p>Price: {product.price}</p>
                             </div>
                         </Link>
                     ))
                 )}
             </div>
-    
+
             <div className="pagination">
                 <button disabled={currentPage === 1} onClick={handlePrevPage}>Previous</button>
                 <span>{currentPage} / {totalPages}</span>
                 <button disabled={currentPage === totalPages} onClick={handleNextPage}>Next</button>
             </div>
-    
+
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
             {noProductsFoundError && <p style={{ color: 'blue' }}>{noProductsFoundError}</p>}
-            <br/>
+            <br />
             {newsletterVisible && <Newsletter />}
         </div>
-    );
-    
+    );    
 
     
 };
