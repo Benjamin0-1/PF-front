@@ -24,6 +24,32 @@ function UpdateProduct() {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
 
+    if (!accessToken) {
+        window.location.href = '/login'
+    };
+
+    useEffect(() => {
+        const checkIsAdmin = async () => {
+          try {
+            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+            const data = await response.json();
+            if (!data.is_admin) {
+              window.location.href = '/notadmin';
+            }
+          } catch (error) {
+            console.log(`error: ${error}`);
+          }
+        };
+    
+        checkIsAdmin();
+      }, []);
+
     useEffect(() => {
         if (!productId) {
             return;

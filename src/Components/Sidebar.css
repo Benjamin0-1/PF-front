@@ -1,0 +1,44 @@
+.Sidebar {
+    width: 60px;
+    height: 100%;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: width 0.3s ease;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .Sidebar.expanded {
+    width: 200px;
+  }
+  
+  .toggle-button {
+    cursor: pointer;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    padding: 10px;
+  }
+  
+  li a {
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  li:hover {
+    background-color: #555;
+  }
+  

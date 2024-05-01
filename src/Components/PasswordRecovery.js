@@ -101,12 +101,12 @@ function PasswordRecovery() {
             <div>
                 <label htmlFor="email">Email:</label>
                 <input
-                    type="email"
-                    placeholder={emailPlaceholder || 'Enter your email'}
-                    id="email"
-                    value={emailPlaceholder}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+    type="email"
+    placeholder={accessToken ? (emailPlaceholder || 'Enter your email') : 'Enter your email'}
+    id="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+/>
                 {invalidEmailFormatError && <p>{invalidEmailFormatError}</p>}
             </div>
             <button onClick={handleSubmit} disabled={isLoading}>

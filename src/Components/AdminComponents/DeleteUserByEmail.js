@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './DeleteUserByEmail.css';
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
@@ -12,6 +12,32 @@ function DeleteUserByEmail() {
     const [invalidEmailFormat, setInvalidEmailFormat] = useState('');
     // email not found
     // loading.
+
+    if (!accessToken) {
+        window.location.href = '/login'
+    };
+
+    useEffect(() => {
+        const checkIsAdmin = async () => {
+          try {
+            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+            const data = await response.json();
+            if (!data.is_admin) {
+              window.location.href = '/notadmin';
+            }
+          } catch (error) {
+            console.log(`error: ${error}`);
+          }
+        };
+    
+        checkIsAdmin();
+      }, []);
 
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 

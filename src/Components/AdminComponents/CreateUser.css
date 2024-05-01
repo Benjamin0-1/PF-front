@@ -1,0 +1,59 @@
+.CreateUser {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.CreateUser h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.CreateUser form {
+    display: grid;
+    gap: 10px;
+}
+
+.CreateUser label {
+    font-weight: bold;
+}
+
+.CreateUser input[type="text"],
+.CreateUser input[type="email"],
+.CreateUser input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.CreateUser input[type="text"]:hover,
+.CreateUser input[type="email"]:hover,
+.CreateUser input[type="password"]:hover {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.CreateUser button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.CreateUser button:hover {
+    background-color: #0056b3;
+}
+
+.CreateUser p {
+    color: red;
+    margin-top: 5px;
+}

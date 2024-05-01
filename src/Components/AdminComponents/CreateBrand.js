@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth"; // <-- verifica el importe, aqui funciona.
 import './CreateBrand.css'; // estilos.
 import AdminNavBar from "./AdminNavBar";
@@ -12,6 +12,32 @@ function CreateBrand() {
     const [brandName, setBrandName] = useState('');
     const [generalError, setGeneralError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+
+    if (!accessToken) {
+        window.location.href = '/login'
+    };
+
+    const checkIsAdmin = async () => {
+        try {
+            
+            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            const data = await response.json();
+            if (!data.is_admin) {
+                window.location.href = '/notadmin'
+            };
+
+        } catch (error) {
+            console.log(`error: ${error}`);
+        }
+    };
+
+    useEffect(() => { checkIsAdmin() }, []);
 
     const handleCreation = async () => {
         try {

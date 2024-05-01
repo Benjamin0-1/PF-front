@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './DeleteUserById.css';
 import * as yup from 'yup';
 import FetchWithAuth from "../Auth/FetchWithAuth";
@@ -17,6 +17,32 @@ function DeleteUserById() {
     const [noUserIdFoundError, setNoUserIdFoundError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [userNotFoundError, setUserNotFoundError] = useState('');
+
+    if (!accessToken) {
+        window.location.href = '/login'
+    };
+
+    useEffect(() => {
+        const checkIsAdmin = async () => {
+          try {
+            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+            const data = await response.json();
+            if (!data.is_admin) {
+              window.location.href = '/notadmin';
+            }
+          } catch (error) {
+            console.log(`error: ${error}`);
+          }
+        };
+    
+        checkIsAdmin();
+      }, []);
   
 
     const URL = 'http://localhost';

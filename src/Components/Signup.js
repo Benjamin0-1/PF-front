@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import './Signup.css';
-// el resto de componentes se validaran utilizando Yup.
+
+// agregar: <-- EMAIL ALREADY IN USE ERROR.
+
+const accessToken = localStorage.getItem('accessToken');
+console.log(`signup accesstoken: ${accessToken}`);
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -22,11 +26,19 @@ function Signup() {
     const [usernamesDontMatchError, setUsernamesDontMatchError] = useState('');
     const [invalidEmailFormat, setInvalidEmailFormat] = useState('');
     const [usernameAlreadyExistsError, setUsernameAlreadyExistsError] = useState('');
+    const [accountAlreadyDeletedError, setAccountAlreadyDeletedError] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // <-- it takes time to send the welcome email.
+
+    if (accessToken) {
+        window.location.href = '/viewprofile'
+    }
 
     const PORT = 3001; // server port.
     const URL = 'http://localhost';
 
     const handleSubmit = async (e) => {
+        setIsLoading(true)
+
         e.preventDefault();
 
         if (formData.username !== formData.confirmUsername) {
@@ -68,6 +80,12 @@ function Signup() {
                 body: JSON.stringify(formData)
             });
 
+            if (response.status == 403) {
+                setAccountAlreadyDeletedError('Tu cuenta ya ha sido eliminada');
+                setGeneralError("");
+                return
+            };
+
             if (!response.ok) {
                 if (response.status === 400) {
                     const data = await response.json();
@@ -96,6 +114,8 @@ function Signup() {
             console.log('Error:', error);
             setGeneralError('Ha ocurrido un error');
             setEmailError('');
+        } finally {
+            setIsLoading(true)
         }
     };
 
@@ -112,6 +132,7 @@ function Signup() {
             <h2>Sign Up</h2>
             {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
             <form onSubmit={handleSubmit}>
+                {isLoading && <p><strong>Creating account...</strong></p>}
             <input type="text" name="firstName" placeholder="first name" value={formData.firstName} onChange={handleChange} />
             <input type="text" name="lastName" placeholder="last name" value={formData.lastName} onChange={handleChange} />
                 <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} />
@@ -126,6 +147,7 @@ function Signup() {
                 {passwordsDontMatchError && <p style={{color: 'red'}}> {passwordTooShortError} </p>}
                 {generalError && <p style={{color: 'red'}}>{generalError}</p>}
                 {usernameAlreadyExistsError && <p style={{color: 'red'}}>{usernameAlreadyExistsError}</p>}
+                {accountAlreadyDeletedError && <p style={{color: 'red'}}>{accountAlreadyDeletedError}</p>}
                 <button type="submit">Sign Up</button>
             </form>
         </div>

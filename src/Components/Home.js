@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import './Home.css';
+import Newsletter from "./Newsletter";  // <-- newsletter.
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -154,6 +155,8 @@ function Home() {
             </div>
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
             {noProductsFoundError && <p style={{ color: 'blue' }}>{noProductsFoundError}</p>}
+            <br/>
+            < Newsletter/>
         </div>
     );
 

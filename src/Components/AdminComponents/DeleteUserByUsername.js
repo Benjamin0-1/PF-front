@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './DeleteUserByUsername.css';
+import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
 
 // los tokens siempre se obtienen del /login.
@@ -33,6 +34,32 @@ function DeleteUserByUsername() {
         }
         checkAccessTokenExpired();
     }, []);  */
+
+    if (!accessToken) {
+        window.location.href = '/login'
+    };
+
+    useEffect(() => {
+        const checkIsAdmin = async () => {
+          try {
+            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+            const data = await response.json();
+            if (!data.is_admin) {
+              window.location.href = '/notadmin';
+            }
+          } catch (error) {
+            console.log(`error: ${error}`);
+          }
+        };
+    
+        checkIsAdmin();
+      }, []);
 
     const handleDelete = async () => {
         try {

@@ -13,6 +13,8 @@ function AdminNavBar() {
             <Link to='/allusers' className="nav-link">See all users</Link>
             <Link to='/createbrand' className="nav-link">Add a new brand</Link>
             <Link to='/banuser' className="nav-link">Ban a User</Link>
+            <Link to='/deletedusers' className="nav-link">See deleted users</Link>
+            <Link to='/createuser' className="nav-link">Create a User</Link>
 
             
         </div>

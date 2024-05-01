@@ -1,6 +1,6 @@
-import React, {useState ,useEffect} from 'react';
+import React, {useState } from 'react';
 import FetchWithAuth from './Components/Auth/FetchWithAuth';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import Signup from './Components/Signup';
 import DeleteUserById from './Components/AdminComponents/DeleteUserById';
 import Login from './Components/Login';
@@ -26,38 +26,29 @@ import BanUser from './Components/AdminComponents/BanUser';
 import Home from './Components/Home';
 import Detail from './Components/Detail';
 import AdminNavBar from './Components/AdminComponents/AdminNavBar';
+import Logout from './Components/Logout';
+import AdminDashboard from './Components/AdminComponents/AdminDashboard';
+import DeletedUser from './Components/AdminComponents/DeletedUser';
+import CreateUser from './Components/AdminComponents/CreateUser';
+import FAQ from './Components/FAQ';
+import Newsletter from './Components/Newsletter';
+import Sidebar from './Components/Sidebar';
+import Favorite from './Components/Favorite';
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  /*
-  const [isAdmin, setIsAdmin] = useState(false);
-  const accessToken = localStorage.getItem('accessToken');
-  useEffect(() => {
-    const checkIsAdmin = async () => {
-      try {
-        const response = await FetchWithAuth('http://localhost:3001/profile-info', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-          }
-        });
-        const data = await response.json();
-        if (!data.is_admin) {
-          window.location.href = '/notadmin';
-        }
-      } catch (error) {
-        console.log(`error: ${error}`);
-      }
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen);
     };
-
-    checkIsAdmin();
-  }, []); */
 
 
 
   return (
     <Router>
+      < Logout/>
+      <Sidebar isOpen={sidebarOpen} />
+
       <Routes>  
         <Route path='/signup' element={< Signup />} />
         <Route path='/login' element={< Login />} />
@@ -82,11 +73,20 @@ function App() {
         <Route path='reportproduct' element={< ReportProduct />} />
         <Route path='banuser' element={< BanUser />} />
         <Route path='/detail/:id' element={< Detail />} />
+        <Route path='/admin' element={<AdminDashboard />} />
+        <Route path='/deletedusers' element={< DeletedUser />} />
+        <Route path='/createuser' element={< CreateUser />} />
+        <Route path='/faq' element={< FAQ />} />
+        <Route path='newsletter' element={< Newsletter />} />
+        <Route path='/favorites' element={<  Favorite/>} />
       <Route path='*' element={<h1>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1>No eres un admin, no puedes acceder al dashboard</h1>} />
+      <Route path='/' element={< Login/>} />
       </Routes>
+
     </Router>
   );
+  
 }
 
 export default App;

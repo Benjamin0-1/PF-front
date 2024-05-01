@@ -1,11 +1,49 @@
 import React, { useState, useEffect } from 'react';
+import FetchWithAuth from './Auth/FetchWithAuth';
 import { useParams } from 'react-router-dom';
 import './Detail.css';
+
+const accessToken = localStorage.accessToken;
 
 function Detail() {
     const [generalError, setGeneralError] = useState('');
     const { id } = useParams(); // <-- Corrected: Added parentheses to useParams
     const [product, setProduct] = useState(null); // <-- Changed initial state to null
+    const [productAlreadyAddedToFavoritesError, setProductAlreadyAddedToFavoritesError] = useState('');
+    const [productAddedSuccessfully, setProductAddedSuccessfully] = useState('');
+
+
+    const addToFavorites = async () => {
+        try {
+            
+            const response = await FetchWithAuth('http://localhost:3001/products/user/favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({productId: id})
+            });
+
+            const data = await response.json();
+            if (data.productAlreadyAddedToFavorites) {
+                setProductAlreadyAddedToFavoritesError('Ya has agreagdo este product a favoritos.');
+                setProductAddedSuccessfully('');
+                return
+            };
+
+            if (!response.ok) {
+                console.log(`Error adding product ${id} to favorites.`);
+                return
+            };
+
+            setProductAddedSuccessfully('Producto agregado a favoritos exitosamente.');
+            setProductAlreadyAddedToFavoritesError('');
+
+        } catch (error) {
+            console.log(`error adding to favorites: ${error}`);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -51,6 +89,9 @@ function Detail() {
                     ))}
                 </ul>
                 <img src={product.image} alt={product.product} />
+                <button onClick={addToFavorites} className='addToFavoritesButton'>Add to Favorites</button>
+                {productAlreadyAddedToFavoritesError && <p style={{color: 'red'}}>{productAlreadyAddedToFavoritesError}</p>}
+                {productAddedSuccessfully && <p style={{color: 'green'}}>{productAddedSuccessfully}</p>}
             </div>
             {product.Reviews.length > 0 && (
                 <div className='reviews-container'>

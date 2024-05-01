@@ -208,7 +208,7 @@ function CreateProduct() {
 
     return (
         <div className="CreateProduct">
-            < AdminNavBar/>
+           
             <br/>
             <h2>Add Product</h2>
             <form onSubmit={handleSubmit}>
@@ -268,6 +268,7 @@ function CreateProduct() {
             ))}
 
             </div>
+            < AdminNavBar/>
         </div>
     );
     
