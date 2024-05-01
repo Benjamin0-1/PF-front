@@ -4,7 +4,7 @@ import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
 
 const PORT = process.env.PORT || 3001;
-const URL = `http://localhost:${PORT}/`;
+const URL = 'http://localhost:3001/products/reported';
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -16,6 +16,28 @@ function ReportedProduct() {
     if (!accessToken) {
         window.location.href = '/login'
     };
+
+    useEffect(() => {
+        const checkIsAdmin = async () => {
+          try {
+            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+              }
+            });
+            const data = await response.json();
+            if (!data.is_admin) {
+              window.location.href = '/notadmin';
+            }
+          } catch (error) {
+            console.log(`error: ${error}`);
+          }
+        };
+    
+        checkIsAdmin();
+      }, []);
 
     useEffect(() => {
         fetchRecords();

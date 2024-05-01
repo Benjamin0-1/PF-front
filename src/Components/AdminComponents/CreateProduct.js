@@ -21,6 +21,7 @@ function CreateProduct() {
         stock: '',
         price: '',
         description: '',
+        image: '',
         attributes: '',
         categoryNames: []
     });
@@ -94,11 +95,13 @@ function CreateProduct() {
             const brandIdRegex = /^\d+$/;
             if (!brandIdRegex.test(formData.brandId)) {
                 setInvalidBrandIdFormatError('El de marca debe ser un numero entero.');
+                setSuccessMessage('');
                 return;
             };
 
             if (formData.product.length < 3) {
                 setInvalidProductLengthError('El producto debe tener al menos 3 caracteres');
+                setSuccessMessage('');
                 setInvalidBrandIdFormatError('');
                 return;
             };
@@ -106,6 +109,7 @@ function CreateProduct() {
             const stockRegex = /^\d+$/;
              if (!stockRegex.test(formData.stock)) {
             setInvalidStockFormatError('Stock debe ser un numero entero.');
+            setSuccessMessage('');
             setInvalidProductLengthError('');
             return;  
         };
@@ -116,6 +120,7 @@ function CreateProduct() {
                 setInvalidStockFormatError('');
                 setErrorMessage('');
                 setInvalidDescriptionError('');
+                setSuccessMessage('');
                 return;
             };
 
@@ -125,17 +130,19 @@ function CreateProduct() {
                 setInvalidPriceError('');
                 setErrorMessage('');
                 setNoBrandFoundError('');
+                setSuccessMessage('');
                 return;
             };
 
             if (formData.attributes.length === 0) {
                 setInvalidAttributeError('Debe incluir al menos 1 atributo');
                 setInvalidDescriptionError('');
+                setSuccessMessage('');
                 return
             };
 
             
-            const response = await FetchWithAuth('https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/product', {
+            const response = await FetchWithAuth('http://localhost:3001/product', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -161,6 +168,7 @@ function CreateProduct() {
                     stock: '',
                     price: '',
                     description: '',
+                    image: '',
                     attributes: '',
                     categoryNames: [] 
                 });
@@ -232,6 +240,9 @@ function CreateProduct() {
                 <label htmlFor="description">Description:</label>
                 <textarea id="description" name="description" value={formData.description} onChange={handleChange} />
                 {invalidDescriptionError && <p style={{color: 'red'}}>{invalidDescriptionError}</p>}
+
+                <label htmlFor="image">Image URL:</label>
+            <input type="text" id="image" name="image" value={formData.image} onChange={handleChange} />
                 
                 <label htmlFor="attributes">Attributes:</label>
                 <input type="text" id="attributes" name="attributes" value={formData.attributes} onChange={handleChange} />

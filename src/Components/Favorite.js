@@ -15,6 +15,26 @@ function Favorite() {
         window.location.href = '/login';
     };
 
+    const handleDeleteFavorite = async (id) => {
+        try {
+            
+            const response = await FetchWithAuth(`http://localhost:3001/delete-favorite/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            if (response.status === 200) {
+                setFavorites(preFavorites => preFavorites.filter(favorite => favorite.id !== id));
+            }
+
+        } catch (error) {
+            console.log(`error: ${error}`);
+        }
+    };
+
     const handleFetch = async () => {
         try {
             
@@ -59,12 +79,15 @@ function Favorite() {
                     <p>Description: {favorite.Product.description}</p>
                     <p>Price: {favorite.Product.price}</p>
                     <img src={favorite.Product.image} alt={favorite.Product.product} />
+                    <button className="DeleteFavoriteButton" onClick={() => handleDeleteFavorite(favorite.id)}>Delete</button>
+
                 </div>
             ))}
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
             {noProductsFound && <p style={{ color: 'blue' }}>{noProductsFound}</p>}
         </div>
     )
+
 }
 
 export default Favorite;

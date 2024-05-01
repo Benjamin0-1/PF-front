@@ -6,7 +6,8 @@ import AdminNavBar from "./AdminNavBar";
 const accessToken = localStorage.getItem('accessToken'); // <-- verifica el importe, aqui funciona.
 
 const PORT = process.env.PORT || 3001; // <-- esto funciona en localhost y heroku.
-const URL  = `https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/brand`;
+let URL  = `https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/brand`;
+URL = 'http://localhost:3001/brand';
 
 function CreateBrand() {
     const [brandName, setBrandName] = useState('');

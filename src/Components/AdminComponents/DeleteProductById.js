@@ -19,7 +19,7 @@ function DeleteProductById() {
 
           try {
             const response = await FetchWithAuth('http://localhost:3001/product/profile-info', {
-                method: 'DELETE',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
@@ -46,6 +46,7 @@ function DeleteProductById() {
             if (!productId) {
                 setMissingIdError('Debe incluir el ID de producto a eliminar');
                 setGeneralError('');
+                setSuccessMessage('');
                 return;
             };
             
@@ -65,6 +66,7 @@ function DeleteProductById() {
                 setProductNotFound(`No se ha encontrado el producto con id: ${productId}`);
                 setGeneralError('');
                 setMissingIdError('');
+                setSuccessMessage('');
                 return
             };
 
