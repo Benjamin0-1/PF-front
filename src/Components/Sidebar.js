@@ -37,6 +37,17 @@ const Sidebar = () => {
                     <li>
                         <Link to="/favorites">Favorites</Link>
                     </li>
+                    <li>
+                        <Link to="/shipping">Shipping</Link>
+                    </li>
+
+                    <li>
+                        <Link to="/orders">Orders</Link>
+                    </li>
+                    <li>
+                        <Link to="/paymenthistory">Payment History</Link>
+                    </li>
+                    
                     {/* Add more links as needed */}
                 </ul>
             )}

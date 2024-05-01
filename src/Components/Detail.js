@@ -99,6 +99,7 @@ function Detail() {
                     <ul>
                         {product.Reviews.map(review => (
                             <li className='review' key={review.id}>
+                                <p>username: {review.User.username}</p> {/* Access the username from the User object */}
                                 <p>{review.review}</p>
                                 <p>Rating: {review.rating}</p>
                                 <p>Review Date: {review.reviewDate}</p>
@@ -109,6 +110,7 @@ function Detail() {
             )}
         </div>
     );
+
     
 
 }

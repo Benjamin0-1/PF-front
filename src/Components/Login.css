@@ -34,4 +34,10 @@
   .LoginForm button:hover {
     background-color: #0056b3;
   }
-  
+  body {
+    margin: 0;
+    padding: 0;
+    background-image: url('');
+    background-size: cover;
+    background-position: center;
+}

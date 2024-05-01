@@ -18,6 +18,7 @@ const BuyProduct = () => {
     const [shippingAddresses, setShippingAddresses] = useState([]);
     const [reqShippingId, setReqShippingId] = useState(null);
     const [productNotFoundError, setProductNotFoundError] = useState('');
+    const [outOfStockError, setOutOfStockError] = useState('');
 
     if (!accessToken) {
         window.location.href = '/login'
@@ -97,6 +98,14 @@ const BuyProduct = () => {
                 },
                 body: JSON.stringify({ products, reqShippingId })
             });
+            
+            const data = await response.json();
+
+            if (data.outOfStock) {
+                setOutOfStockError('Uno de los productos seleccionados esta fuera de stock.');
+                setError('');
+                return;
+            }
 
             if (response.status === 404) {
                 setProductNotFoundError('No existe un producto seleccionado.');
@@ -104,7 +113,6 @@ const BuyProduct = () => {
                 return;
             }
 
-            const data = await response.json();
             const { id } = data;
             redirectToCheckout(id);
         } catch (error) {

@@ -4,7 +4,7 @@ import './PasswordRecovery.css';
 
 const accessToken = localStorage.getItem('accessToken');
 const URL = 'http://localhost:3001/reset-password-request';
-const PROFILE_URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/profile-info';
+const PROFILE_URL = 'http://localhost:3001/profile-info';
 
 function PasswordRecovery() {
     const [email, setEmail] = useState('');

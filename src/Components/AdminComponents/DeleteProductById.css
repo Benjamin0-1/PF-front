@@ -1,0 +1,51 @@
+.DeleteProductById {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-left: 180px;
+  }
+  
+  .DeleteProductById h2 {
+    margin-bottom: 20px;
+  }
+  
+  .DeleteProductById input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .DeleteProductById button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .DeleteProductById button:hover {
+    background-color: #0056b3;
+  }
+  
+  .DeleteProductById p {
+    margin-top: 10px;
+  }
+  
+  .DeleteProductById p.error {
+    color: #dc3545;
+  }
+  
+  .DeleteProductById p.success {
+    color: #28a745;
+  }
+  
+  .DeleteProductById p.loading {
+    font-style: italic;
+  }
+  

@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3001;
 let URL = `http://localhost:${PORT}/payment-history`;
 let DETAIL_URL = `http://localhost:${PORT}/product-detail`;
 
-URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/payment-history'; // <-- 
+//URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/payment-history'; // <-- 
 
 function PaymentHistory() {
     const [generalError, setGeneralError] = useState('');

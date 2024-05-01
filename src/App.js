@@ -34,6 +34,9 @@ import FAQ from './Components/FAQ';
 import Newsletter from './Components/Newsletter';
 import Sidebar from './Components/Sidebar';
 import Favorite from './Components/Favorite';
+import DeleteProductById from './Components/AdminComponents/DeleteProductById';
+import Shipping from './Components/Shipping';
+import Order from './Components/Order';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -79,6 +82,9 @@ function App() {
         <Route path='/faq' element={< FAQ />} />
         <Route path='newsletter' element={< Newsletter />} />
         <Route path='/favorites' element={<  Favorite/>} />
+        <Route path='/deleteproductbyid' element={< DeleteProductById />} />
+        <Route path='/shipping' element={< Shipping />} />
+        <Route path='/orders' element={< Order />} />
       <Route path='*' element={<h1>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1>No eres un admin, no puedes acceder al dashboard</h1>} />
       <Route path='/' element={< Login/>} />

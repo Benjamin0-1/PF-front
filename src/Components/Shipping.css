@@ -1,0 +1,50 @@
+.Shipping {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .Shipping h2 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .Shipping form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .Shipping label {
+    margin-bottom: 5px;
+  }
+  
+  .Shipping input,
+  .Shipping select {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 100%; 
+  }
+  
+  .Shipping button {
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .Shipping button:hover {
+    background-color: #0056b3;
+  }
+  
+  .Shipping p {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  

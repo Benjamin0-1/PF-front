@@ -48,6 +48,8 @@ function Favorite() {
         handleFetch();
     }, []);
 
+    // ADD : <-- DELETE FROM FAVORITES BUTTON.
+
     return (
         <div className="Favorite">
             <h2>Your Favorite Products: {favorites.length}</h2>
