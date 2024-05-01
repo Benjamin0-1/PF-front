@@ -89,6 +89,18 @@ function Shipping() {
             setSuccessMessage('Direccion de envio creada con exito');
             setGeneralError('');
             setInvalidCountry('');
+            setInvalidNickname('');
+            setnicknameInUse('');
+            setInvalidZipCode('');
+
+            // limpiar form
+            setFormData({
+                nickname: '',
+                country: '',
+                city: '',
+                zip_code: ''
+            });
+    
             
 
         } catch (error) {

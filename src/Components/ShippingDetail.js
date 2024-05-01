@@ -11,6 +11,7 @@ function ShippingDetail() {
     const [noDetailsFound, setNoDetailsFound] = useState('');
     const [details, setDetails] = useState([]);
     const [maxShippingMessage, setMaxShippingMessage] = useState('');
+    const [invalidAddrDeletion, setInvalidAddrDeletion] = useState('');
 
 
 
@@ -32,6 +33,11 @@ function ShippingDetail() {
                 setGeneralError('');
                 return;
             };
+
+            if (data.invalidAddrDeletion) {
+                setInvalidAddrDeletion('No puedes eliminar direcciones con las cuales ya has comprado productos');
+                setGeneralError('');
+            }
 
             if (data.length === 10) {
                 setMaxShippingMessage('Advertencia: ya tienes el maximo de direcciones de envio posibles.');
@@ -68,17 +74,19 @@ function ShippingDetail() {
                 fetchShippingDetails();
             } else {
                 console.error('Failed to delete shipping address');
-                setGeneralError('Failed to delete shipping address');
+                setInvalidAddrDeletion('No puedes eliminar direcciones de envio con las cuales ya has comprado productos.')
             }
         } catch (error) {
             console.error(`Error deleting shipping address: ${error}`);
             setGeneralError('Ha ocurrido un error al eliminar la dirección de envío');
+            setInvalidAddrDeletion('');
         }
     };
 
     return (
         <div className="ShippingDetail">
             <h2>Your Shipping Addresses:</h2>
+            {invalidAddrDeletion && <p style={{color: 'red'}}>{invalidAddrDeletion}</p>}
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
             {noDetailsFound && <p>{noDetailsFound}</p>}
             <ul>
