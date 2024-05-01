@@ -37,6 +37,7 @@ import Favorite from './Components/Favorite';
 import DeleteProductById from './Components/AdminComponents/DeleteProductById';
 import Shipping from './Components/Shipping';
 import Order from './Components/Order';
+import ShippingDetail from './Components/ShippingDetail';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -85,6 +86,7 @@ function App() {
         <Route path='/deleteproductbyid' element={< DeleteProductById />} />
         <Route path='/shipping' element={< Shipping />} />
         <Route path='/orders' element={< Order />} />
+        <Route path='/shippingdetails' element={< ShippingDetail />} />
       <Route path='*' element={<h1>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1>No eres un admin, no puedes acceder al dashboard</h1>} />
       <Route path='/' element={< Login/>} />
