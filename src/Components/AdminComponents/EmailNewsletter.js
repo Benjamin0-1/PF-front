@@ -3,6 +3,7 @@ import FetchWithAuth from "../Auth/FetchWithAuth";
 import './EmailNewsletter.css';
 import AdminDashboard from "./AdminDashboard";
 import AdminNavBar from "./AdminNavBar";
+import AllNewsLetterEmail from "./AllNewsLetterEmail";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -127,7 +128,12 @@ function EmailNewsletter() {
                     </ul>
                 </div>
             )}
+            <br />
+
+            < AllNewsLetterEmail/>
+
             < AdminNavBar/>
+            <br/>
         </div>
     );
     

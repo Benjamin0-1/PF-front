@@ -73,7 +73,7 @@ function DeleteUserByEmail() {
 
     return (
         <div className="DeleteUserByEmail">
-            <AdminNavBar/>
+            
             <br/>
             <h2>Delete User By Email</h2>
             <input 
@@ -86,6 +86,11 @@ function DeleteUserByEmail() {
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
             {invalidEmailFormat &&<p style={{color: 'red'}}>{invalidEmailFormat}</p>}
+
+            <br />
+            <br/>
+            < AdminNavBar/>
+           <br />
         </div>
     );
 }

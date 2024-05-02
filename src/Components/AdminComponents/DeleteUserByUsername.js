@@ -82,7 +82,7 @@ function DeleteUserByUsername() {
 
     return (
         <div className="DeleteUserByUsername">
-            < AdminNavBar/>
+           
             <br />
             <br />
             <input 
@@ -94,6 +94,8 @@ function DeleteUserByUsername() {
             <button onClick={handleDelete}>Delete User</button>
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+            <br />
+            < AdminNavBar/>
         </div>
     )
 };

@@ -54,7 +54,7 @@ function DeleteUserById() {
         try {
             await validationSchema.validate({userId});
             // si se valida:
-            const response = await FetchWithAuth(`${URL}:${PORT}/deleteuser/${userId}`, {
+            const response = await FetchWithAuth(`${URL}:${PORT}/deleteuser/id/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ function DeleteUserById() {
     // puede ser type="number".
     return (
         <div className="DeleteUserById">
-            <AdminNavBar/>
+            
             <br/>
             <h2>Eliminar usuario por ID</h2>
             <form onSubmit={handleDelete}>
@@ -116,6 +116,8 @@ function DeleteUserById() {
                 {userNotFoundError && <p className="error">{userNotFoundError}</p>}
                 <button type="submit">Eliminar Usuario</button>
             </form>
+            <br />
+            < AdminNavBar/>
         </div>
     );
 
