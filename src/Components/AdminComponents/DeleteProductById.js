@@ -102,6 +102,9 @@ function DeleteProductById() {
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
             {productNotFound && <p style={{color: 'red'}}>{productNotFound}</p>}
             {isLoading && <p> <strong>Deleting product...</strong> </p>}
+
+            <br />
+            < AdminNavBar/>
         </div>
     )
 

@@ -80,6 +80,9 @@ function EmailNewsletter() {
 
       };
 
+      // <-- EL COMPONENTE FUNCIONA BIEN Y ENVIA TODOS LOS CORREOS DE MANERA EXITOSA.
+      //    SIN EMBARGO NO RENDERIZA NINGUN TIPO DE MENSAJE, YA SEA DE ERROR O SUCCESS.
+
       return (
         <div className="Newsletter">
             <h2>Email All Newsletter Subscribers</h2>

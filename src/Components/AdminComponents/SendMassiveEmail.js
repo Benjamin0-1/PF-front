@@ -67,7 +67,7 @@ function SendMassiveEmail() {
 
     return (
         <div className="SendMassiveEmail">
-            <AdminNavBar/>
+            
             <br/>
             <h2>Send email to all users</h2>
             <div>
@@ -93,6 +93,8 @@ function SendMassiveEmail() {
             {isLoading && <p>Sending emails...</p>}
             {generalError && <p className="error">{generalError}</p>}
             {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
+            <br />
+            <AdminNavBar/>
         </div>
     )
 };

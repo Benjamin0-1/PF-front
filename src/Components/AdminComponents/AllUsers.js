@@ -45,7 +45,7 @@ function AllUsers() {
 
     return (
         <div className="AllUsers">
-            <AdminNavBar/>
+            
             <br/>
             <br/>
             <h2>Total: {users.length}</h2>
@@ -67,6 +67,9 @@ function AllUsers() {
                 </ul>
             )}
             {generalError && <p>{generalError}</p>}
+
+            <br />
+            <AdminNavBar/>
         </div>
     )
 }

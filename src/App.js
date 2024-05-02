@@ -40,6 +40,7 @@ import ShippingDetail from './Components/ShippingDetail';
 import Newsletter from './Components/Newsletter';
 import EmailNewsletter from './Components/AdminComponents/EmailNewsletter';
 import AllNewsLetterEmail from './Components/AdminComponents/AllNewsLetterEmail';
+import VisualChart from './Components/AdminComponents/VisualChart'; // <-- VERIFICAR !
 
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
         <Route path='/shippingdetails' element={< ShippingDetail />} />
         <Route path='/emailnewsletter' element={< EmailNewsletter />} />
         <Route path='/allnewsletteremails' element={< AllNewsLetterEmail />} />
+        <Route path='/visualchart' element={< VisualChart />} />
       <Route path='*' element={<h1>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1>No eres un admin, no puedes acceder al dashboard</h1>} />
       <Route path='/' element={< Login/>} />

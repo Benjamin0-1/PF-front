@@ -4,6 +4,7 @@ import './AdminNavBar.css';
 function AdminNavBar() {
     return (
         <div className="admin-nav-bar">
+            <Link to='/visualchart' className="nav-link">Visual chart</Link>
             <Link to='/deleteuserbyemail' className="nav-link">Delete User by Email</Link>
             <Link to='/deleteuserbyid' className="nav-link">Delete user by id</Link>
             <Link to='/deleteuserbyusername' className="nav-link">Delete user by username</Link>
