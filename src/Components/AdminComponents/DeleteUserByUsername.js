@@ -10,6 +10,7 @@ function DeleteUserByUsername() {
     const [usernameToDelete, setUsernameToDelete] = useState('');
     const [generalError, setGeneralError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [deleteAdminError, setDeleteAdminError] = useState('');
 
     /*
     useEffect(() => {
@@ -70,6 +71,15 @@ function DeleteUserByUsername() {
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
+
+            const data = await response.json();
+            if (data.isUserAdmin) {
+                setDeleteAdminError('No puedes eliminar otro admin!');
+                setGeneralError('');
+                setSuccessMessage('');
+                return
+            };
+
             if (!response.ok) {
                 setGeneralError('Error eliminando usuario');
                 return;
@@ -92,8 +102,10 @@ function DeleteUserByUsername() {
                 onChange={(e) => setUsernameToDelete(e.target.value)} 
             />
             <button onClick={handleDelete}>Delete User</button>
+            {deleteAdminError && <p style={{color: 'red'}}>{deleteAdminError}</p>}
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+            <br />
             <br />
             < AdminNavBar/>
         </div>

@@ -7,6 +7,9 @@ import FetchWithAuth from "../Auth/FetchWithAuth";
 
 const accessToken = localStorage.getItem('accessToken');
 
+// average cost of totalAmount: <-- can be grabbed from Order or PaymentHistory.
+// the later one provides more data.
+
 const VisualChart = () => {
 
 

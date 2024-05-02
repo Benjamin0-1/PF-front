@@ -132,7 +132,7 @@ function EmailNewsletter() {
 
             < AllNewsLetterEmail/>
 
-            < AdminNavBar/>
+          
             <br/>
         </div>
     );

@@ -50,7 +50,7 @@ function Order() {
                     <p>Order Date: {order.order_date}</p>
                     <p><strong>Total amount: {order.totalAmount}</strong></p>
            
-                    <p>Payment Status: {order.paymentStatus}</p>
+                    <p> <strong>  Payment Status: {order.paymentStatus} </strong> </p>
                     <p>Shipping Details:</p>
                     <p>Nickname: {order.Shipping.nickname}</p>
                     <p>Country: {order.Shipping.country}</p>

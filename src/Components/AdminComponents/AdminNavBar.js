@@ -17,7 +17,9 @@ function AdminNavBar() {
             <Link to='/deletedusers' className="nav-link">See deleted users</Link>
             <Link to='/createuser' className="nav-link">Create a User</Link>
             <Link to='/deleteproductbyid' className="nav-link"> Delete product by ID  </Link>
+            <Link to='/reportedproducts' className="nav-link">See all reported products</Link>
             <Link to='/emailnewsletter' className="nav-link">Email newsletter users</Link>
+            <Link to='/allpendingorders' className="nav-link">All pending orders</Link>
 
 
             

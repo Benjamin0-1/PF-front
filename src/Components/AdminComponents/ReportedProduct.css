@@ -1,0 +1,49 @@
+.ReportedProduct {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .ReportedProduct h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+  
+  .ReportedProduct p {
+    margin-bottom: 10px;
+  }
+  
+  .ReportedProduct hr {
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #ccc;
+  }
+  
+  .ReportedProduct .error {
+    color: #ff0000;
+    margin-bottom: 10px;
+  }
+  
+  .ReportedProduct .nav-link {
+    text-decoration: none;
+    color:wh#dae2ea; /* Change to your desired text color */
+    padding: 10px 15px;
+    margin: 5px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ReportedProduct .nav-link:hover {
+    background-color: #007bff;
+    color: #ddc5c5; /* Change to your desired hover text color */
+  }
+  
+  .ReportedProduct .review-item {
+    transition: transform 0.3s ease; /* Add transition for smooth effect */
+  }
+  
+  .ReportedProduct .review-item:hover {
+    transform: scale(1.05); /* Scale up the review item on hover */
+  }
+  

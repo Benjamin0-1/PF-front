@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
+import './ReportedProduct.css';
 
 const PORT = process.env.PORT || 3001;
 const URL = 'http://localhost:3001/products/reported';
@@ -75,21 +76,26 @@ function ReportedProduct() {
 
     return (
         <div className="ReportedProduct">
-            < AdminNavBar/>
+        
             <br/>
             <h2>Reported Products: {records.length}</h2>
-            {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
-            {noRecordsFoundError && <p style={{ color: 'red' }}>{noRecordsFoundError}</p>}
+            {generalError && <p className="error">{generalError}</p>}
+            {noRecordsFoundError && <p className="error">{noRecordsFoundError}</p>}
             {records.map((record, index) => (
-                <div key={index}>
+                <div key={index} className="review-item">
                     <p>Report ID: {record.id}</p>
                     <p>User: {record.User.username}</p>
                     <p>Product: {record.Product.product}</p>
+                    <p>Reason: {record.reason}</p>
                     <hr />
                 </div>
             ))}
+            <br />
+            < AdminNavBar/>
+            <br />
         </div>
-    )
+      );
+      
 
 };
 

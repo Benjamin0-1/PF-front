@@ -41,6 +41,8 @@ import Newsletter from './Components/Newsletter';
 import EmailNewsletter from './Components/AdminComponents/EmailNewsletter';
 import AllNewsLetterEmail from './Components/AdminComponents/AllNewsLetterEmail';
 import VisualChart from './Components/AdminComponents/VisualChart'; // <-- VERIFICAR !
+import ReportProductByName from './Components/ReportProductByName';
+import AllPendingOrders from './Components/AdminComponents/AllPendingOrders';
 
 
 function App() {
@@ -94,6 +96,8 @@ function App() {
         <Route path='/emailnewsletter' element={< EmailNewsletter />} />
         <Route path='/allnewsletteremails' element={< AllNewsLetterEmail />} />
         <Route path='/visualchart' element={< VisualChart />} />
+        <Route path='/reportproductbyname' element={< ReportProductByName />} />
+        <Route path='/allpendingorders' element={ < AllPendingOrders /> } />
       <Route path='*' element={<h1>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1>No eres un admin, no puedes acceder al dashboard</h1>} />
       <Route path='/' element={< Login/>} />
