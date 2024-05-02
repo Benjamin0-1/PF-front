@@ -1,0 +1,37 @@
+.AllNewsletterEmail {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.AllNewsletterEmail h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.AllNewsletterEmail .error-message {
+    color: #ff0000;
+    margin-bottom: 10px;
+}
+
+.AllNewsletterEmail ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.AllNewsletterEmail li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.AllNewsletterEmail li:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.1); /* Increase size on hover */
+}

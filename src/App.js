@@ -31,13 +31,15 @@ import AdminDashboard from './Components/AdminComponents/AdminDashboard';
 import DeletedUser from './Components/AdminComponents/DeletedUser';
 import CreateUser from './Components/AdminComponents/CreateUser';
 import FAQ from './Components/FAQ';
-import Newsletter from './Components/Newsletter';
 import Sidebar from './Components/Sidebar';
 import Favorite from './Components/Favorite';
 import DeleteProductById from './Components/AdminComponents/DeleteProductById';
 import Shipping from './Components/Shipping';
 import Order from './Components/Order';
 import ShippingDetail from './Components/ShippingDetail';
+import Newsletter from './Components/Newsletter';
+import EmailNewsletter from './Components/AdminComponents/EmailNewsletter';
+import AllNewsLetterEmail from './Components/AdminComponents/AllNewsLetterEmail';
 
 
 function App() {
@@ -88,6 +90,8 @@ function App() {
         <Route path='/shipping' element={< Shipping />} />
         <Route path='/orders' element={< Order />} />
         <Route path='/shippingdetails' element={< ShippingDetail />} />
+        <Route path='/emailnewsletter' element={< EmailNewsletter />} />
+        <Route path='/allnewsletteremails' element={< AllNewsLetterEmail />} />
       <Route path='*' element={<h1>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1>No eres un admin, no puedes acceder al dashboard</h1>} />
       <Route path='/' element={< Login/>} />

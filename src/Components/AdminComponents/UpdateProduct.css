@@ -22,14 +22,9 @@
     font-weight: bold;
 }
 
-.UpdateProduct input {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
+.UpdateProduct input,
 .UpdateProduct textarea {
+    width: 100%; /* Make all fields the same size */
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;

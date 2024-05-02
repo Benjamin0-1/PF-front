@@ -50,6 +50,7 @@ function UpdateProduct() {
         checkIsAdmin();
       }, []);
 
+
     useEffect(() => {
         if (!productId) {
             return;
@@ -155,7 +156,7 @@ function UpdateProduct() {
 
     return (
         <div className="UpdateProduct">
-            <AdminNavBar/>
+     
             <br/>
             <h2>Update Product</h2>
             <div>
@@ -221,6 +222,10 @@ function UpdateProduct() {
             </div>
             {generalError && <p className="error">{generalError}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+            <br />
+            <br/>
+            <AdminNavBar/>
+            < br/>
         </div>
     );
 
