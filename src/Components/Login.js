@@ -41,7 +41,9 @@ function Login() {
             };
 
             if (data.invalidCredentials) {
-                setInvalidCredentials('Credenciales invalidos')
+                setInvalidCredentials('Credenciales invalidos');
+                setGeneralError('');
+                return;
             }
 
             if (response.status === 404) {
@@ -128,6 +130,7 @@ function Login() {
                 {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
                 {accountDeleted && <p style={{ color: 'red' }}>{accountDeleted}</p>}
                 {notFound && <p style={{ color: 'red' }}>{notFound}</p>}
+                {invalidCredentials && <p style={{color: 'red'}}>{invalidCredentials}</p>}
                 <br />
                 <button type="submit">Login</button>
                 <p style={{ marginTop: '10px', fontSize: '14px' }}>Forgot password: <a style={{ textDecoration: 'none', color: 'blue' }} href='/passwordrecovery'>Reset password</a></p>
