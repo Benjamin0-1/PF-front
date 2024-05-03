@@ -43,6 +43,8 @@ import AllNewsLetterEmail from './Components/AdminComponents/AllNewsLetterEmail'
 import VisualChart from './Components/AdminComponents/VisualChart'; // <-- VERIFICAR !
 import ReportProductByName from './Components/ReportProductByName';
 import AllPendingOrders from './Components/AdminComponents/AllPendingOrders';
+import Active2FA from './Components/AdminComponents/Activate2FA';
+import GrantAdminByUsername from './Components/AdminComponents/GrantAdminByUsername';
 
 
 function App() {
@@ -98,6 +100,8 @@ function App() {
         <Route path='/visualchart' element={< VisualChart />} />
         <Route path='/reportproductbyname' element={< ReportProductByName />} />
         <Route path='/allpendingorders' element={ < AllPendingOrders /> } />
+        <Route path='/activate2fa'  element={< Active2FA />}/>
+        <Route path='/grantadminbyusername' element={< GrantAdminByUsername/>} />
       <Route path='*' element={<h1>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1>No eres un admin, no puedes acceder al dashboard</h1>} />
       <Route path='/' element={< Login/>} />
