@@ -65,8 +65,7 @@ const NavBar = () => {
     });
   }, [ pathname ]);
   const handleCloseSession = async (e) => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.clear()
     window.location.href = '/'
   };
 
