@@ -65,7 +65,8 @@ const NavBar = () => {
     });
   }, [ pathname ]);
   const handleCloseSession = async (e) => {
-    localStorage.clear()
+    e.preventDefault();
+    localStorage.clear();
     window.location.href = '/'
   };
 
