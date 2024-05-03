@@ -19,12 +19,16 @@ const BuyProduct = () => {
     const [reqShippingId, setReqShippingId] = useState(null);
     const [productNotFoundError, setProductNotFoundError] = useState('');
     const [outOfStockError, setOutOfStockError] = useState('');
+    const [allProducts, setAllProducts] = useState([]);
+    const [missingShippingInfo, setMissingShippingInfo] = useState('');
+    const [productInCartNotFound, setProductInCartNotFound] = useState('');
 
     if (!accessToken) {
         window.location.href = '/login'
     }
 
     useEffect(() => {
+        fetchProducts(); // <-- 
         fetchShippingAddresses();
     }, []);
 
@@ -51,6 +55,25 @@ const BuyProduct = () => {
             // Cleanup function
         };
     }, []);
+
+    // get products and their values.
+    const fetchProducts = async () => {
+        try {
+            
+            const response = await fetch('http://localhost:3001/allproducts');
+            const data = await response.json();
+
+            if (data.length === 0) {
+                setError('No hay productos disponibles');
+                return;
+            };
+            setAllProducts(data);
+            
+
+        } catch (error) {
+            console.log(`error: ${error}`);
+        }
+    };
     
     
 
@@ -98,8 +121,20 @@ const BuyProduct = () => {
                 },
                 body: JSON.stringify({ products, reqShippingId })
             });
+
+            if (response.status === 404) {
+                setProductInCartNotFound('Uno de los productos seleccionados no existe');
+                setError('');
+                return
+            }
             
             const data = await response.json();
+
+            if (data.missingShippingInfo) {
+                setMissingShippingInfo('Falta agregar direccion de envio');
+                setError('');
+                return
+            };
 
             if (data.outOfStock) {
                 setOutOfStockError('Uno de los productos seleccionados esta fuera de stock.');
@@ -123,6 +158,58 @@ const BuyProduct = () => {
             setLoading(false);
         }
     };
+
+    //BOTON PARA COMPRAR DE INMEDIATO, SIMPLE.
+    const handleBuyNow = async (product) => {
+        try {
+            setLoading(true);
+            setError(null);
+    
+            const response = await FetchWithAuth(URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ products: [{ id: product.id, quantity: 1 }], reqShippingId })
+            });
+
+            if (response.status === 404) {
+                setProductInCartNotFound('Uno de los productos seleccionados no existe');
+                setError('');
+                return
+            }
+    
+            const data = await response.json();
+
+            if (data.missingShippingInfo) {
+                setMissingShippingInfo('falta agregar direccion de envio');
+                setError('');
+                return
+            }
+    
+            if (data.outOfStock) {
+                setOutOfStockError('The selected product is out of stock.');
+                setError('');
+                return;
+            }
+    
+            if (response.status === 404) {
+                setProductNotFoundError('The selected product was not found.');
+                setError('');
+                return;
+            }
+    
+            const { id } = data;
+            redirectToCheckout(id);
+        } catch (error) {
+            setError('Failed to initiate checkout');
+            setProductNotFoundError('');
+        } finally {
+            setLoading(false);
+        }
+    };
+    
 
     const redirectToCheckout = async (sessionId) => {
         if (window.Stripe) {
@@ -161,25 +248,71 @@ const BuyProduct = () => {
     };
 
     // add more erros: noAddrSelectedError, noStockError, productIdNotFoundError. 
+    const handleAddProduct = (product) => {
+        // Check if the product is already in the list
+        const productExists = products.some((p) => p.id === product.id);
+    
+        if (!productExists) {
+            // If the product is not already in the list, add it
+            setProducts([...products, { id: product.id, quantity: product.quantity }]);
+        } else {
+            // If the product is already in the list, increase its quantity
+            const updatedProducts = products.map((p) => {
+                if (p.id === product.id) {
+                    return { ...p, quantity: p.quantity + product.quantity };
+                }
+                return p;
+            });
+            setProducts(updatedProducts);
+        }
+    };
+    
+    
 
     return (
         <div className="container">
             <h2>Buy Products</h2>
+            {missingShippingInfo && <p style={{color: 'red'}}> {missingShippingInfo} </p>}
+            {productInCartNotFound && <p style={{color: 'red'}}>{productInCartNotFound}</p>}
+            {outOfStockError && <p style={{color: 'red'}}>{outOfStockError}</p>}
             {error && <p>Error: {error}</p>}
             {loading && <p>Loading...</p>}
             {success && <p>Redirecting to checkout...</p>}
+
             <div className="shipping-addresses">
-                <h3>Shipping Addresses: {shippingAddresses.length}</h3>
-                {shippingAddresses.map((address) => (
-                    <div className="shipping-address" key={address.shippingId} onClick={() => handleSelectAddress(address.shippingId)}>
-                        <p>Nickname: {address.nickname}</p>
-                        <p>Country: {address.country}</p>
-                        <p>City: {address.city}</p>
-                        <p>Zip Code: {address.zip_code}</p>
-                        <button className="select-btn">Select Address</button>
-                    </div>
-                ))}
+             <h3>Shipping Addresses: {shippingAddresses.length}</h3>
+            {shippingAddresses.map((address) => (
+                <div className={`shipping-address ${reqShippingId === address.shippingId ? 'selected' : ''}`} key={address.shippingId}>
+                    <p>Nickname: {address.nickname}</p>
+                    <p>Country: {address.country}</p>
+                    <p>City: {address.city}</p>
+                    <p>Zip Code: {address.zip_code}</p>
+                    <button className="select-btn" onClick={() => handleSelectAddress(address.shippingId)}>Select Address</button>
+                </div>
+            ))}
+        </div>
+
+            {/** show products. */}
+        <div className="products">
+            <h3>Available Products:</h3>
+
+           {allProducts.map((product) => (
+            <div className="product" key={product.id}>
+                <img src={product.image} alt={product.name} className="product-image" />
+                <div className="product-details">
+                    <p>Product ID: {product.id}</p>
+                    <p>Name: {product.product}</p>
+                    <p>Price: ${product.price}</p>
+                    <p>Stock: {product.stock === 0 ? 'Out of stock' : product.stock}</p>
+                    <p>Description: {product.description}</p>
+                    <button className="add-product-button" onClick={() => handleBuyNow(product)}>Buy Now</button>
+
+                </div>
             </div>
+        ))}
+        </div>
+
+
             {products.map((product, index) => (
                 <div className="container" key={index}>
                     <input

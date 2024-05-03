@@ -210,7 +210,7 @@ function Home() {
                         <Link to={`/detail/${product.id}`} key={product.id} className="product-link">
                             <div className="product">
                                 <h3>{product.name}</h3>
-                                <p>Price: {product.price}</p>
+                                <p>Price: ${product.price}</p>
                             </div>
                         </Link>
                     ))
@@ -221,7 +221,9 @@ function Home() {
                                 <h3>{product.product}</h3>
                                 <p>{product.description}</p>
                                 <img src={product.image} alt={product.product} />
-                                <p>Price: {product.price}</p>
+                                <p>Price: ${product.price}</p>
+                                <p>Stock: {product.stock === 0 ? 'Out of stock' : product.stock}</p>
+
                             </div>
                         </Link>
                     ))

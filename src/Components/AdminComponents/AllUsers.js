@@ -61,6 +61,10 @@ function AllUsers() {
                             <div>ID: {user.id} </div>
                             <div>Fecha registro: {user.id} {user.createdAt}</div>
                             <div>Password reset token: {user.password_reset_token || 'No existe'}</div>
+                            <div>Is admin: {user.is_admin ? 'Yes' : 'No'}</div>
+                            <div>Is banned: {user.banned ? user.ban_expiration : 'User is not banned'}</div>
+
+
                           
                         </li>
                     ))}

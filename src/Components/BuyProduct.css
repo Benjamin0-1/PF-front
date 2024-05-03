@@ -16,6 +16,11 @@
     margin-bottom: 20px;
 }
 
+.shipping-address.selected {
+    border: 2px solid blue; /* Add a blue border for the selected address */
+}
+
+
 .shipping-address {
     border: 1px solid #ccc;
     padding: 10px;
