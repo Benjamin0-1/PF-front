@@ -18,21 +18,21 @@ const Landing = () => {
       </div>
       {/* Carruseles */ }
       <div className={ styles.landing_card }>
-        <Link className={ styles.landing_card_img_container }>
+        <Link to="/home" className={ styles.landing_card_img_container }>
           <img src="https://mikeshouts.com/wp-content/uploads/2014/06/Icon-Q-Boundless-H3-Bluetooth-Headphones-image-2-630x354.jpg" alt="" />
           <h1>Auriculares</h1>
         </Link>
         <p className={ styles.description }>
-          Lleva tu musica atodos lados, con los mejores <span><Link>auriculares</Link></span>
+          Lleva tu musica atodos lados, con los mejores <span><Link to="/home">auriculares</Link></span>
         </p>
       </div>
       <div className={ styles.landing_card }>
-        <Link className={ styles.landing_card_img_container }>
+        <Link to="/home" className={ styles.landing_card_img_container }>
           <img src="https://th.bing.com/th/id/R.b38d2aa256df5fb28eb6bdb8a128e7de?rik=Lrwzv%2fN8Qmlhag&pid=ImgRaw&r=0" alt="" />
           <h1>Celulares</h1>
         </Link>
         <p className={ styles.description }>
-          Mantente conectado, con los mejores <span><Link>telefonos celulares</Link></span>
+          Mantente conectado, con los mejores <span><Link to="/home">telefonos celulares</Link></span>
         </p>
       </div>
       <div className={ styles.carouselContainer }>
@@ -41,7 +41,7 @@ const Landing = () => {
       <div className={ styles.carousel_text }>
 
         <p className={ styles.description }>
-          Lleva tu juego a otro nivel, con las mejores <span>Laptops</span> del mercado
+          Lleva tu juego a otro nivel, con las mejores <span><Link to="/home">Laptops</Link></span> del mercado
         </p>
       </div>
       <div className={ styles.carouselContainer }>
@@ -49,7 +49,7 @@ const Landing = () => {
       </div>
       <div className={ styles.carousel_text }>
         <p className={ styles.description }>
-          Lleva el cine a tu casa y disfruta de los colores mas vivos y la mejor calidad de audio con los mejores <span>Televisores</span>
+          Lleva el cine a tu casa y disfruta de los colores mas vivos y la mejor calidad de audio con los mejores <span><Link to="/home">Televisores</Link></span>
         </p>
       </div>
     </div>
