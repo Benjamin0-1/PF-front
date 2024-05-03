@@ -9,6 +9,7 @@
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
+    z-index: 1000;
   }
   
   .Sidebar.expanded {

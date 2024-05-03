@@ -1,0 +1,97 @@
+.searchBar {
+    width: 100%;
+    display: flex;
+    position: relative;
+
+}
+
+.searchBar_container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.searchBar_container>input {
+    width: 100%;
+    height: 40px;
+    padding: 6px 4px 6px 12px;
+    border-radius: 3px;
+    border: 2px solid #dadada;
+    outline: none;
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, .075);
+    background-color: #dadada;
+    color: white;
+}
+
+.searchBar_container>input:focus {
+    border-color: rgba(82, 168, 236, .8);
+    background-color: white;
+    color: black;
+}
+
+.searchBar_container>input::placeholder {
+    color: gray;
+    opacity: .4;
+}
+
+.searchBar_container>button {
+    width: 60px;
+    height: 40px;
+    border: none;
+    background-color: #00c0ff;
+    margin: 2px 2px 2px 0;
+    border-radius: 0 40% 40% 0;
+    transition: background-color .2s ease-in-out;
+}
+
+.searchBar_container>button:hover {
+    background-color: #009acc;
+}
+
+.searchBar_results_container {
+    width: 100%;
+    max-height: 300px;
+    position: absolute;
+    top: 42px;
+    z-index: 100;
+    background-color: white;
+    box-shadow: 0 8px 15px #999;
+    display: none;
+}
+.searchBar_results_container>button{
+    justify-self: end;
+    align-self: flex-end;
+}
+.search_results_card {
+    width: 90%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid gray;
+    gap: 8px;
+    transition: box-shadow, border .2s ease-in;
+}
+.search_results_card:hover{
+    border: 2px solid gray;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.results_info {
+    display: flex;
+    margin-left: 8px;
+    flex-direction: column;
+    gap: 8px;
+}
+.results_image{
+    grid-area: image;
+}
+.results_image>img {
+    width: 70px;
+    height: 70px;
+}
+
+.results_open {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+}
