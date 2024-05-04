@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SearchBar from '../Search/SearchBar'
 import FetchWithAuth from "../Auth/FetchWithAuth";
+import Cart from "../Cart/Cart";
 // import RMIcon from "../../assets/RMIcon.jpg"
 // import cartEmpty from "../../assets/cartEmpty.png"
 // import { useDispatch, useSelector } from "react-redux";
@@ -100,7 +101,7 @@ const NavBar = () => {
           </div>
           <div className={ style.navBar_nav_icons_container }>
             <div className={ style.icons_cart_container }>
-              {/* <img src={ cartEmpty } /> */ }
+              <Cart />
             </div>
           </div>
         </div>

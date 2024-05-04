@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './Login.css';
+import { SignIn } from "@clerk/clerk-react";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -136,6 +137,7 @@ function Login() {
                 <p style={{ marginTop: '10px', fontSize: '14px' }}>Forgot password: <a style={{ textDecoration: 'none', color: 'blue' }} href='/passwordrecovery'>Reset password</a></p>
                 <p style={{ marginTop: '10px', fontSize: '14px' }}>or create an account: <a style={{ textDecoration: 'none', color: 'blue' }} href='/signup'>Signup</a></p>
             </form>
+            {/* <SignIn /> */}
         </div>
     );
     
