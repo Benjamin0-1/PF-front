@@ -39,10 +39,22 @@
     justify-content: center;
     gap: 8PX;
 }
+.navBar_nav_container>a{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--color-black);
+}
+.navBar_nav_container a>img {
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+}
+
 
 .icons_cart_container {
-    width: 50px;
-    height: 50px;
+    width: 64px;
+    height: 64px;
     background-color: var(--light-blue);
     padding: 10px;
     display: flex;
@@ -96,8 +108,10 @@
 .account {
     width: 20%;
     display: none;
+    top: 100%;
     background-color: var(--color-white-principal);
     position: absolute;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     z-index: 1000;
 }
 
@@ -123,11 +137,13 @@
     background-color: var(--color-white-gray);
     font-weight: bold;
 }
-.account_menu>hr{
+
+.account_menu>hr {
     width: 80%;
     margin-top: 16px;
     align-self: center;
 }
+
 .account_button>img {
     width: 24px;
 }

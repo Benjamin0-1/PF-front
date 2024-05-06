@@ -1,8 +1,11 @@
-import { ADD_CART, CLEAR_CART, LOGIN_ERROR_USER, LOGIN_USER, REMOVE_CART, SIGNUP_ERROR_USER, SIGNUP_USER } from "./action-types-products"
+import { ADD_CART, CLEAR_CART, GET_FAVORITES, GET_FAVORITES_ERROR, LOGIN_ERROR_USER, LOGIN_USER, REMOVE_CART, SIGNUP_ERROR_USER, SIGNUP_USER } from "./action-types-products"
+
 
 const initialProductsState = {
     cart: [],
 }
+
+
 const initialUserState = {
     logged: localStorage.getItem("accessToken") ? true : false,
     isAdmin: localStorage.getItem("isAdmin") || false,
@@ -12,7 +15,8 @@ const initialUserState = {
     },
     userProfile: JSON.parse(localStorage.getItem("userInfo")) || {},
     error: "",
-    success: ""
+    success: "",
+    userFavorites: [],
 }
 
 export const reducerUser = (state = initialUserState, action) => {
@@ -20,6 +24,7 @@ export const reducerUser = (state = initialUserState, action) => {
         case LOGIN_USER:
             return {
                 ...state,
+                success: action.payload
             }
         case LOGIN_ERROR_USER:
             return {
@@ -35,6 +40,16 @@ export const reducerUser = (state = initialUserState, action) => {
             return {
                 ...state,
                 error: action.payload
+            }
+        case GET_FAVORITES:
+            return {
+                ...state,
+                userFavorites: action.payload
+            }
+        case GET_FAVORITES_ERROR:
+            return {
+                ...state,
+                error: action.error
             }
         default:
             return {

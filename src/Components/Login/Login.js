@@ -11,18 +11,21 @@ import { userLogin } from "../../redux/actionUser";
 
 const Login = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [ userData, setUserData ] = useState({
         username: '',
         password: '',
     });
     const [ errors, setErrors ] = useState({});
+    const [ message, setMessage ] = useState({
+        success: "",
+        error: ""
+    });
     const accessToken = useSelector(state => state.user.tokens.accessToken);
-
+    const success = useSelector(state => state.user.success);
 
     useEffect(() => {
-        if (accessToken) {
-            navigate("/viewprofile");
+        if (accessToken.length) {
+            window.location.href = '/viewprofile'
         }
     }, [ accessToken ]);
 
@@ -44,14 +47,23 @@ const Login = () => {
 
         const validationErrors = validateLogin(userData);
         if (Object.keys(validationErrors).length === 0) {
-            const success = await dispatch(userLogin(userData));
-            if (!success) {
-                toast.error('Login failed! Please check your credentials.');
-            } else {
-                toast.success('Login successful!',);
-                navigate("/viewprofile");
-            }
+            await dispatch(userLogin(userData))
+                .then(r => {
+                    if (r.success) {
+                        return toast.success(`${r.success}, redirecting to the store`);
+                    } else if (r.error) {
+
+                        return toast.error(r.error);
+                    }
+                })
             setErrors("");
+            setUserData({
+                username: '',
+                password: '',
+            })
+            setTimeout(() => {
+                window.location.href = '/'
+            }, 2000);
         }
     };
 

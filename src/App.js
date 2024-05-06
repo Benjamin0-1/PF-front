@@ -32,7 +32,7 @@ import DeletedUser from './Components/AdminComponents/DeletedUser';
 import CreateUser from './Components/AdminComponents/CreateUser';
 import FAQ from './Components/FAQ';
 import Sidebar from './Components/Sidebar';
-import Favorite from './Components/Favorite';
+import Favorite from './Components/Favorite/Favorite';
 import DeleteProductById from './Components/AdminComponents/DeleteProductById';
 import Shipping from './Components/Shipping';
 import Order from './Components/Order';
@@ -48,6 +48,7 @@ import GrantAdminByUsername from './Components/AdminComponents/GrantAdminByUsern
 import NavBar from './Components/NavBar/NavBar';
 import Landing from './Pages/LandingPage/Landing';
 import Footer from './Components/Footer/Footer';
+import ProfileCard from './Components/ProfileCard/ProfileCard';
 
 
 function App() {
@@ -60,58 +61,60 @@ function App() {
 
 
   return (
-    
-      <Router>
-        <NavBar />
-        {/* < Logout/> */ }
-        {/* <Sidebar isOpen={ sidebarOpen } /> */}
-        <Routes>
-          <Route path='/signup' element={ < Signup /> } />
-          <Route path='/login' element={ < Login /> } />
-          <Route path='/home' element={ < Home /> } />
-          <Route path='/deleteuserbyid' element={ < DeleteUserById /> } />
-          <Route path='/donate' element={ < Donation /> } />
-          <Route path='/buy' element={ < BuyProduct /> } />
-          <Route path='/createproduct' element={ < CreateProduct /> } />
-          < Route path='/deleteuserbyusername' element={ < DeleteUserByUsername /> } />
-          <Route path='/deleteuserbyemail' element={ < DeleteUserByEmail /> } />
-          <Route path='/allusers' element={ < AllUsers /> } />
-          <Route path='sendmassiveeamil' element={ < SendMassiveEmail /> } />
-          <Route path='allbrands' element={ < AllBrand /> } />
-          <Route path='/passwordrecovery' element={ < PasswordRecovery /> } />
-          <Route path='/resetpassword' element={ < ResetPassword /> } />
-          <Route path='/viewprofile' element={ < ViewProfile /> } />
-          <Route path='updateproduct' element={ < UpdateProduct /> } />
-          <Route path='/paymenthistory' element={ < PaymentHistory /> } />
-          <Route path='/reportedproducts' element={ < ReportedProduct /> } />
-          <Route path='createbrand' element={ < CreateBrand /> } />
-          <Route path='/createreview' element={ < CreateReview /> } />
-          <Route path='reportproduct' element={ < ReportProduct /> } />
-          <Route path='banuser' element={ < BanUser /> } />
-          <Route path='/detail/:id' element={ < Detail /> } />
-          <Route path='/admin' element={ <AdminDashboard /> } />
-          <Route path='/deletedusers' element={ < DeletedUser /> } />
-          <Route path='/createuser' element={ < CreateUser /> } />
-          <Route path='/faq' element={ < FAQ /> } />
-          <Route path='newsletter' element={ < Newsletter /> } />
-          <Route path='/favorites' element={ <  Favorite /> } />
-          <Route path='/deleteproductbyid' element={ < DeleteProductById /> } />
-          <Route path='/shipping' element={ < Shipping /> } />
-          <Route path='/orders' element={ < Order /> } />
-          <Route path='/shippingdetails' element={ < ShippingDetail /> } />
-          <Route path='/emailnewsletter' element={ < EmailNewsletter /> } />
-          <Route path='/allnewsletteremails' element={ < AllNewsLetterEmail /> } />
-          <Route path='/visualchart' element={ < VisualChart /> } />
-          <Route path='/reportproductbyname' element={ < ReportProductByName /> } />
-          <Route path='/allpendingorders' element={ < AllPendingOrders /> } />
-          <Route path='/activate2fa' element={ < Active2FA /> } />
-          <Route path='/grantadminbyusername' element={ < GrantAdminByUsername /> } />
-          <Route path='*' element={ <h1>404 Not Found</h1> } />
-          <Route path='/notadmin' element={ <h1>No eres un admin, no puedes acceder al dashboard</h1> } />
-          <Route path='/' element={ < Landing /> } />
-        </Routes>
-        <Footer />
-      </Router>
+
+    <Router>
+      <NavBar />
+      {/* < Logout/> */ }
+      {/* <Sidebar isOpen={ sidebarOpen } /> */ }
+      <Routes>
+        <Route path='/signup' element={ < Signup /> } />
+        <Route path='/login' element={ < Login /> } />
+        <Route path='/home' element={ < Home /> } />
+        <Route path='/deleteuserbyid' element={ < DeleteUserById /> } />
+        <Route path='/donate' element={ < Donation /> } />
+        <Route path='/buy' element={ < BuyProduct /> } />
+        <Route path='/createproduct' element={ < CreateProduct /> } />
+        < Route path='/deleteuserbyusername' element={ < DeleteUserByUsername /> } />
+        <Route path='/deleteuserbyemail' element={ < DeleteUserByEmail /> } />
+        <Route path='/allusers' element={ < AllUsers /> } />
+        <Route path='sendmassiveeamil' element={ < SendMassiveEmail /> } />
+        <Route path='allbrands' element={ < AllBrand /> } />
+        <Route path='/passwordrecovery' element={ < PasswordRecovery /> } />
+        <Route path='/resetpassword' element={ < ResetPassword /> } />
+        <Route path='/viewprofile' element={ < ViewProfile /> } >
+          <Route path='' element={ <ProfileCard /> } />
+          <Route path='paymenthistory' element={ < PaymentHistory /> } />
+          <Route path='favorites' element={ <  Favorite /> } />
+          <Route path='orders' element={ < Order /> } />
+        </Route>
+        <Route path='updateproduct' element={ < UpdateProduct /> } />
+        <Route path='/reportedproducts' element={ < ReportedProduct /> } />
+        <Route path='createbrand' element={ < CreateBrand /> } />
+        <Route path='/createreview' element={ < CreateReview /> } />
+        <Route path='reportproduct' element={ < ReportProduct /> } />
+        <Route path='banuser' element={ < BanUser /> } />
+        <Route path='/detail/:id' element={ < Detail /> } />
+        <Route path='/admin' element={ <AdminDashboard /> } />
+        <Route path='/deletedusers' element={ < DeletedUser /> } />
+        <Route path='/createuser' element={ < CreateUser /> } />
+        <Route path='/faq' element={ < FAQ /> } />
+        <Route path='newsletter' element={ < Newsletter /> } />
+        <Route path='/deleteproductbyid' element={ < DeleteProductById /> } />
+        <Route path='/shipping' element={ < Shipping /> } />
+        <Route path='/shippingdetails' element={ < ShippingDetail /> } />
+        <Route path='/emailnewsletter' element={ < EmailNewsletter /> } />
+        <Route path='/allnewsletteremails' element={ < AllNewsLetterEmail /> } />
+        <Route path='/visualchart' element={ < VisualChart /> } />
+        <Route path='/reportproductbyname' element={ < ReportProductByName /> } />
+        <Route path='/allpendingorders' element={ < AllPendingOrders /> } />
+        <Route path='/activate2fa' element={ < Active2FA /> } />
+        <Route path='/grantadminbyusername' element={ < GrantAdminByUsername /> } />
+        <Route path='*' element={ <h1>404 Not Found</h1> } />
+        <Route path='/notadmin' element={ <h1>No eres un admin, no puedes acceder al dashboard</h1> } />
+        <Route path='/' element={ < Landing /> } />
+      </Routes>
+      <Footer />
+    </Router>
   );
 
 }

@@ -8,7 +8,7 @@ import iconUp from "../../assets/iconUp.png"
 import iconDown from "../../assets/iconDown.png"
 import { useSelector } from "react-redux";
 import { useClerk } from "@clerk/clerk-react";
-
+import iconPrincipal from "../../assets/RMIcon.jpg"
 
 const NavBar = () => {
   const [ user, setUser ] = useState("")
@@ -25,23 +25,12 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    if (!accessToken) {
-      setUser("")
+    if (!accessToken.length) {
+      return setUser("")
     }
-    setUser(userProfileName)
-  }, [ accessToken ]);
+    return setUser(userProfileName)
+  }, [ accessToken, userProfileName ]);
 
-  useEffect(() => {
-    const links = document.querySelectorAll(`.${style.link}`);
-    links.forEach((link) => {
-      if (link.getAttribute('href') === pathname) {
-        link.classList.add(style.active);
-      } else {
-        link.classList.remove(style.active);
-      }
-    });
-  }, [ pathname ]);
-  
   const handleCloseSession = async (e) => {
     e.preventDefault();
     signOut();
@@ -52,6 +41,10 @@ const NavBar = () => {
   return (
     <nav className={ style.navBar }>
       <div className={ style.navBar_nav_container }>
+        <Link className="link-logo" to="/">
+          <img src={ iconPrincipal } alt="" />
+          <h3>Reactive Mind Tech Store</h3>
+        </Link>
         <div className={ style.search_container }>
           <SearchBar />
         </div>
@@ -69,7 +62,7 @@ const NavBar = () => {
                   <nav className={ style.account }>
                     <ul className={ style.account_menu }>
                       <Link to="/viewprofile">Profile</Link>
-                      <Link to="/favorites">My Favorites</Link>
+                      <Link to="/viewprofile/favorites">My Favorites</Link>
                       <Link to="/viewprofile">History Payments</Link>
                       <hr />
                       <p onClick={ handleCloseSession }>Logout</p>
