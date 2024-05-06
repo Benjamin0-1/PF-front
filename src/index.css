@@ -1,13 +1,16 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-:root{
+
+:root {
+  --color-light-blue: #00c0ff;
+  --color-blue: #009acc;
   --color-white-principal: #fff;
   --color-white-secondary: #f9f9f9;
   --color-white-gray: #f2f0eb;
-  --color-black:#000000de;
+  --color-black: #000000de;
 }
 
 

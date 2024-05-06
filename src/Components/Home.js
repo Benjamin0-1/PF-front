@@ -142,9 +142,6 @@ function Home() {
     }, [ currentPage, alphabeticalOrder, sortByPriceDesc, sortByPriceAsc ]);
 
 
-
-
-
     // Pagination function remains unchanged
     const paginate = (array, pageSize) => {
         return array.reduce((acc, item, index) => {
@@ -165,11 +162,7 @@ function Home() {
     const handlePrevPage = () => {
         setCurrentPage(prevPage => prevPage - 1);
     };
-    console.log(products)
-
-
-
-
+    
 
     return (
         <div className="Home">

@@ -34,9 +34,9 @@ async function refreshAccessToken() {
 async function FetchWithAuth(url, options) {
     let accessToken = localStorage.getItem('accessToken');
     try {
+        console.log(options);
         const tokenExpiration = localStorage.getItem('accessTokenExpiration');
         const currentTime = new Date().getTime();
-
         const response = await axios(url, {
             ...options,
             headers: {

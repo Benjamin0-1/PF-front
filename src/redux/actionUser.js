@@ -66,7 +66,7 @@ export function userSignup(userData) {
 export function userFavorites() {
     return async (dispatch) => {
         try {
-            const {data, status} = await FetchWithAuth("http://localhost:3001/products/user/favorites", {
+            const { data, status } = await FetchWithAuth("http://localhost:3001/products/user/favorites", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,15 +79,51 @@ export function userFavorites() {
                 })
             }
             return dispatch({
-                type:GET_FAVORITES,
+                type: GET_FAVORITES,
                 payload: data.favorites
             })
         } catch (error) {
             return dispatch({
-                type:GET_FAVORITES,
+                type: GET_FAVORITES,
                 error: error
             })
 
+        }
+    }
+}
+
+export function addFavorites(id) {
+    return async (dispatch) => {
+        const accessToken = localStorage.getItem("accessToken");
+        try {
+            const response = await FetchWithAuth('http://localhost:3001/products/user/favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                data: JSON.stringify({productId: id})
+            });
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+export function removeFavorites(id) {
+    return async (dispatch) => {
+        const accessToken = localStorage.getItem("accessToken");
+        try {
+                const response = await FetchWithAuth(`http://localhost:3001/delete-favorite/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+            });
+            console.log(response);
+        } catch (error) {
+            console.log(error);
         }
     }
 }
