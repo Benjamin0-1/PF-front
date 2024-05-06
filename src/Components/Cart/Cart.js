@@ -1,13 +1,13 @@
 import React, { useId } from 'react'
 import "./Cart.css"
 import { useDispatch, useSelector } from 'react-redux';
-import { addProductCart, clearCart, removeCart } from '../redux/actionProducts';
+import { addProductCart, clearCart, removeCart } from '../../redux/actionProducts';
 import cartIconEmpty from "../../assets/cartIconEmpty.png"
 const Cart = (product) => {
     const cartProducts = useSelector(state => state.products.cart);
     const dispatch = useDispatch();
-    console.log(cartProducts);
     const cartCheckboxId = useId();
+    
     return (
         <>
             <label className='cart-button' htmlFor={ cartCheckboxId }>

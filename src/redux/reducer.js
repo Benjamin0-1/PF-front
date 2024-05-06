@@ -1,8 +1,46 @@
-import { ADD_CART, CLEAR_CART, REMOVE_CART } from "./action-types-products"
+import { ADD_CART, CLEAR_CART, LOGIN_ERROR_USER, LOGIN_USER, REMOVE_CART, SIGNUP_ERROR_USER, SIGNUP_USER } from "./action-types-products"
 
 const initialProductsState = {
     cart: [],
+}
+const initialUserState = {
+    logged: localStorage.getItem("accessToken") ? true : false,
+    isAdmin: localStorage.getItem("isAdmin") || false,
+    tokens: {
+        accessToken: localStorage.getItem("accessToken") || "",
+        refreshToken: localStorage.getItem("refreshToken") || ""
+    },
+    userProfile: JSON.parse(localStorage.getItem("userInfo")) || {},
+    error: "",
+    success: ""
+}
 
+export const reducerUser = (state = initialUserState, action) => {
+    switch (action.type) {
+        case LOGIN_USER:
+            return {
+                ...state,
+            }
+        case LOGIN_ERROR_USER:
+            return {
+                ...state,
+                error: action.error
+            }
+        case SIGNUP_USER:
+            return {
+                ...state,
+                success: action.payload
+            }
+        case SIGNUP_ERROR_USER:
+            return {
+                ...state,
+                error: action.payload
+            }
+        default:
+            return {
+                ...state,
+            };
+    }
 }
 
 export const reducerProducts = (state = initialProductsState, action) => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import "./Card.css"
 import {useDispatch} from "react-redux"
-import { addProductCart } from '../redux/actionProducts'
+import { addProductCart } from '../../redux/actionProducts'
 
 export default function Card({image, product, price, description, id}) {
     const dispatch = useDispatch()

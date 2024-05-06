@@ -1,0 +1,75 @@
+
+.container {
+    display: flex;
+    height: 100%; 
+    color:#012030;
+    width: 100%;
+    position: relative;
+    justify-content: center;
+  }
+
+  .container h2 {
+    font-size: 35px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-bottom: 15px;
+  }
+  
+  .formContainer {
+    width: 400px;
+    text-align: center;
+    justify-content: center; 
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); 
+  }
+  
+  .formGroup input {
+      margin-bottom: 15px;
+      width:80%; 
+      padding: 8px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box; 
+  }
+
+    .formGroup input:focus {
+      outline: none;
+    }
+
+    .submitButton {
+        width: 80%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: black;;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        box-sizing: border-box; 
+      }
+      
+    .submitButton:hover {
+      background-color:rgb(60, 123, 102);
+    }
+  
+    .errorMessage {
+      color: red; 
+      font-size: 12px;
+      margin-bottom: 0px;
+    }
+  
+    .styleParagraph {
+        margin-top: 25px;
+        font-size: 17px;
+        margin-bottom: 25px;
+    }
+
+    .containergeneralForm{
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin: 48px 0;
+ 
+    }

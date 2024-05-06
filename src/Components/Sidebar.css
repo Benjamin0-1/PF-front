@@ -24,22 +24,22 @@
     padding: 10px;
   }
   
-  ul {
+  .Sidebar ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
   }
   
-  li {
+  .Sidebar li {
     padding: 10px;
   }
   
-  li a {
+  .Sidebar li a {
     text-decoration: none;
     color: #fff;
   }
   
-  li:hover {
+  .Sidebar li:hover {
     background-color: #555;
   }
   

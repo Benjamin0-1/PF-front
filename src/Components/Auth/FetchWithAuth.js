@@ -30,9 +30,8 @@ async function refreshAccessToken() {
 
 
 
-async function FetchWithAuth(url ,options) {
+async function FetchWithAuth(url, options) {
     let accessToken = localStorage.getItem('accessToken');
-
     try {
         const tokenExpiration = localStorage.getItem('accessTokenExpiration');
         const currentTime = new Date().getTime();
@@ -50,9 +49,8 @@ async function FetchWithAuth(url ,options) {
             await refreshAccessToken();
 
             accessToken = localStorage.getItem('accessToken');
-            return FetchWithAuth(url, options); 
+            return FetchWithAuth(url, options);
         }
-
         return response;
     } catch (error) {
         console.error('Error fetching with authentication:', error);
