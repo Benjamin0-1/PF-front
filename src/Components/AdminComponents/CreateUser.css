@@ -1,52 +1,63 @@
 .CreateUser {
-    width: 400px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    margin-top: 1rem;
 }
 
 .CreateUser h1 {
     font-size: 24px;
     margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .CreateUser form {
-    display: grid;
-    gap: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .CreateUser label {
     font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .CreateUser input[type="text"],
 .CreateUser input[type="email"],
 .CreateUser input[type="password"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
+    width: 100%; /* Make all fields the same size */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #dadada;
+    background-color: #dadada;
     border-radius: 3px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    transition: box-shadow 0.15s;
+    outline: none;
 }
 
 .CreateUser input[type="text"]:hover,
 .CreateUser input[type="email"]:hover,
 .CreateUser input[type="password"]:hover {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    width: 100%; /* Make all fields the same size */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .CreateUser button {
-    width: 100%;
-    padding: 10px;
+    padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
 .CreateUser button:hover {
@@ -54,6 +65,10 @@
 }
 
 .CreateUser p {
-    color: red;
-    margin-top: 5px;
+    color: #ff0000;
+    margin-bottom: 10px;
+}
+.UpdateProduct .success {
+    color: #008000;
+    margin-bottom: 10px;
 }

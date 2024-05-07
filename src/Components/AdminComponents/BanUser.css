@@ -1,50 +1,80 @@
 .BanUser {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  margin-top: 1rem;
   }
   
   .BanUser h2 {
-    margin-top: 0;
     margin-bottom: 20px;
-    text-align: center;
+    font-size: 24px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
   }
   
   .BanUser label {
-    display: block;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    font-weight: bold;
   }
   
   .BanUser input[type="text"],
   .BanUser input[type="number"] {
-    width: 100%;
+    width: 100%; /* Make all fields the same size */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #dadada;
+    background-color: #dadada;
+    border-radius: 3px;
+    box-sizing: border-box;
+    transition: box-shadow 0.15s;
+    outline: none;
+  }
+  .BanUser input::placeholder,
+  .BanUser textarea::placeholder{
+    width: 100%; /* Make all fields the same size */
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
-  }
-  
+}
+.containerButton{
+  display: flex;
+  justify-content: center;
+}
   .BanUser button {
-    width: 100%;
-    padding: 10px;
+    padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    
   }
-  
+  .BanUser button:hover {
+    background-color: #0056b3;
+}
   .BanUser button:hover {
     background-color: #0056b3;
   }
-  
+  .BanUser .error {
+    color: #ff0000;
+    margin-bottom: 10px;
+}
+
+.BanUser .success {
+    color: #008000;
+    margin-bottom: 10px;
+}
   .BanUser p {
     margin-top: 10px;
     font-size: 16px;
   }
-  
+  .adminNavBar{
+    margin-top: 3rem;
+ 
+  }

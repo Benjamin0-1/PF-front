@@ -35,9 +35,9 @@ function CreateUser() {
         confirmPassword: '',
     });
 
-    // if (!accessToken) {
-    //     window.location.href = '/login'
-    // };
+    if (!accessToken) {
+        window.location.href = '/login'
+    };
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
@@ -66,52 +66,52 @@ function CreateUser() {
         try {
 
             if (formData.firstName.length < 3) {
-                setNameError('Nombre de usuario debe tener al menos 3 caracteres');
+                setNameError('Username must be at least 3 characters');
                 setGeneralError('');
                 return
             };
 
             if (formData.lastName.length < 3) {
-                setLastNameError('Apellido debe tener al menos 3 caracteres');
+                setLastNameError('Lastname must be at least 3 characters');
                 setNameError('');
                 setGeneralError('');
                 return;
             };
 
             if (formData.username.length < 3) {
-                setUsernameError('Username debe tener al menos 3 caracteres');
+                setUsernameError('Username must be at least 3 characters');
                 setLastNameError('');
                 setGeneralError('');
                 return
             };
 
             if (formData.username !== formData.confirmUsername) {
-                setUsernamesDontMatch('Los nombres de usuario deben ser iguales');
+                setUsernamesDontMatch('Usernames must be the same');
                 setUsernameError('');
                 setGeneralError('');
             };
 
             if (!emailRegex.test(formData.email)) {
-                setInvalidEmailFormat('Formato de email invalido.')
+                setInvalidEmailFormat('Invalid email format.')
                 setUsernameError('');
                 setGeneralError('');
             };
 
             if (formData.email !== formData.confirmEmail) {
-                setEmailsDontMatch('Los emails deben ser iguales');
+                setEmailsDontMatch('The emails must be the same');
                 setUsernamesDontMatch('');
                 setGeneralError('');
             };
 
             // password validation <--
             if (!passwordRegex.test(formData.password)) {
-                setInvalidPassword('Las contraseña debe tener al menos una mayuscula, al menos un numero y 8 caracteres de longitud');
+                setInvalidPassword('Passwords must have at least one capital letter, at least one number and 8 characters long.');
                 setEmailsDontMatch('');
                 setGeneralError('');
             };
 
             if (formData.password !== formData.confirmPassword) {
-                setPasswordsDontMatch('Las contraseña deben ser iguales')
+                setPasswordsDontMatch('Passwords must be the same')
             }
 
             const response = await FetchWithAuth(URL, {

@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import './BanUser.css'; // estilos
 import AdminNavBar from "./AdminNavBar";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -18,9 +20,9 @@ function BanUser() {
     const [detailError, setDetailError] = useState('');
     const [invalidBanError, setInvalidBanError] = useState('');
 
-    // if (!accessToken) {
-    //     window.location.href = '/login'
-    // }
+    if (!accessToken) {
+        window.location.href = '/login'
+    }
 
     useEffect(() => {
         setInvalidBanError('');
@@ -62,7 +64,18 @@ function BanUser() {
             });
 
             if (response.status == 404) {
-                setDetailError(`Usuario con id: ${userId} no existe`);
+                // setDetailError(`Usuario con id: ${userId} no existe`);
+                toast.error(`User with id: ${userId} does not exist`, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    
+                    });
                 return;
             }
 
@@ -73,7 +86,18 @@ function BanUser() {
 
             const data = await response.json();
             if (data.length === 0) {
-                console.log('El usuario no existe');
+                // console.log('El usuario no existe');
+                toast.error('Username does not exist', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    
+                    });
                 return;
             };
 
@@ -81,7 +105,18 @@ function BanUser() {
 
         } catch (error) {
             console.log(`Error: ${error}`);
-            setDetailError('Ha ocurrido un error al obtener los detalles del usuario.');
+            // setDetailError('Ha ocurrido un error al obtener los detalles del usuario.');
+            toast.error('An error occurred while obtaining user details.', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                
+                });
         }
     };
 
@@ -109,13 +144,35 @@ function BanUser() {
             const data = await response.json();
 
             if (data.invalidBan) {
-                setInvalidBanError('No puedes banear a otro admin ni a ti mismo');
+                // setInvalidBanError('No puedes banear a otro admin ni a ti mismo');
+                toast.error('You cannot ban another admin or yourself', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    
+                    });
                 setGeneralError('');
                 return
             };
 
             if (response.status === 404) {
-                setUserIdNotFoundError(`El usuario con id: ${userId} no existe`);
+                // setUserIdNotFoundError(`El usuario con id: ${userId} no existe`);
+                toast.error(`The user with id: ${userId} does not exist`, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    
+                    });
                 setGeneralError('');
                 setSuccessMessage('');
                 setInvalidBanError('')
@@ -123,15 +180,47 @@ function BanUser() {
             };
 
             if (!response.ok) {
-                setGeneralError('Ha ocurrido un error');
+                // setGeneralError('Ha ocurrido un error');
+                toast.error('An error has occurred', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    
+                    });
                 return;
             };
 
-            setSuccessMessage(`Usuario baneado exitosamente por ${banDurationHours} horas.`);
+            // setSuccessMessage(`Usuario baneado exitosamente por ${banDurationHours} horas.`);
+            toast.success(`User successfully banned for ${banDurationHours} hours.` , {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
 
         } catch (error) {
             console.log(`Error: ${error}`);
-            setGeneralError('Ha ocurrido un error.');
+            // setGeneralError('Ha ocurrido un error.');
+            toast.error('An error has occurred', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                
+                });
             setSuccessMessage('');
         } finally {
             setIsLoading(false)
@@ -141,7 +230,6 @@ function BanUser() {
 
     return (
         <div className="BanUser">
-            < AdminNavBar/>
             <br/ >
             <br />
             <h2>Ban User</h2>
@@ -173,14 +261,19 @@ function BanUser() {
                     </div>
                 )}
                 {detailError && <p style={{color: 'red'}}>{detailError}</p>}
-
+                <div className="containerButton">
                 <button type="submit">Ban User</button>
+                </div>
             </form>
             {isLoading && <p>Loading...</p>}
             {invalidBanError && <p style={{color: 'red'}}>{invalidBanError}</p>}
             {userIdNotFoundError && <p style={{ color: 'red' }}>{userIdNotFoundError}</p>}
-            {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+            {/* {generalError && <p style={{ color: 'red' }}>{generalError}</p>} */}
+            {/* {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>} */}
+            <ToastContainer />
+            <div className="adminNavBar">
+            <AdminNavBar/>
+            </div>
         </div>
     );
 
