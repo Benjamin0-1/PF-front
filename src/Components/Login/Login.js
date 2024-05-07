@@ -50,20 +50,20 @@ const Login = () => {
             await dispatch(userLogin(userData))
                 .then(r => {
                     if (r.success) {
-                        return toast.success(`${r.success}, redirecting to the store`);
+                        setErrors("");
+                        toast.success(`${r.success}, redirecting to the store`);
+                        setTimeout(() => {
+                            window.location.href = '/'
+                        }, 2000);
+                        return
                     } else if (r.error) {
-
+                        setUserData({
+                            username: '',
+                            password: '',
+                        })
                         return toast.error(r.error);
                     }
                 })
-            setErrors("");
-            setUserData({
-                username: '',
-                password: '',
-            })
-            setTimeout(() => {
-                window.location.href = '/'
-            }, 2000);
         }
     };
 

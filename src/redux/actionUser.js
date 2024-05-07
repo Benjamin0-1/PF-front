@@ -37,7 +37,6 @@ export function userLogin(credentials) {
                 success: data.message
             })
         } catch (error) {
-            console.log(error);
             return dispatch({
                 type: LOGIN_ERROR_USER,
                 error: error.response.data.message
@@ -50,14 +49,16 @@ export function userSignup(userData) {
     return async (dispatch) => {
         try {
             const response = await axios.post("http://localhost:3001/signup", userData);
+            console.log(response)
             return dispatch({
                 type: SIGNUP_USER,
                 payload: response.data
             })
         } catch (error) {
+            console.log(error)
             return dispatch({
                 type: SIGNUP_ERROR_USER,
-                payload: error.response.data.message
+                error: error.response.data.message
             })
         }
     }

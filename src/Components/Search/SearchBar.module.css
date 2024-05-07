@@ -69,8 +69,8 @@
     overflow-y: scroll;
 }
 .searchBar_results_container>button{
-    justify-self: end;
     align-self: flex-end;
+    padding: 4px;
 }
 .search_results_card {
     width: 90%;

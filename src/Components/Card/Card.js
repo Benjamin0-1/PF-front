@@ -46,7 +46,7 @@ export default function Card({ image, product, price, description, id }) {
                 </div>
                 <div className='card-info-container'>
                     <h2>{ product }</h2>
-                    <h3>{ price }</h3>
+                    <h3>{ price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }</h3>
                     <p>{ description }</p>
                 </div>
             </Link>
