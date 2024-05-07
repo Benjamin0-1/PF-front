@@ -2,25 +2,49 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 80%; /* Limiting width for better alignment */
+    margin: 0 auto; /* Center align the main container */
 }
 
-.OrderContainer {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 20px;
-    transition: transform 0.3s ease; /* Add transition for smooth effect */
+.OrderProducts {
+    padding-left: 20px;
 }
 
-.OrderContainer:hover {
-    transform: translateY(-5px); /* Move the order up by 5px on hover */
-}
-
-.OrderDetails {
+.ProductItem {
+    list-style-type: disc;
     margin-bottom: 10px;
 }
 
-.OrderDetails p {
+.ProductImage {
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: cover !important;
+    border-radius: 5px !important;
+}
+
+
+/* Ensure this is the most specific rule affecting these images */
+
+
+.OrderContainer {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add subtle shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; /* Full width containers */
+    background-color: #fff; /* White background */
+}
+
+.OrderContainer:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* Enhance shadow on hover */
+}
+
+.OrderDetails p, .UserDetails p, .Products p {
     margin: 5px 0;
+    color: #333; /* Dark grey color for text for better readability */
+    font-size: 14px; /* Standardize font size */
 }
 
 .OrderProducts ul {
@@ -29,59 +53,66 @@
 
 .OrderProducts li {
     list-style-type: disc;
-    /* Add styles to make images the same size */
-    width: 100px; /* Adjust the width as needed */
-    height: 100px; /* Adjust the height as needed */
-    overflow: hidden; /* Ensure images don't exceed the specified size */
+    margin-bottom: 10px; /* Add space between list items */
 }
 
 .OrderProducts li img {
-    /* Ensure images fill the container */
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Maintain aspect ratio while filling the container */
+    width: 100px; /* Standardize image width */
+    height: 100px; /* Standardize image height */
+    object-fit: cover; /* Ensure images cover the dimensions without distortion */
+    border-radius: 5px; /* Rounded corners for images */
 }
 
-.FulfillButton {
-    background-color: #4CAF50; /* Green */
+.FulfillButton, .ToggleButton button {
+    background-color: #4CAF50; /* Green background */
     border: none;
     color: white;
     padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    font-size: 14px;
+    border-radius: 5px;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Add transition for smooth effect */
+    transition: background-color 0.2s, transform 0.2s;
 }
 
-.FulfillButton:hover {
+.FulfillButton:hover, .ToggleButton button:hover {
     background-color: #45a049; /* Darker green on hover */
-    transform: scale(1.1); /* Scale up the button on hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
 }
 
-/* Add styles for the toggle button */
 .ToggleButton {
-    margin-top: 20px; /* Add some top margin for spacing */
+    margin-top: 20px;
 }
 
 .ToggleButton button {
-    background-color: #007bff; /* Blue background color */
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Add transition for smooth effect */
+    background-color: #007bff; /* Blue background */
 }
 
 .ToggleButton button:hover {
     background-color: #0056b3; /* Darker blue on hover */
-    transform: translateY(-1.2); /* Move the button up by 3px on hover */
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.pagination button {
+    padding: 8px 16px;
+    margin: 0 5px;
+    background-color: #007bff; /* Blue background for pagination buttons */
+    color: white;
+    border-radius: 4px; /* Rounded corners for buttons */
+    border: none;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.pagination span {
+    font-size: 16px;
+    color: #333; /* Dark grey color for better readability */
 }

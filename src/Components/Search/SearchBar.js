@@ -60,7 +60,7 @@ export default function SearchBar() {
                             </div>
                             <div className={ style.results_info }>
                                 <h3>{ r.product }</h3>
-                                <p>{ r.price }</p>
+                                <p>{ r.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
                             </div>
                         </div>
                     </Link>
