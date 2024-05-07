@@ -17,9 +17,9 @@ function ViewProfile() {
     const [generalError, setGeneralError] = useState('');
     const [isButtonVisible, setIsButtonVisible] = useState('');
 
-    if (!accessToken) {
-        window.location.href = '/login'
-    }
+   if (!accessToken) {
+    window.location.href = '/login'
+   }
 
     const fetchProfile = async () => {
         try {
@@ -28,7 +28,8 @@ function ViewProfile() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
-                }
+                },
+            //    credentials: 'include' // <===
             });
 
             if (!response.ok) {
@@ -56,18 +57,20 @@ function ViewProfile() {
 
     return (
         <div className="ViewProfile">
-            <h2>Profile</h2>
+            <h2 className="card"> <strong>Profile</strong>  </h2>
             <div>
-                <p>First name: {profileInfo.first_name || 'Error mostrando nombre'}</p>
-                <p>Last name: {profileInfo.last_name || 'Error mostrando apellido'}</p>
-                <p>Username: {profileInfo.username}</p>
-                <p>Email: {profileInfo.email}</p>
-                <p>Admin: {profileInfo.is_admin ? 'Yes' : 'No'}</p>
-                <p>Two Factor Authentication: {profileInfo.two_factor_authentication ? 'Enabled' : 'Disabled'}</p>
-                <p>Te uniste en la fecha: {profileInfo.createdAt}</p>
+                <p className="card">First name: {profileInfo.first_name || 'Error mostrando nombre'}</p>
+                <p className="card">Last name: {profileInfo.last_name || 'Error mostrando apellido'}</p>
+                <p className="card">Username: {profileInfo.username}</p>
+                <p className="card">Email: {profileInfo.email}</p>
+                <p className="card">Admin: {profileInfo.is_admin ? 'Yes' : 'No'}</p>
+                <p className="card">Two Factor Authentication: {profileInfo.two_factor_authentication ? 'Enabled' : 'Disabled'}</p>
+                <p className="card">Te uniste en la fecha: {profileInfo.createdAt}</p>
                 <br />
 
                 {isButtonVisible && <button onClick={() => window.location.href='/activate2fa'}> Enable Two-Factor Authentication </button>}
+                <button onClick={() => {window.location.href='/updateprofileinfo'}} >Update profile info</button>
+                <button onClick={() => {window.location.href='/updateprofilepassword'}} style={{marginLeft: '50px'}}>Update password</button>
 
                
             </div>

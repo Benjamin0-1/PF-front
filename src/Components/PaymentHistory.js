@@ -85,6 +85,7 @@ function PaymentHistory() {
 
     return (
         <div className="PaymentHistory">
+            <h1>Total: {userPaymentHistory.length}</h1>
             {generalError && <p>{generalError}</p>}
             {noPaymentsError && <p>{noPaymentsError}</p>}
             {userPaymentHistory.length > 0 && (

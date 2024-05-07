@@ -2,10 +2,6 @@
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .ViewProfile h2 {
@@ -14,33 +10,37 @@
     color: #333;
 }
 
-.ViewProfile .info-container {
-    padding: 20px;
-    background-color: #f7f7f7;
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    transition: transform 0.3s ease;
 }
 
-.ViewProfile .info-container p {
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #666;
+.card-content {
+    padding: 20px;
 }
 
-.ViewProfile .error {
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.error {
     color: #e74c3c;
     font-weight: bold;
     margin-top: 10px;
 }
 
-.ViewProfile .loading {
+.loading {
     text-align: center;
     font-size: 18px;
     color: #999;
     margin-top: 20px;
 }
 
-.ViewProfile .loading::after {
+.loading::after {
     content: "Loading...";
     animation: loading 1s infinite;
 }

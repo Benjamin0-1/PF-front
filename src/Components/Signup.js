@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import './Signup.css';
 
-// agregar: <-- EMAIL ALREADY IN USE ERROR.
-
-const accessToken = localStorage.getItem('accessToken');
-console.log(`signup accesstoken: ${accessToken}`);
-
 function Signup() {
     const [formData, setFormData] = useState({
         firstName: '',
@@ -19,7 +14,6 @@ function Signup() {
     });
     const [generalError, setGeneralError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    // errores especificos.
     const [emailError, setEmailError] = useState('');
     const [passwordsDontMatchError, setPasswordsDontMatchError] = useState('');
     const [passwordTooShortError, setPasswordTooShortError] = useState('');
@@ -27,63 +21,29 @@ function Signup() {
     const [invalidEmailFormat, setInvalidEmailFormat] = useState('');
     const [usernameAlreadyExistsError, setUsernameAlreadyExistsError] = useState('');
     const [accountAlreadyDeletedError, setAccountAlreadyDeletedError] = useState('');
-    const [isLoading, setIsLoading] = useState(false); // <-- it takes time to send the welcome email.
+    const [isLoading, setIsLoading] = useState(false);
+    const [firstNameError, setFirstNameError] = useState('');
+    const [lastNameError, setLastNameError] = useState('');
+    const [invalidUsernameError, setInvalidUsernameError] = useState('');
+    const [emailAlreadyInUse, setEmailAlreadyInUse] = useState('');
 
+    const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
-        window.location.href = '/viewprofile'
+        window.location.href = '/viewprofile';
     }
 
-    const PORT = 3001; // server port.
+    const PORT = 3001;
     const URL = 'http://localhost';
 
     const handleSubmit = async (e) => {
-        
-
         e.preventDefault();
+        setIsLoading(true);
+        clearErrors();
 
-        if (formData.username !== formData.confirmUsername) {
-            setUsernamesDontMatchError('Los nombres de usuario no coinciden');
-            setGeneralError('');
-            return;
-        };
-
-        if (formData.password.length > 8) {
-            setPasswordTooShortError('Constraseña debe contener al menos 8 caracteres');
-            setGeneralError('');
-        }
-
-        if (formData.password !== formData.confirmPassword) {
-            setPasswordsDontMatchError('Las contraseñas no coinciden');
-            setGeneralError('');
+        if (!validateFields()) {
+            setIsLoading(false);
             return;
         }
-        if (formData.email !== formData.confirmEmail) {
-            setEmailError('Los correos electrónicos no coinciden');
-            setGeneralError('');
-            return;
-        }
-
-        // Check email format
-        const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$/;
-        if (!emailRegex.test(formData.email)) {
-            setInvalidEmailFormat('Formato de email invalido');
-            setGeneralError('');
-            return;
-        };
-
-        if (formData.password.length < 8) {
-            setPasswordTooShortError('La contraseña debe contener al menos 8 caracteres');
-            setGeneralError('');
-            setInvalidEmailFormat('');
-            return
-        };
-
-        if (formData.password !== formData.confirmPassword) {
-            setPasswordsDontMatchError('las contraseñas deben ser iguales');
-            setPasswordTooShortError('');
-            setGeneralError('');
-            return;
-        };
 
         try {
             const response = await fetch(`${URL}:${PORT}/signup`, {
@@ -94,27 +54,80 @@ function Signup() {
                 body: JSON.stringify(formData)
             });
 
-            if (response.status == 403) {
-                setAccountAlreadyDeletedError('Tu cuenta ya ha sido eliminada');
-                setGeneralError("");
-                return
-            };
+            const data = await response.json();
+            handleResponse(response.status, data);
+        } catch (error) {
+            console.error('Error:', error);
+            setGeneralError('Ha ocurrido un error');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-            if (!response.ok) {
-                if (response.status === 400) {
-                    const data = await response.json();
-                    if (data.usernameAlreadyExists){
-                        setUsernameAlreadyExistsError('El usuario ya existe.');
-                        setGeneralError('');
-                        return;
-                    }
-                }
-            };
+    const validateFields = () => {
+        let isValid = true;
+        if (formData.firstName.length < 3) {
+            setFirstNameError('Name must be at least 3 characters');
+            isValid = false;
+        }
+        if (formData.lastName.length < 3) {
+            setLastNameError('Last name must have at least 3 characters');
+            isValid = false;
+        }
+        if (formData.username.length < 3) {
+            setInvalidUsernameError('Username must have at least 3 characters');
+            isValid = false;
+        }
+        if (formData.username !== formData.confirmUsername) {
+            setUsernamesDontMatchError('Usernames do not match');
+            isValid = false;
+        }
+        if (formData.password.length < 8) {
+            setPasswordTooShortError('Password must be at least 8 characters long');
+            isValid = false;
+        }
+        if (formData.password !== formData.confirmPassword) {
+            setPasswordsDontMatchError('Passwords do not match');
+            isValid = false;
+        }
+        if (formData.email !== formData.confirmEmail) {
+            setEmailError('Emails do not match');
+            isValid = false;
+        }
+        const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$/;
+        if (!emailRegex.test(formData.email)) {
+            setInvalidEmailFormat('Invalid email format');
+            isValid = false;
+        }
+        return isValid;
+    };
 
-            setIsLoading(true);
+    const clearErrors = () => {
+        setGeneralError('');
+        setFirstNameError('');
+        setLastNameError('');
+        setInvalidUsernameError('');
+        setUsernamesDontMatchError('');
+        setPasswordTooShortError('');
+        setPasswordsDontMatchError('');
+        setEmailError('');
+        setInvalidEmailFormat('');
+        setUsernameAlreadyExistsError('');
+        setAccountAlreadyDeletedError('');
+        setEmailAlreadyInUse('');
+    };
 
-            //limpiar todos los campos luego de un signup exitoso.
+    const handleResponse = (status, data) => {
+        if (status === 403) {
+            setAccountAlreadyDeletedError('Your account has been deleted');
+        } else if (data.emailAlreadyInUse) {
+            setEmailAlreadyInUse('Email is already in use');
+        } else if (data.usernameAlreadyExists) {
+            setUsernameAlreadyExistsError('Username already exists');
+        } else if (status === 201) {
             setFormData({
+                firstName: '',
+                lastName: '',
                 username: '',
                 confirmUsername: '',
                 email: '',
@@ -122,16 +135,7 @@ function Signup() {
                 password: '',
                 confirmPassword: '',
             });
-    
-            
             setSuccessMessage('Registrado con éxito');
-            setGeneralError('');
-        } catch (error) {
-            console.log('Error:', error);
-            setGeneralError('Ha ocurrido un error');
-            setEmailError('');
-        } finally {
-            setIsLoading(false)
         }
     };
 
@@ -143,30 +147,35 @@ function Signup() {
         }));
     };
 
-    return(
+    return (
         <div className="Signup">
             <h2>Sign Up</h2>
             {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
             <form onSubmit={handleSubmit}>
                 {isLoading && <p><strong>Creating account...</strong></p>}
-            <input type="text" name="firstName" placeholder="first name" value={formData.firstName} onChange={handleChange} />
-            <input type="text" name="lastName" placeholder="last name" value={formData.lastName} onChange={handleChange} />
+                <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} />
+                {firstNameError && <p style={{color: 'red'}}>{firstNameError}</p>}
+                <input type="text" name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} />
+                {lastNameError && <p style={{color: 'red'}}>{lastNameError}</p>}
                 <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} />
                 <input type="text" name="confirmUsername" placeholder="Confirm Username" value={formData.confirmUsername} onChange={handleChange} />
-                {usernamesDontMatchError && <p style={{color: 'red'}}> {usernamesDontMatchError} </p>}
+                {invalidUsernameError && <p style={{color: 'red'}}>{invalidUsernameError}</p>}
+                {usernamesDontMatchError && <p style={{color: 'red'}}>{usernamesDontMatchError}</p>}
                 <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
                 <input type="email" name="confirmEmail" placeholder="Confirm Email" value={formData.confirmEmail} onChange={handleChange} />
                 {emailError && <p style={{color: 'red'}}>{emailError}</p>}
+                {invalidEmailFormat && <p style={{color: 'red'}}>{invalidEmailFormat}</p>}
                 <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-                {passwordTooShortError && <p style={{color: 'red'}}>{passwordTooShortError}</p>}
                 <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} />
-                {passwordsDontMatchError && <p style={{color: 'red'}}> {passwordTooShortError} </p>}
+                {passwordTooShortError && <p style={{color: 'red'}}>{passwordTooShortError}</p>}
+                {passwordsDontMatchError && <p style={{color: 'red'}}>{passwordsDontMatchError}</p>}
                 {generalError && <p style={{color: 'red'}}>{generalError}</p>}
                 {usernameAlreadyExistsError && <p style={{color: 'red'}}>{usernameAlreadyExistsError}</p>}
                 {accountAlreadyDeletedError && <p style={{color: 'red'}}>{accountAlreadyDeletedError}</p>}
-                <button type="submit">Sign Up</button>
-                <p style={{ marginTop: '10px', fontSize: '14px' }}>Already have an account? : <a style={{ textDecoration: 'none', color: 'blue' }} href='/login'>Login</a></p>
+                <button type="submit" disabled={isLoading}>Sign Up</button>
+                <p style={{ marginTop: '10px', fontSize: '14px' }}>Already have an account? <a style={{ textDecoration: 'none', color: 'blue' }} href='/login'>Login</a></p>
             </form>
+            
         </div>
     );
 }

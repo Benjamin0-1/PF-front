@@ -45,7 +45,10 @@ import ReportProductByName from './Components/ReportProductByName';
 import AllPendingOrders from './Components/AdminComponents/AllPendingOrders';
 import Active2FA from './Components/AdminComponents/Activate2FA';
 import GrantAdminByUsername from './Components/AdminComponents/GrantAdminByUsername';
-
+import AdvancedFilter from './Components/AdvancedFilter';
+import UpdateProfileInfo from './Components/UpdateProfileInfo';
+import UpdateProfilePassword from './Components/UpdateProfilePassword';
+import GoogleLogin from './Components/GoogleLogin';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -59,6 +62,7 @@ function App() {
   return (
     <Router>
       < Logout/>
+
       <Sidebar isOpen={sidebarOpen} />
 
       <Routes>  
@@ -102,12 +106,21 @@ function App() {
         <Route path='/allpendingorders' element={ < AllPendingOrders /> } />
         <Route path='/activate2fa'  element={< Active2FA />}/>
         <Route path='/grantadminbyusername' element={< GrantAdminByUsername/>} />
-      <Route path='*' element={<h1>404 Not Found</h1>}/> 
-      <Route path='/notadmin'  element={<h1>No eres un admin, no puedes acceder al dashboard</h1>} />
+        <Route path='/updateprofileinfo' element={< UpdateProfileInfo />} />
+        <Route path='/updateprofilepassword' element={< UpdateProfilePassword />} />
+        <Route path='/advancedfilters' element={< AdvancedFilter />} />
+      <Route path='/google' element={< GoogleLogin />} />
+      <Route path='*' element={<h1 style={{marginLeft: '200px'}}>404 Not Found</h1>}/> 
+      <Route path='/notadmin'  element={<h1 style={{marginLeft: '200px'}}> You are not an admin </h1>} />
+      <Route  path='/ordercancelled' element={<h1 style={{marginLeft: '200px'}}>Order has been cancelled</h1>} />
+      <Route path='/errorprocessingorder' element={<h1 style={{marginLeft: '200px'}} >Error processing order</h1>} />
       <Route path='/' element={< Login/>} />
       </Routes>
 
+    
+
     </Router>
+    
   );
   
 }
