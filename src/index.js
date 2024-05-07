@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { Provider } from 'react-redux';
-import store from './Components/redux/store';
+import store from './redux/store';
 
 const PUBLISHABLE_KEY = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 if (!PUBLISHABLE_KEY) {
@@ -15,11 +15,11 @@ if (!PUBLISHABLE_KEY) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={ PUBLISHABLE_KEY }>
-      <Provider store={ store }>
+    <Provider store={ store }>
+      <ClerkProvider publishableKey={ PUBLISHABLE_KEY }>
         <App />
-      </Provider>
-    </ClerkProvider>
+      </ClerkProvider>
+    </Provider>
   </React.StrictMode>
 );
 

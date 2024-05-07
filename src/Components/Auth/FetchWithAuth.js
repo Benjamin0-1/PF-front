@@ -1,3 +1,4 @@
+import axios from "axios";
 
 
 const refreshToken = localStorage.getItem('refreshToken');
@@ -30,29 +31,26 @@ async function refreshAccessToken() {
 
 
 
-async function FetchWithAuth(url ,options) {
+async function FetchWithAuth(url, options) {
     let accessToken = localStorage.getItem('accessToken');
-
     try {
         const tokenExpiration = localStorage.getItem('accessTokenExpiration');
         const currentTime = new Date().getTime();
-
-        const response = await fetch(url, {
+        const response = await axios(url, {
             ...options,
             headers: {
                 ...options.headers,
                 Authorization: `Bearer ${accessToken}`,
             }
         });
-
+        
         if (response.status === 401) {
 
             await refreshAccessToken();
 
             accessToken = localStorage.getItem('accessToken');
-            return FetchWithAuth(url, options); 
+            return FetchWithAuth(url, options);
         }
-
         return response;
     } catch (error) {
         console.error('Error fetching with authentication:', error);

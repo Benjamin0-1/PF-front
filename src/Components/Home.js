@@ -142,9 +142,6 @@ function Home() {
     }, [ currentPage, alphabeticalOrder, sortByPriceDesc, sortByPriceAsc ]);
 
 
-
-
-
     // Pagination function remains unchanged
     const paginate = (array, pageSize) => {
         return array.reduce((acc, item, index) => {
@@ -165,33 +162,11 @@ function Home() {
     const handlePrevPage = () => {
         setCurrentPage(prevPage => prevPage - 1);
     };
-    console.log(products)
-
-
-
-
+    
 
     return (
         <div className="Home">
             <div className="home-sideBar">
-
-                <div className="search-bar">
-                    <input
-                        type="text"
-                        placeholder="Search product"
-                        value={ productToSearch }
-                        onChange={ (e) => setProductToSearch(e.target.value) }
-                    />
-                    <button onClick={ handleSearch }>Search</button>
-                    { noProductSearchError && <p style={ { color: 'red' } }>{ noProductSearchError }</p> }
-                    { foundProduct.length > 0 && (
-                        <div className="found-product">
-                            <h2>{ foundProduct[ 0 ].product }</h2>
-                            <p>{ foundProduct[ 0 ].description }</p>
-                        </div>
-                    ) }
-                </div>
-
                 <div className="toggle-button">
                     <button onClick={ () => setAlphabeticalOrder(!alphabeticalOrder) }>
                         { alphabeticalOrder ? 'normal order' : 'Sort Alphabetically' }

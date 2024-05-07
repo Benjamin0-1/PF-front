@@ -1,8 +1,62 @@
-import { ADD_CART, CLEAR_CART, REMOVE_CART } from "./action-types-products"
+import { ADD_CART, CLEAR_CART, GET_FAVORITES, GET_FAVORITES_ERROR, GET_PRODUCT_ID, LOGIN_ERROR_USER, LOGIN_USER, REMOVE_CART, SIGNUP_ERROR_USER, SIGNUP_USER } from "./action-types-products"
+
 
 const initialProductsState = {
     cart: [],
+    detailProduct: {}
+}
 
+
+const initialUserState = {
+    logged: localStorage.getItem("accessToken") ? true : false,
+    isAdmin: localStorage.getItem("isAdmin") || false,
+    tokens: {
+        accessToken: localStorage.getItem("accessToken") || "",
+        refreshToken: localStorage.getItem("refreshToken") || ""
+    },
+    userProfile: JSON.parse(localStorage.getItem("userInfo")) || {},
+    error: "",
+    success: "",
+    userFavorites: [],
+}
+
+export const reducerUser = (state = initialUserState, action) => {
+    switch (action.type) {
+        case LOGIN_USER:
+            return {
+                ...state,
+                success: action.payload
+            }
+        case LOGIN_ERROR_USER:
+            return {
+                ...state,
+                error: action.error
+            }
+        case SIGNUP_USER:
+            return {
+                ...state,
+                success: action.payload
+            }
+        case SIGNUP_ERROR_USER:
+            return {
+                ...state,
+                error: action.payload
+            }
+        case GET_FAVORITES:
+            return {
+                ...state,
+                userFavorites: action.payload
+            }
+        case GET_FAVORITES_ERROR:
+            return {
+                ...state,
+                error: action.error
+            }
+        default:
+            return {
+                ...state,
+            };
+    }
 }
 
 export const reducerProducts = (state = initialProductsState, action) => {
@@ -54,6 +108,11 @@ export const reducerProducts = (state = initialProductsState, action) => {
             return {
                 ...state,
                 cart: []
+            }
+        case GET_PRODUCT_ID:
+            return {
+                ...state,
+                detailProduct: action.payload
             }
         default:
             return {

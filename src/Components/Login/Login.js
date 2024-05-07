@@ -1,147 +1,83 @@
-import React, { useState } from "react";
-import './Login.css';
-import { SignIn } from "@clerk/clerk-react";
+import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useState } from "react";
+import Form from "../Form/Form";
+import { useDispatch, useSelector } from "react-redux"
+import { validateLogin } from "../../hooks/useValidate";
+import { useNavigate } from "react-router-dom";
+import { userLogin } from "../../redux/actionUser";
 
-const accessToken = localStorage.getItem('accessToken');
 
-function Login() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [otp, setOtp] = useState('');
-    const [generalError, setGeneralError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const [accountDeleted, setAccountDeleted] = useState('');
-    const [notFound, setNotFound] = useState('');
-    const [invalidCredentials, setInvalidCredentials] = useState('');
-    const [showOTP, setShowOTP] = useState(false);
-    const [otpVerified, setOtpVerified] = useState(false);
-    const [otpSubmitted, setOtpSubmitted] = useState(false); 
+const Login = () => {
+    const dispatch = useDispatch();
+    const [ userData, setUserData ] = useState({
+        username: '',
+        password: '',
+    });
+    const [ errors, setErrors ] = useState({});
+    const [ message, setMessage ] = useState({
+        success: "",
+        error: ""
+    });
+    const accessToken = useSelector(state => state.user.tokens.accessToken);
+    const success = useSelector(state => state.user.success);
 
-    if (accessToken) {
-        window.location.href = '/viewprofile';
+    useEffect(() => {
+        if (accessToken.length) {
+            window.location.href = '/viewprofile'
+        }
+    }, [ accessToken ]);
+
+    const handleChange = (event, key) => {
+        event.preventDefault();
+        const newValue = event.target.value;
+        let newUserData = { ...userData, [ key ]: newValue };
+        setUserData(newUserData);
+        const newError = validateLogin(newUserData);
+        setErrors(prevErrors => ({ ...prevErrors, [ key ]: newError[ key ] }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (Object.values(userData).some(value => !value)) {
+            toast.warn('Please, complete all fields.');
+            return;
+        }
 
-        try {
-            const response = await fetch('http://localhost:3001/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password, otp })
-            });
+        const validationErrors = validateLogin(userData);
+        if (Object.keys(validationErrors).length === 0) {
+            await dispatch(userLogin(userData))
+                .then(r => {
+                    if (r.success) {
+                        return toast.success(`${r.success}, redirecting to the store`);
+                    } else if (r.error) {
 
-            const data = await response.json();
-
-            if (data.userHasBeenDeleted) {
-                setAccountDeleted('Tu cuenta ya ha sido eliminada');
-                setGeneralError('');
-                return;
-            };
-
-            if (data.invalidCredentials) {
-                setInvalidCredentials('Credenciales invalidos');
-                setGeneralError('');
-                return;
-            }
-
-            if (response.status === 404) {
-                setNotFound('Usuario no encontrado');
-                setAccountDeleted('');
-                setGeneralError('');
-                return;
-            };
-
-            if (response.status === 200) {
-                localStorage.setItem('accessToken', data.accessToken);
-                localStorage.setItem('refreshToken', data.refreshToken);
-                setSuccessMessage('Login successful');
-                setGeneralError('');
-                window.location.href = '/home'
-            }
-
-            if (response.status === 401 && data.invalidOtp) {
-                setShowOTP(true)
-                setGeneralError('Invalid OTP');
-            };
-
-        } catch (error) {
-            setGeneralError('Login failed. Please try again later.');
-            console.error('Error:', error);
-            setSuccessMessage('');
-        } 
-    };
-
-    const handleOTPSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await fetch('http://localhost:3001/verify', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ otp })
-            });
-
-            const data = await response.json();
-
-            if (data.verified) {
-                setOtpVerified(true);
-                localStorage.setItem('accessToken', data.accessToken);
-                localStorage.setItem('refreshToken', data.refreshToken);
-                setSuccessMessage('OTP verification successful');
-                setGeneralError('');
-                window.location.href = '/home'; // Redirect to home page after successful OTP verification
-            } else {
-                setGeneralError('OTP verification failed');
-                setSuccessMessage('');
-            }
-        } catch (error) {
-            setGeneralError('OTP verification failed. Please try again later.');
-            console.error('Error:', error);
-            setSuccessMessage('');
-        } finally {
-            setOtpSubmitted(true)
+                        return toast.error(r.error);
+                    }
+                })
+            setErrors("");
+            setUserData({
+                username: '',
+                password: '',
+            })
+            setTimeout(() => {
+                window.location.href = '/'
+            }, 2000);
         }
     };
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className="LoginForm"> 
-                <label htmlFor="username">Username:</label>
-                <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <label htmlFor="password">Password:</label>
-                <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-
-                {showOTP && (
-                <div>
-                    <p style={{ color: 'blue' }}>You have enabled OTP. Please enter the code:</p>
-                    <input type="text" id="otp" value={otp} onChange={(e) => setOtp(e.target.value)} />
-                    {otpSubmitted && generalError && !successMessage && <p style={{ color: 'red' }}>{generalError}</p>}
-                    <button type="submit" onClick={() => setOtpSubmitted(true)}>Submit OTP</button>
-                </div>
-            )}
-
-
-                
-                {generalError && !showOTP && <p style={{ color: 'red' }}>{generalError}</p>}
-                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-                {accountDeleted && <p style={{ color: 'red' }}>{accountDeleted}</p>}
-                {notFound && <p style={{ color: 'red' }}>{notFound}</p>}
-                {invalidCredentials && <p style={{color: 'red'}}>{invalidCredentials}</p>}
-                <br />
-                <button type="submit">Login</button>
-                <p style={{ marginTop: '10px', fontSize: '14px' }}>Forgot password: <a style={{ textDecoration: 'none', color: 'blue' }} href='/passwordrecovery'>Reset password</a></p>
-                <p style={{ marginTop: '10px', fontSize: '14px' }}>or create an account: <a style={{ textDecoration: 'none', color: 'blue' }} href='/signup'>Signup</a></p>
-            </form>
-            {/* <SignIn /> */}
+            <Form
+                formName="Sign In"
+                userData={ userData }
+                errors={ errors }
+                handleChange={ handleChange }
+                handleSubmit={ handleSubmit }
+            />
         </div>
     );
-    
-    
 }
 
 export default Login;

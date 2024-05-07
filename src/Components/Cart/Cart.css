@@ -1,18 +1,21 @@
 .cart {
-  background: #000;
+  background: var(--color-white-gray);
   display: none;
   padding: 32px;
   position: fixed;
   right: 0px;
   top: 0px;
-  width: 200px;
+  width: 30%;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  z-index: 1000;
 }
 
 .cart ul {
   width: 100%;
-  height: 60%;
+  height: 100%;
   overflow-y: scroll;
   margin-top: 24px;
+  color: var(--color-black);
 }
 
 .cart img {
@@ -25,7 +28,6 @@
   flex-wrap: wrap;
   border-bottom: 1px solid #444;
   padding-bottom: 16px;
-  color: white;
 }
 
 .cart footer {
@@ -41,33 +43,38 @@
 
 .cart-button {
   position: relative;
-  align-items: center;
   border-radius: 50%;
-  background: #09f;
+  align-items: center;
+  background: var(--color-light-blue);
   cursor: pointer;
   display: flex;
   justify-content: center;
-  padding: 4px;
   right: 8px;
   top: 8px;
   transition: all .3s ease;
-  height: 32px;
-  width: 32px;
+  height: 100%;
+  width: 100%;
 }
-.cart-button>p{
-  color: beige;
+
+.cart-button>p {
+  background-color: var(--color-light-blue);
+  width: 18px;
+  height: 18px;
+  color: var(--color-black);
   font-size: 16px;
   position: absolute;
-  bottom: 22px;
-  left: 22px;
+  bottom: 80%;
+  left: 60%;
   border-radius: 9999px;
   text-align: center;
 }
-.cart-button>img{
+
+.cart-button>img {
   width: 70%;
   height: 70%;
 }
-.cart-close-button{
+
+.cart-close-button {
   background: #09f;
   border-radius: 9999px;
   cursor: pointer;
@@ -81,12 +88,12 @@
   align-self: flex-end;
 }
 
-.cart-close-button:hover{
+.cart-close-button:hover,
+.cart-button:hover, .cart-button>p{
   scale: 1.1;
+  background: var(--color-blue);
 }
-.cart-button:hover {
-  scale: 1.1;
-}
+
 
 .cart-button~input:checked~.cart {
   height: 100%;

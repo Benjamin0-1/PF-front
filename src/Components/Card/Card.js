@@ -1,26 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import "./Card.css"
-import {useDispatch} from "react-redux"
-import { addProductCart } from '../redux/actionProducts'
+import { useDispatch, useSelector } from "react-redux"
+import { addProductCart } from '../../redux/actionProducts'
+import heartEmpty from "../../assets/heartEmpty.png"
+import heartFull from "../../assets/heartFull.png"
+import cartIconEmpty from "../../assets/cartIconEmpty.png"
+import { addFavorites, removeFavorites, userFavorites } from '../../redux/actionUser'
 
-export default function Card({image, product, price, description, id}) {
+export default function Card({ image, product, price, description, id }) {
     const dispatch = useDispatch()
+    const favorites = useSelector(state => state.user.userFavorites);
+    const [ isFavorite, setIsFavorite ] = useState(false);
+    useEffect(() => {
+        dispatch(userFavorites())
+    }, [ dispatch, favorites ]);
+    useEffect(() => {
+        if (favorites) {
+            const favoriteProduct = favorites.find(favorite => favorite.productId === id);
+            setIsFavorite(!!favoriteProduct);
+        }
+    }, [ favorites, id ]);
+    const handleFavorite = () => {
+        if (isFavorite) {
+            dispatch(removeFavorites(id))
+        } else {
+            dispatch(addFavorites(id))
+        }
+    }
     return (
-        <Link className='card'>
-            <div className='card-container'>
+        <div className='card-container'>
+            <button onClick={ handleFavorite } className={ `like-button ${isFavorite ? 'favorite' : ''}` }><img src={ heartFull } alt="" /></button>
+            <Link to={ `/detail/${id}` } className='card'>
                 <div className='card-image-container'>
-                    <img className='card-image' src={image} alt="" />
+                    <img className='card-image' src={ image } alt="" />
                 </div>
                 <div className='card-info-container'>
-                    <h1>{product}</h1>
-                    <h3>{price}</h3>
+                    <h2>{ product }</h2>
+                    <h3>{ price }</h3>
+                    <p>{ description }</p>
                 </div>
-                <div className='card-info-detail'>
-                    <p>{description}</p>
-                </div>
-                <button onClick={()=> dispatch(addProductCart({image,product,price,description, id}))}>ADD CART</button>
-            </div>
-        </Link>
+            </Link>
+            <button className='add-cart' onClick={ () => dispatch(addProductCart({ image, product, price, description, id })) }><p>Add to <span><img src={ cartIconEmpty } alt="" /></span></p></button>
+        </div>
     )
 }

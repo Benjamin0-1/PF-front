@@ -1,9 +1,12 @@
 .navBar {
     width: 100%;
-    height: 120px;
+    height: 96px;
     display: flex;
     flex-direction: column;
-    background-color: #ededed;
+    background-color: var(--color-white-primary);
+    box-shadow: 0 1px 1px #0000003d, 0 4px 4px #0000001f;
+    position: relative;
+    padding-top: 24px;
 }
 
 .navBar_nav_container {
@@ -36,12 +39,23 @@
     justify-content: center;
     gap: 8PX;
 }
+.navBar_nav_container>a{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--color-black);
+}
+.navBar_nav_container a>img {
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+}
+
 
 .icons_cart_container {
-    width: 50px;
-    height: 50px;
+    width: 64px;
+    height: 64px;
     background-color: var(--light-blue);
-    position: relative;
     padding: 10px;
     display: flex;
     justify-content: center;
@@ -69,26 +83,16 @@
     justify-content: center;
 }
 
-.profile_links_container {
-    display: flex;
-    justify-content: center;
-}
+.profile_links_container {}
 
-p {
+.search_profile_container>p {
     font-weight: bold;
 }
-a{
-    color: black;
-}
-a:hover {
-    color: #009acc;
-}
-span {
+
+.search_profile_container>p>span {
     font-weight: normal;
 }
-hr {
-    height: 100%;
-}
+
 .icon_container {
     width: 100%;
     display: flex;
@@ -99,4 +103,57 @@ hr {
     width: 60px;
     height: 60px;
     border-radius: 50%;
+}
+
+.account {
+    width: 20%;
+    display: none;
+    top: 100%;
+    background-color: var(--color-white-principal);
+    position: absolute;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    z-index: 1000;
+}
+
+
+.account_menu {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.account_menu a,
+.account_menu p {
+    margin-top: 8px;
+    padding: 16px;
+    font-size: normal;
+    color: var(--color-black);
+    cursor: pointer;
+}
+
+.account_menu a:hover,
+.account_menu p:hover {
+    background-color: var(--color-white-gray);
+    font-weight: bold;
+}
+
+.account_menu>hr {
+    width: 80%;
+    margin-top: 16px;
+    align-self: center;
+}
+
+.account_button>img {
+    width: 24px;
+}
+
+.account_button {
+    font-weight: bolder;
+    display: flex;
+}
+
+.account_button~input:checked~.account {
+    max-height: 300px;
+    display: flex;
 }
