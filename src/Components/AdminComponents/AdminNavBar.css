@@ -6,6 +6,7 @@
     flex-direction: column; /* Display links vertically */
     align-items: center; /* Align links horizontally */
     border-radius: 10px; /* Rounded corners */
+    margin:2rem;
 }
 
 .nav-link {

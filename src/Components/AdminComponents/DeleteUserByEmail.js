@@ -13,9 +13,9 @@ function DeleteUserByEmail() {
     // email not found
     // loading.
 
-    if (!accessToken) {
+    /* if (!accessToken) {
         window.location.href = '/login'
-    };
+    }; */
 
     useEffect(() => {
         const checkIsAdmin = async () => {
@@ -74,24 +74,29 @@ function DeleteUserByEmail() {
     return (
         <div className="DeleteUserByEmail">
             
-            <br/>
+            
             <h2>Delete User By Email</h2>
+
             <input 
                 type="text" 
                 placeholder="Email" 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
             />
-            <button onClick={handleDelete}>Delete User</button>
-            {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-            {invalidEmailFormat &&<p style={{color: 'red'}}>{invalidEmailFormat}</p>}
+            
+            <div className="error">
+              {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
+              {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+              {invalidEmailFormat &&<p style={{color: 'red'}}>{invalidEmailFormat}</p>}
+            </div>
 
-            <br />
-            <br/>
+            <button onClick={handleDelete}>Delete User</button>
+            
+
             < AdminNavBar/>
-           <br />
+           
         </div>
+        
     );
 }
 

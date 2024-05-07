@@ -8,7 +8,7 @@ const accessToken = localStorage.getItem('accessToken');
 function AdminDashboard() {
 
 
-    if (!accessToken) {
+     /* if (!accessToken) {
         window.location.href = '/login'
     };
 
@@ -33,11 +33,11 @@ function AdminDashboard() {
     
         checkIsAdmin();
       }, []);
+      */
 
     return (
         <div className="AdminDashboard">
-            <h1 style={{ textAlign: 'center' }}>Admin dashboard</h1>
-            < AdminNavBar/>
+            <AdminNavBar/>
         </div>
     )
 };
