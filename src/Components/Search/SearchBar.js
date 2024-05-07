@@ -26,9 +26,10 @@ export default function SearchBar() {
             dispatch(serachProduct(name))
             setResultsOpen(true)
             return
+        } else if (!name.length) {
+            setResultsOpen(false)
+            return
         }
-        setResultsOpen(false)
-        return
     }, [ dispatch, name, resultsSearch ]);
 
     const handleCloseResults = () => {
@@ -47,12 +48,12 @@ export default function SearchBar() {
                     label="Search"
                     onChange={ handleInputChange }
                 />
-                <div className={style.searchBar_button} type="submit" ><img src={searchIcon} alt="" /></div>
+                <div className={ style.searchBar_button } type="submit" ><img src={ searchIcon } alt="" /></div>
             </form>
             <div className={ `${style.searchBar_results_container} ${resultsOpen && style.results_open}` }>
                 <button onClick={ handleCloseResults }>X</button>
                 { resultsSearch?.length ? resultsSearch.map(r => (
-                    <Link key={r.id} to={ `/detail/${r.id}` }>
+                    <Link key={ r.id } to={ `/detail/${r.id}` }>
                         <div className={ style.search_results_card }>
                             <div className={ style.results_image }>
                                 <img src={ r.image } alt={ r.id } />
