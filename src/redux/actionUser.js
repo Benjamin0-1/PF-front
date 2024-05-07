@@ -1,5 +1,5 @@
 import axios from "axios"
-import { GET_FAVORITES, GET_FAVORITES_ERROR, LOGIN_ERROR_USER, LOGIN_USER, SIGNUP_ERROR_USER, SIGNUP_USER } from "./action-types-products"
+import { ADD_FAVORITES, GET_FAVORITES, GET_FAVORITES_ERROR, LOGIN_ERROR_USER, LOGIN_USER, SIGNUP_ERROR_USER, SIGNUP_USER } from "./action-types-products"
 import FetchWithAuth from "../Components/Auth/FetchWithAuth";
 
 
@@ -37,7 +37,6 @@ export function userLogin(credentials) {
                 success: data.message
             })
         } catch (error) {
-            console.log(error);
             return dispatch({
                 type: LOGIN_ERROR_USER,
                 error: error.response.data.message
@@ -50,14 +49,16 @@ export function userSignup(userData) {
     return async (dispatch) => {
         try {
             const response = await axios.post("http://localhost:3001/signup", userData);
+            console.log(response)
             return dispatch({
                 type: SIGNUP_USER,
                 payload: response.data
             })
         } catch (error) {
+            console.log(error)
             return dispatch({
                 type: SIGNUP_ERROR_USER,
-                payload: error.response.data.message
+                error: error.response.data.message
             })
         }
     }
@@ -70,6 +71,7 @@ export function userFavorites() {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             })
             if (status === 404) {
@@ -94,34 +96,32 @@ export function userFavorites() {
 
 export function addFavorites(id) {
     return async (dispatch) => {
-        const accessToken = localStorage.getItem("accessToken");
-        try {
-            const response = await FetchWithAuth('http://localhost:3001/products/user/favorites', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
-                data: JSON.stringify({productId: id})
-            });
-        } catch (error) {
-            console.error(error);
-        }
+
+        const response = await FetchWithAuth('http://localhost:3001/products/user/favorites', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({ productId: id })
+        });
+        return dispatch({
+            type: ADD_FAVORITES,
+            payload: response
+        })
+
     }
 }
 export function removeFavorites(id) {
     return async (dispatch) => {
         const accessToken = localStorage.getItem("accessToken");
-        try {
-                const response = await FetchWithAuth(`http://localhost:3001/delete-favorite/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
-            });
-        } catch (error) {
-            console.error(error);
-        }
+        const response = await FetchWithAuth("http://localhost:3001/products/user/favorites", {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            data: JSON.stringify({ productId: id })
+        });
+        return
     }
 }

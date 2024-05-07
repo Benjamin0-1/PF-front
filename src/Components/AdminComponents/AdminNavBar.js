@@ -20,10 +20,7 @@ function AdminNavBar() {
             <Link to='/reportedproducts' className="nav-link">See all reported products</Link>
             <Link to='/emailnewsletter' className="nav-link">Email newsletter users</Link>
             <Link to='/allpendingorders' className="nav-link">All pending orders</Link>
-            <Link to='/grantadminbyusername' className="nav-link">Grant Admin</Link>
-
-
-            
+            <Link to='/grantadminbyusername' className="nav-link">Grant Admin</Link>            
         </div>
 
     );

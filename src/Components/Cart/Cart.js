@@ -7,11 +7,11 @@ const Cart = (product) => {
     const cartProducts = useSelector(state => state.products.cart);
     const dispatch = useDispatch();
     const cartCheckboxId = useId();
-    
+
     return (
         <>
             <label className='cart-button' htmlFor={ cartCheckboxId }>
-                <img src={cartIconEmpty} alt="" />
+                <img src={ cartIconEmpty } alt="" />
                 <p>{ cartProducts.length }</p>
             </label>
             <input id={ cartCheckboxId } type='checkbox' hidden />
@@ -22,19 +22,26 @@ const Cart = (product) => {
                 <input id={ cartCheckboxId } type='checkbox' hidden />
                 <ul>
                     { cartProducts.map((p, i) => (
-                        <li key={ i }>
+                        <li className='cart-product-wrapper' key={ i }>
                             <img src={ p.image } alt={ p.product } />
                             <div className='card-product'>
-                                <p >{ p.product }</p>
+                                <h3 >{ p.product }</h3>
+                                <p>{ p.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }</p>
+                                <div className='cart-product-quantity'>
+                                    <p>Quantity: { p.quantity }</p>
+                                    <button onClick={ () => dispatch(removeCart(p)) }>-</button>
+                                    <button onClick={ () => dispatch(addProductCart(p)) }>+</button>
+                                </div>
                             </div>
-                            <footer>
-                                <p>Quantity: { p.quantity }</p>
-                                <button onClick={ () => dispatch(removeCart(p)) }>-</button>
-                                <button onClick={ () => dispatch(addProductCart(p)) }>+</button>
-                            </footer>
                         </li>
                     )) }
                 </ul>
+                <div className='total-price'>
+                    <p>Total: <span>{
+                        cartProducts.reduce((total, p) => total + (p.price * p.quantity), 0)
+                            .toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                    }</span></p>
+                </div>
                 <button onClick={ () => dispatch(clearCart()) }>
                     Clear
                 </button>

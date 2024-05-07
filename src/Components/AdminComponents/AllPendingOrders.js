@@ -10,21 +10,21 @@ function AllPendingOrders() {
     const [allPendingOrders, setAllPendingOrders] = useState([]);
     const [noOrdersFound, setNoOrdersFound] = useState('');
     const [page, setPage] = useState(1);
-    const ordersPerPage = 2;
     const [totalCount, setTotalCount] = useState(0);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = Math.ceil(totalCount / ordersPerPage); 
     const [sortByAsc, setSortByAsc] = useState(true);
     const [orderAlreadyFulfilledError, setOrderAlreadyFulfilledError] = useState('');
 
     const [orderFulfilledMessage, setOderFulfilledMessage] = useState('');
     const [errorFulfillingOrder, setErrorFulfillingOrder] = useState('');
 
-    // prevent access.
+    const ordersPerPage = 2;
+    const totalPages = Math.ceil(totalCount / ordersPerPage);
+
     if (!accessToken) {
-        window.location.href = '/login'
-    };
+        window.location.href = '/login';
+    }
 
     useEffect(() => {
         const checkIsAdmin = async () => {
@@ -48,12 +48,8 @@ function AllPendingOrders() {
         checkIsAdmin();
     }, []);
 
-    // search order by id.
-    const handleSearch = async () => {};
-
-
-    // fulfill
-    const handleFulfill = async (orderId) => {
+     // fulfill
+     const handleFulfill = async (orderId) => {
         try {
             const response = await FetchWithAuth('http://localhost:3001/orders/fulfill', {
                 method: 'PUT',
@@ -86,10 +82,9 @@ function AllPendingOrders() {
             setOderFulfilledMessage('');
         }
     };
-    
-    
-    
-    
+
+    // search order by id.
+    const handleSearch = async () => {};
 
     const fetchPendingOrders = async () => {
         try {
@@ -100,61 +95,50 @@ function AllPendingOrders() {
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
-    
+
             if (!response.ok) {
-                setNoOrdersFound('No se han encontrado ordenes pendientes');
-                setGeneralError('');
+                setGeneralError('Error fetching orders');
                 return;
             }
-    
+
             const data = await response.json();
-            if (data.allPendingOrders.length === 0) {
-                setNoOrdersFound('No se han encontrado ordenes pendientes');
-                setAllPendingOrders([]);
-                setGeneralError('');
-                return;
-            }
-    
-            setAllPendingOrders(data.allPendingOrders);
-            setTotalCount(data.totalCount);
-            const paginatedOrders = paginate(data.allPendingOrders, ordersPerPage);
+            setTotalCount(data.allPendingOrders.length);
+            setAllPendingOrders(paginate(data.allPendingOrders, ordersPerPage));
             setGeneralError('');
             setNoOrdersFound('');
         } catch (error) {
             console.error(`Error fetching pending orders: ${error}`);
-            setGeneralError('Error mostrando ordenes');
-            setNoOrdersFound('');
+            setGeneralError('Error showing orders');
         }
     };
-    
+
     useEffect(() => {
         fetchPendingOrders();
-    }, [accessToken, currentPage, sortByAsc]);// <-- agregar acessToken soluciona bug en donde no se ve nada.
-
-  
+    }, [accessToken, currentPage, sortByAsc, totalPages]);
 
     const paginate = (array, pageSize) => {
-        return array.reduce((acc, item, index) => {
-            const pageIndex = Math.floor(index / pageSize);
-            if (!acc[pageIndex]) {
-                acc[pageIndex] = [];
-            }
-            acc[pageIndex].push(item);
-            return acc;
-        }, []);
+        const startIndex = (currentPage - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        return array.slice(startIndex, endIndex);
     };
 
     const handleNextPage = () => {
-        setCurrentPage(prevPage => prevPage + 1);
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
     };
 
     const handlePrevPage = () => {
-        setCurrentPage(prevPage => prevPage - 1);
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
     };
 
     const handleSortToggle = () => {
-        setSortByAsc(prevState => !prevState); // Toggle sorting order
+        setSortByAsc(prevState => !prevState);
+        setCurrentPage(1); // Reset to first page on sort order change
     };
+
 
 
     return (
@@ -178,6 +162,14 @@ function AllPendingOrders() {
                     {sortByAsc ? 'Sort by Price Ascending' : 'Sort by Price Descending'}
                 </button>
             </div>
+
+
+            <div className="pagination">
+                <button disabled={currentPage === 1} onClick={handlePrevPage}>Previous</button>
+                <span>Page {currentPage} of {totalPages}</span>
+                <button disabled={currentPage === totalPages} onClick={handleNextPage}>Next</button>
+            </div>
+
 
             
 
@@ -207,7 +199,7 @@ function AllPendingOrders() {
                     <p>Updated At: {order.User.updatedAt}</p>
 
                     <h2>Products</h2>
-                    <ul>
+                    <ul className="OrderProducts">
                         {order.Products.map(product => (
                             <li key={product.id}>
                                 <p>Product ID: {product.id}</p>
@@ -220,7 +212,7 @@ function AllPendingOrders() {
 
                                 <p>Featured: {product.featured ? 'Yes' : 'No'}</p>
                                 <p>User ID: {product.userId}</p>
-                                <p>Image: <img src={product.image} alt={product.product} /></p>
+                                <img src={product.image} alt={product.product} className="ProductImage" />
                                 <p>Created At: {product.createdAt}</p>
                                 <p>Updated At: {product.updatedAt}</p>
                                 <button onClick={() => handleFulfill(order.id)} className="FulfillButton">Fulfill Order</button>
@@ -234,11 +226,14 @@ function AllPendingOrders() {
                 </div>
             ))}
 
-            <div className="pagination">
+
+        <div className="pagination">
                 <button disabled={currentPage === 1} onClick={handlePrevPage}>Previous</button>
                 <span>Page {currentPage} of {totalPages}</span>
                 <button disabled={currentPage === totalPages} onClick={handleNextPage}>Next</button>
             </div>
+
+         
         </div>
     );
 };

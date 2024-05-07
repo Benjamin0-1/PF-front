@@ -4,6 +4,7 @@ import { Chart as ChartJS } from "chart.js/auto";
 import AdminDashboard from "./AdminDashboard";
 
 import FetchWithAuth from "../Auth/FetchWithAuth";
+import "./visualChart.css"
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -14,10 +15,10 @@ const VisualChart = () => {
 
 
 
-    if (!accessToken) {
+     /* if (!accessToken) {
         window.location.href = '/login'
     };
-
+ */
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
@@ -68,10 +69,11 @@ const VisualChart = () => {
     };
   
     return (
-        <div style={{ width: "1400px", height: "500px", marginLeft: "250px" }}>
-            <br />
-          <Bar data={data} />
-          <br />
+        <div className="container">
+          <h2>Visual Chart</h2>
+          <div className="chartContainer">            
+            <Bar data={data} />                 
+          </div>
           <AdminDashboard />
         </div>
       );

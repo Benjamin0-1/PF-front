@@ -3,7 +3,7 @@ import FetchWithAuth from "../Auth/FetchWithAuth"; // <-- verifica el importe, a
 import './CreateBrand.css'; // estilos.
 import AdminNavBar from "./AdminNavBar";
 
-const accessToken = localStorage.getItem('accessToken'); // <-- verifica el importe, aqui funciona.
+  const accessToken = localStorage.getItem('accessToken'); // <-- verifica el importe, aqui funciona.
 
 const PORT = process.env.PORT || 3001; // <-- esto funciona en localhost y heroku.
 let URL  = `https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/brand`;

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADD_CART, CLEAR_CART, GET_PRODUCT_ID, REMOVE_CART } from "./action-types-products"
+import { ADD_CART, CLEAR_CART, GET_PRODUCT_ID, REMOVE_CART, SEARCH_PRODUCT, SEARCH_PRODUCT_ERROR } from "./action-types-products"
 
 export function addProductCart(product) {
     return async (dispatch) => {
@@ -33,13 +33,32 @@ export function clearCart() {
 export function getProductById(id) {
     return async (dispatch) => {
         try {
-            const {data} = await axios.get(`http://localhost:3001/product-detail/${id}`);
+            const { data } = await axios.get(`http://localhost:3001/product-detail/${id}`);
             return dispatch({
                 type: GET_PRODUCT_ID,
                 payload: data
             })
         } catch (error) {
 
+        }
+    }
+}
+
+export function serachProduct(name) {
+    return async (dispatch) => {
+        try {
+
+            const {data} = await axios.get(`http://localhost:3001/searchproduct/${name}`);
+        
+            return dispatch({
+                type: SEARCH_PRODUCT,
+                payload: data
+            })
+        } catch (error) {
+            return dispatch({
+                type: SEARCH_PRODUCT_ERROR,
+                error: error.response
+            })
         }
     }
 }

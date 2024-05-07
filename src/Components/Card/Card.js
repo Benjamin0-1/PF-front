@@ -12,20 +12,29 @@ export default function Card({ image, product, price, description, id }) {
     const dispatch = useDispatch()
     const favorites = useSelector(state => state.user.userFavorites);
     const [ isFavorite, setIsFavorite ] = useState(false);
+
     useEffect(() => {
         dispatch(userFavorites())
-    }, [ dispatch, favorites ]);
+        console.log(favorites);
+    }, [isFavorite]);
+
     useEffect(() => {
-        if (favorites) {
+        if (favorites.length) {
             const favoriteProduct = favorites.find(favorite => favorite.productId === id);
             setIsFavorite(!!favoriteProduct);
+            return
         }
-    }, [ favorites, id ]);
+        dispatch(userFavorites())
+        return
+    }, [ favorites, id, dispatch]);
+
     const handleFavorite = () => {
         if (isFavorite) {
             dispatch(removeFavorites(id))
+            setIsFavorite(false)
         } else {
             dispatch(addFavorites(id))
+            setIsFavorite(true)
         }
     }
     return (
@@ -37,7 +46,7 @@ export default function Card({ image, product, price, description, id }) {
                 </div>
                 <div className='card-info-container'>
                     <h2>{ product }</h2>
-                    <h3>{ price }</h3>
+                    <h3>{ price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }</h3>
                     <p>{ description }</p>
                 </div>
             </Link>

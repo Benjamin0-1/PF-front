@@ -49,25 +49,31 @@ const Register = () => {
         }
 
         const validationErrors = validateRegister(userData);
-        console.log(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
 
-            await dispatch(userSignup(userData));
-            if (error || errors) {
-               return toast.error(message);
-            }
-            toast.success(message);
-            // setUserData({
-            //     firstName: '',
-            //     lastName: '',
-            //     username: '',
-            //     confirmUsername: "",
-            //     email: '',
-            //     confirmEmail: "",
-            //     password: '',
-            //     confirmPassword: '',
-            // });
+            await dispatch(userSignup(userData))
+                .then(r => {
+                    console.log(r)
+                    if (r.error) {
+                        return toast.error(message);
+                    }
+                    setUserData({
+                        firstName: '',
+                        lastName: '',
+                        username: '',
+                        confirmUsername: "",
+                        email: '',
+                        confirmEmail: "",
+                        password: '',
+                        confirmPassword: '',
+                    });
+                    setTimeout(() => {
+                        window.location.href = '/login'
+                    }, 2000);
+                    toast.success(r.payload);
+                    return
+                })
 
 
 
