@@ -18,9 +18,9 @@ function BanUser() {
     const [detailError, setDetailError] = useState('');
     const [invalidBanError, setInvalidBanError] = useState('');
 
-    if (!accessToken) {
-        window.location.href = '/login'
-    }
+    // if (!accessToken) {
+    //     window.location.href = '/login'
+    // }
 
     useEffect(() => {
         setInvalidBanError('');

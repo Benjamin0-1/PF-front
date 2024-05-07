@@ -13,9 +13,9 @@ function Active2FA() {
     const [responseData, setResponseData] = useState(null);
 
     // prevent access
-    if (!accessToken) {
-        window.location.href = '/login'
-    };
+    // if (!accessToken) {
+    //     window.location.href = '/login'
+    // };
 
     useEffect(() => {
         const checkIsAdmin = async () => {

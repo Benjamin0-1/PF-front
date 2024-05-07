@@ -24,9 +24,9 @@ function UpdateProduct() {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
 
-    if (!accessToken) {
-        window.location.href = '/login'
-    };
+    // if (!accessToken) {
+    //     window.location.href = '/login'
+    // };
 
     useEffect(() => {
         const checkIsAdmin = async () => {

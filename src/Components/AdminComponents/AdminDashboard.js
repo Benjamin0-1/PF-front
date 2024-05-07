@@ -8,9 +8,9 @@ const accessToken = localStorage.getItem('accessToken');
 function AdminDashboard() {
 
 
-    if (!accessToken) {
-        window.location.href = '/login'
-    };
+    // if (!accessToken) {
+    //     window.location.href = '/login'
+    // };
 
     useEffect(() => {
         const checkIsAdmin = async () => {

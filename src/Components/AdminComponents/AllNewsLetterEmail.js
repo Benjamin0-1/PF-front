@@ -13,9 +13,9 @@ function AllNewsLetterEmail() {
     const [allEmails, setAllEmails] = useState([]);
     const [noEmailsFound, setNoEmailsFound] = useState('');
 
-    if (!accessToken) {
-        window.location.href = '/login'
-    };
+    // if (!accessToken) {
+    //     window.location.href = '/login'
+    // };
 
     useEffect(() => {
         const checkIsAdmin = async () => {

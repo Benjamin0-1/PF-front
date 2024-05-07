@@ -14,9 +14,9 @@ function CreateBrand() {
     const [generalError, setGeneralError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
-    if (!accessToken) {
-        window.location.href = '/login'
-    };
+    // if (!accessToken) {
+    //     window.location.href = '/login'
+    // };
 
     const checkIsAdmin = async () => {
         try {

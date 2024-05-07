@@ -4,7 +4,7 @@ import AdminNavBar from "./AdminNavBar";
 import './AllUsers.css';
 
 const URL = 'http://localhost:3001/allusers';
-const accessToken = localStorage.getItem('accessToken');
+// const accessToken = localStorage.getItem('accessToken');
 
 function AllUsers() {
     const [generalError, setGeneralError] = useState('');
@@ -18,7 +18,7 @@ function AllUsers() {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`
+                        // 'Authorization': `Bearer ${accessToken}`
                     }
                 });
                 if (!response.ok) {

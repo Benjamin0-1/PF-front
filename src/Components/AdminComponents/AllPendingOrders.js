@@ -22,9 +22,9 @@ function AllPendingOrders() {
     const [errorFulfillingOrder, setErrorFulfillingOrder] = useState('');
 
     // prevent access.
-    if (!accessToken) {
-        window.location.href = '/login'
-    };
+    // if (!accessToken) {
+    //     window.location.href = '/login'
+    // };
 
     useEffect(() => {
         const checkIsAdmin = async () => {
