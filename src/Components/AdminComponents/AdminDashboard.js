@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import React from "react";
 import AdminNavBar from "./AdminNavBar";
 import FetchWithAuth from "../Auth/FetchWithAuth";
+import './AdminDashboard.css';
 
 const accessToken = localStorage.getItem('accessToken');
 
