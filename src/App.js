@@ -24,7 +24,7 @@ import CreateReview from './Components/CreateReview';
 import ReportProduct from './Components/ReportProduct';
 import BanUser from './Components/AdminComponents/BanUser';
 import Home from './Components/Home';
-import Detail from './Components/Detail';
+import Detail from './Components/Detail/Detail';
 import AdminNavBar from './Components/AdminComponents/AdminNavBar';
 import Logout from './Components/Logout';
 import AdminDashboard from './Components/AdminComponents/AdminDashboard';

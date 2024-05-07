@@ -1,0 +1,91 @@
+.card_container{
+    display: flex;
+    position: relative;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    height: max-content;
+    margin-top: 50px;
+    z-index: 100;
+}
+
+.card{
+    display: flex;
+    position: relative;
+    border-radius: 10px;
+    background-color: #f6f6f6;
+    box-shadow: 0.2rem 0.2rem 0.5rem rgb(0 0 0 / 20%);
+    height: 700px;
+
+}
+
+.card_img{
+    display: flex;
+    width: 800px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card_data{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 460px;
+    border-left: 1px solid rgb rgb(0, 0, 0, 0.50);
+}
+
+.btnHome{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 8px;
+    right: 11px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-transform: uppercase;
+    border: none;
+    background: #424244;
+    font-size: large;
+    font-weight: 500;
+    color: #fff;
+    padding: 0.5rem;
+}
+
+.desc{
+    margin: 10px;
+    padding: 0 3px 0 20 px;
+    margin: 10px;
+}
+
+.buyBtn{
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #444342;
+    padding: 14px 40px;
+    outline: none;
+    color: #3e5164;
+    font-weight: 700;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+.buyBtn:hover:enabled{
+    width: 200px;    
+    background: #274675;
+    cursor: pointer;
+    color: #f6f6f6;
+}
+
+.buyBtn:disabled{
+    background: #969191;
+    border: #2b2929;
+    color: #fff;
+}
+

@@ -84,7 +84,7 @@ export function userFavorites() {
             })
         } catch (error) {
             return dispatch({
-                type: GET_FAVORITES,
+                type: GET_FAVORITES_ERROR,
                 error: error
             })
 
@@ -104,9 +104,8 @@ export function addFavorites(id) {
                 },
                 data: JSON.stringify({productId: id})
             });
-            console.log(response);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 }
@@ -121,9 +120,8 @@ export function removeFavorites(id) {
                     'Authorization': `Bearer ${accessToken}`
                 },
             });
-            console.log(response);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 }

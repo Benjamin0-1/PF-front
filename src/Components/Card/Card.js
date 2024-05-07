@@ -14,7 +14,7 @@ export default function Card({ image, product, price, description, id }) {
     const [ isFavorite, setIsFavorite ] = useState(false);
     useEffect(() => {
         dispatch(userFavorites())
-    }, [ dispatch ]);
+    }, [ dispatch, favorites ]);
     useEffect(() => {
         if (favorites) {
             const favoriteProduct = favorites.find(favorite => favorite.productId === id);

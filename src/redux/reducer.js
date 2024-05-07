@@ -1,8 +1,9 @@
-import { ADD_CART, CLEAR_CART, GET_FAVORITES, GET_FAVORITES_ERROR, LOGIN_ERROR_USER, LOGIN_USER, REMOVE_CART, SIGNUP_ERROR_USER, SIGNUP_USER } from "./action-types-products"
+import { ADD_CART, CLEAR_CART, GET_FAVORITES, GET_FAVORITES_ERROR, GET_PRODUCT_ID, LOGIN_ERROR_USER, LOGIN_USER, REMOVE_CART, SIGNUP_ERROR_USER, SIGNUP_USER } from "./action-types-products"
 
 
 const initialProductsState = {
     cart: [],
+    detailProduct: {}
 }
 
 
@@ -107,6 +108,11 @@ export const reducerProducts = (state = initialProductsState, action) => {
             return {
                 ...state,
                 cart: []
+            }
+        case GET_PRODUCT_ID:
+            return {
+                ...state,
+                detailProduct: action.payload
             }
         default:
             return {
