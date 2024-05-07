@@ -1,0 +1,132 @@
+/* module.Sidebar-users.css */
+.Sidebar-users {
+  width: 60px; /* Compact mode width */
+  height: 100vh; /* Full viewport height */
+  background-color: #2c3e50; /* Updated to a modern navy shade */
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: width 0.3s ease-in-out; /* Smooth transition for width */
+  overflow-x: hidden; /* Prevent horizontal overflow */
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; /* High z-index to overlay on other contents */
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+/* Expanded sidebar style */
+.Sidebar-users.expanded-sidebar-users {
+  width: 200px; /* Expanded mode width for more content */
+}
+
+/* Toggle button styles */
+.toggle-button {
+  cursor: pointer;
+  color: #fff;
+  font-size: 24px; /* Larger icon size for better visibility */
+  text-align: center;
+  padding: 12px;
+  border-radius: 0 5px 5px 0; /* Rounded corners on the right side */
+  background-color: #34495e; /* Darker shade for contrast */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth color and transform transition */
+}
+
+.toggle-button:hover {
+  background-color: #1abc9c; /* Bright color on hover for visibility */
+  transform: scale(1.1); /* Slight increase in size on hover */
+}
+
+/* Navigation links styling */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 50px; /* Spacing from the top */
+}
+
+/* List items styling */
+li {
+  padding: 12px 15px; /* Padding for larger click area */
+  border-bottom: 1px solid #ccc; /* Separator between items */
+  transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+/* Link styling */
+li a {
+  text-decoration: none;
+  color: #ecf0f1; /* Soft white color for text */
+  display: block; /* Block display for larger clickable area */
+  transition: color 0.3s ease; /* Transition for hover effects */
+}
+
+/* Hover effect for list items */
+li:hover {
+  background-color: #34495e; /* Darker background on hover */
+}
+
+/* Active link styling */
+li.active a {
+  background-color: #2980b9; /* Blue background for active state */
+  color: #fff; /* White text for contrast */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .Sidebar-users {
+    position: fixed;
+    width: 100%; /* Full-width on smaller screens */
+    height: 50px; /* Reduced height for compact appearance */
+    bottom: 0; /* Positioned at the bottom */
+    top: auto; /* Unset top */
+    overflow-y: hidden; /* Hide vertical overflow */
+  }
+
+  .Sidebar-users.expanded-sidebar-users {
+    width: 100%; /* Full-width when expanded */
+    height: auto; /* Adjustable height */
+  }
+
+  .toggle-button {
+    bottom: 5px; /* Adjust to bottom for accessibility */
+    right: 5px; /* Right adjusted for easy access */
+    width: 50px; /* Optimal width for touch targets */
+    height: 40px; /* Optimal height for touch targets */
+  }
+}
+
+/* Smooth transitions for hover effects on icons and links */
+li a:hover, .toggle-button:hover {
+  background-color: #16a085; /* Consistent hover effect color */
+  color: #fff; /* White text on hover for readability */
+}
+
+/* Custom animations for sidebar transitions */
+@keyframes slideIn {
+  from {
+    left: -200px; /* Start from the left */
+  }
+  to {
+    left: 0; /* End at zero position */
+  }
+}
+
+/* Apply animation to sidebar when it becomes visible */
+.Sidebar-users.expanded-sidebar-users {
+  animation: slideIn 0.3s forwards; /* Forward direction of animation */
+}
+
+/* Additional styles for scrollbar aesthetics in the sidebar */
+.Sidebar-users::-webkit-scrollbar {
+  width: 5px; /* Narrow scrollbar for aesthetics */
+}
+
+.Sidebar-users::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light track background */
+}
+
+.Sidebar-users::-webkit-scrollbar-thumb {
+  background: #888; /* Dark thumb for contrast */
+}
+
+.Sidebar-users::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker thumb on hover for visibility */
+}

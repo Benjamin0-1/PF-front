@@ -1,0 +1,156 @@
+.UserReviews {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.UserReviews h2 {
+    text-align: center;
+    color: #34495e;
+    margin-bottom: 20px;
+}
+
+.review-item {
+    padding: 15px;
+    margin-top: 10px;
+    background: linear-gradient(to right, #ecf0f1, #bdc3c7);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.review-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.review-content {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #2c3e50;
+}
+
+.review-content strong {
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.review-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.review-delete-btn {
+    cursor: pointer;
+    font-size: 14px;
+    color: #e74c3c;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.review-delete-btn:hover {
+    color: #c0392b;
+}
+
+.no-reviews-found {
+    text-align: center;
+    color: #95a5a6;
+    font-size: 18px;
+}
+
+.error-message {
+    color: #e74c3c;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #e74c3c;
+    background-color: #fdedec;
+    border-radius: 8px;
+}
+
+/* Animation for review entries */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.review-item {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Responsive Design Adjustments */
+@media (max-width: 768px) {
+    .UserReviews {
+        padding: 15px;
+    }
+
+    .review-content {
+        font-size: 14px;
+    }
+
+    .review-actions {
+        top: 5px;
+        right: 5px;
+    }
+}
+
+/* Custom Scrollbar for UserReviews */
+.UserReviews::-webkit-scrollbar {
+    width: 8px;
+}
+
+.UserReviews::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.UserReviews::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.UserReviews::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Detailed Hover Effects */
+.review-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 8px;
+}
+
+.review-item:hover::before {
+    opacity: 1;
+}
+
+/* Accessibility Enhancements */
+.review-delete-btn:focus {
+    outline: 3px solid #3498db;
+}
+
+.review-item:focus-within {
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+}
+

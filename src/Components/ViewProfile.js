@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
-import './ViewProfile.css';
+import userProfileStyles from './module.ViewProfile.css';
 
 const accessToken = localStorage.getItem('accessToken');
 

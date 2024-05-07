@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
-import './UpdateProduct.css';
+import updateProductStylesComponent from  './module.UpdateProduct.css';
 import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
@@ -222,10 +222,11 @@ function UpdateProduct() {
             </div>
             {generalError && <p className="error">{generalError}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-            <br />
-            <br/>
-            <AdminNavBar/>
-            < br/>
+       <div>
+        < AdminNavBar/>
+       </div>
+
+
         </div>
     );
 

@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import FetchWithAuth from './Auth/FetchWithAuth';
-import './ResetPassword.css';
+import resetPassowordStyles from './module.ResetPassword.css';
 
-const accessToken = localStorage.getItem('accessToken');
-
-const URL = 'http://localhost:3001/reset-password';
 
 function ResetPassword() {
     const [resetToken, setResetToken] = useState('');
@@ -12,38 +9,43 @@ function ResetPassword() {
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [generalError, setGeneralError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const [expiredTokenError, setExpiredTokenError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setGeneralError(''); // Clear previous errors
+        setSuccessMessage(''); // Clear previous success messages
+
+        if (newPassword !== confirmNewPassword) {
+            setGeneralError('Passwords do not match.');
+            return;
+        }
 
         try {
-            const response = await FetchWithAuth(URL, {
+            const response = await fetch('http://localhost:3001/reset-password', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ resetToken, newPassword, confirmNewPassword })
             });
 
+            const data = await response.json();
+
             if (!response.ok) {
-                setGeneralError('Ha ocurrido un error');
-                return;
+                throw new Error(data.message || 'Failed to reset password');
             }
 
-            setSuccessMessage('Contrasena cambiada con exito');
-
+            setSuccessMessage('Password reset successful. Please log in with your new password.');
         } catch (error) {
-            console.log(`ERROR: ${error}`);
+            console.error('ERROR:', error);
+            setGeneralError(error.message);
         }
-    }
+    };
 
     return (
         <div className='ResetPassword'>
-            <h2>Reset Password</h2>
-            <h5>Introduce el codigo que enviado a tu email.</h5>
+    
+          
             <form onSubmit={handleSubmit}>
+                <h5>Enter the code sent to your email</h5>
                 <div>
                     <label htmlFor="resetToken">Reset Token:</label>
                     <input
@@ -51,6 +53,7 @@ function ResetPassword() {
                         id="resetToken"
                         value={resetToken}
                         onChange={(e) => setResetToken(e.target.value)}
+                        aria-label="Reset Token"
                     />
                 </div>
                 <div>
@@ -60,6 +63,7 @@ function ResetPassword() {
                         id="newPassword"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
+                        aria-label="New Password"
                     />
                 </div>
                 <div>
@@ -69,15 +73,15 @@ function ResetPassword() {
                         id="confirmNewPassword"
                         value={confirmNewPassword}
                         onChange={(e) => setConfirmNewPassword(e.target.value)}
+                        aria-label="Confirm New Password"
                     />
                 </div>
                 <button type="submit">Reset Password</button>
+                {generalError && <p className="error">{generalError}</p>}
+                {successMessage && <p className="success">{successMessage}</p>}
             </form>
-            {generalError && <p className="error">{generalError}</p>}
-            {successMessage && <p className="success">{successMessage}</p>}
-            {expiredTokenError && <p className="error">{expiredTokenError}</p>}
         </div>
-    )
-};
+    );
+}
 
 export default ResetPassword;

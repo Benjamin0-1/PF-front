@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
-import './SendMassiveEmail.css';
+import  sendMassiveMails from  './module.SendMassiveEmail.css';
 import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
@@ -94,8 +94,17 @@ function SendMassiveEmail() {
             {generalError && <p className="error">{generalError}</p>}
             {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
             <br />
-            <AdminNavBar/>
+
+           <div>
+            <AdminNavBar />
+           </div>
+          
         </div>
+        
+
+       
+
+        
     )
 };
 

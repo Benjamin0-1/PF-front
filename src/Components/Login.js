@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; 
-import './Login.css';
+import Logginstyles from './module.Login.css';
+
+const accessToken = localStorage.getItem('accessToken');
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -15,7 +17,12 @@ function Login() {
     const [otpSubmitted, setOtpSubmitted] = useState(false); 
     const navigate = useNavigate();
 
+    if (accessToken) {
+        window.location.href = '/viewprofile'
+    }
+
     // Effect to handle OAuth2 redirect with tokens
+    // esta parte es muy importante, sin esto entonces google auth NO FUNCIONA.
     useEffect(() => {
         const hash = window.location.hash;
         const params = new URLSearchParams(hash.slice(1)); // Remove the '#' part
@@ -25,7 +32,7 @@ function Login() {
         if (accessToken && refreshToken) {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
-            navigate('/login'); // Navigate to the profile view
+           navigate('/viewprofile'); // Navigate to the profile view
             window.location.hash = ''; // Clear the hash to clean the URL
         }
     }, [navigate]);
@@ -124,33 +131,34 @@ function Login() {
     return (
         <div>
             <form onSubmit={handleSubmit} className="LoginForm">
-                <label htmlFor="username">Username:</label>
-                <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <label htmlFor="password">Password:</label>
-                <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <label htmlFor="username" style={{ alignSelf: 'flex-start', marginLeft: '5%', fontWeight: 'bold' }}>Username:</label>
+                <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} style={{ width: '90%', padding: '10px', margin: '10px 0', border: '1px solid #ccc', borderRadius: '5px', display: 'block' }} />
+                <label htmlFor="password" style={{ alignSelf: 'flex-start', marginLeft: '5%', fontWeight: 'bold' }}>Password:</label>
+                <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} style={{ width: '90%', padding: '10px', margin: '10px 0', border: '1px solid #ccc', borderRadius: '5px', display: 'block' }} />
                 {showOTP && (
                     <div>
-                        <p style={{ color: 'blue' }}>You have enabled OTP. Please enter the code:</p>
-                        <input type="text" id="otp" value={otp} onChange={(e) => setOtp(e.target.value)} />
-                        {otpSubmitted && generalError && !successMessage && <p style={{ color: 'red' }}>{generalError}</p>}
-                        <button type="submit" onClick={() => setOtpSubmitted(true)}>Submit OTP</button>
+                        <p style={{ color: 'blue', marginLeft: '5%' }}>You have enabled OTP. Please enter the code:</p>
+                        <input type="text" id="otp" value={otp} onChange={(e) => setOtp(e.target.value)} style={{ width: '90%', padding: '10px', margin: '10px 0', border: '1px solid #ccc', borderRadius: '5px', display: 'block' }} />
+                        {otpSubmitted && generalError && !successMessage && <p className="error-message">{generalError}</p>}
+                        <button type="submit" onClick={() => setOtpSubmitted(true)} style={{ width: '95%', padding: '10px', marginTop: '10px', border: 'none', borderRadius: '5px', backgroundColor: '#007bff', color: 'white', cursor: 'pointer', fontSize: '16px' }}>Submit OTP</button>
                     </div>
                 )}
-                {generalError && !showOTP && <p style={{ color: 'red' }}>{generalError}</p>}
-                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-                {accountDeleted && <p style={{ color: 'red' }}>{accountDeleted}</p>}
-                {notFound && <p style={{ color: 'red' }}>{notFound}</p>}
-                {invalidCredentials && <p style={{ color: 'red' }}>{invalidCredentials}</p>}
-                <button type="submit">Login</button>
-                <p style={{ marginTop: '10px', fontSize: '14px' }}>Forgot password: <a style={{ textDecoration: 'none', color: 'blue' }} href='/passwordrecovery'>Reset password</a></p>
-                <p style={{ marginTop: '10px', fontSize: '14px' }}>or create an account: <a style={{ textDecoration: 'none', color: 'blue' }} href='/signup'>Signup</a></p>
+                {generalError && !showOTP && <p className="error-message">{generalError}</p>}
+                {successMessage && <p className="success-message">{successMessage}</p>}
+                {accountDeleted && <p className="error-message">{accountDeleted}</p>}
+                {notFound && <p className="error-message">{notFound}</p>}
+                {invalidCredentials && <p className="error-message">{invalidCredentials}</p>}
+                <button type="submit" style={{ width: '95%', padding: '10px', marginTop: '10px', border: 'none', borderRadius: '5px', backgroundColor: '#007bff', color: 'white', cursor: 'pointer', fontSize: '16px' }}>Login</button>
+                <p style={{ marginTop: '10px', fontSize: '14px', marginLeft: '5%' }}>Forgot password: <a style={{ color: '#007bff', textDecoration: 'none' }} href='/passwordrecovery'>Reset password</a></p>
+                <p style={{ marginTop: '10px', fontSize: '14px', marginLeft: '5%' }}>or create an account: <a style={{ color: '#007bff', textDecoration: 'none' }} href='/signup'>Signup</a></p>
                 <h3 style={{ marginLeft: '130px', color: 'blue' }}>or</h3>
-                <button type="button" onClick={() => { window.location.href = 'http://localhost:3001/auth/google' }}>Continue with Google</button>
+                <button type="button" onClick={() => { window.location.href = 'http://localhost:3001/auth/google' }} className="GoogleBtn">Continue with Google</button>
             </form>
             <br />
             <br />
         </div>
     );
+    
 }
 
 export default Login;

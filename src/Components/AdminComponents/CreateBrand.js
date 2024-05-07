@@ -74,14 +74,19 @@ function CreateBrand() {
 
     return (
         <div className="create-brand-container">
-            < AdminNavBar/>
             <br/>
             <br/>
             <input type="text" value={brandName} onChange={handleChange} placeholder="Nombre de la marca" className="brand-input" />
             <button onClick={handleCreation} className="create-button">Crear Marca</button>
             {generalError && <p className="error-message">{generalError}</p>}
             {successMessage && <p className="success-message">{successMessage}</p>}
+
+            <div>
+            < AdminNavBar/>
         </div>
+        </div>
+
+      
     );
 
 };

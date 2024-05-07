@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
-import './Favorite.css'; // Import the CSS file
+import  favStyles from './module.Favorite.css'; // Import the CSS file
 
 const accessToken = localStorage.getItem('accessToken');
 

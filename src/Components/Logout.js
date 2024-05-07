@@ -1,5 +1,5 @@
 import React from "react";
-import './Logout.css';
+import logOutbuttonstyles from './module.Logout.css';
 
 function Logout() {
 

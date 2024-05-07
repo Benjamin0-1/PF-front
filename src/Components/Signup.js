@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './Signup.css';
+import signUpRegisterFormStyles from  './module.Signup.css';
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -150,32 +150,41 @@ function Signup() {
     return (
         <div className="Signup">
             <h2>Sign Up</h2>
-            {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
-            <form onSubmit={handleSubmit}>
-                {isLoading && <p><strong>Creating account...</strong></p>}
-                <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} />
-                {firstNameError && <p style={{color: 'red'}}>{firstNameError}</p>}
-                <input type="text" name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} />
-                {lastNameError && <p style={{color: 'red'}}>{lastNameError}</p>}
-                <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} />
-                <input type="text" name="confirmUsername" placeholder="Confirm Username" value={formData.confirmUsername} onChange={handleChange} />
-                {invalidUsernameError && <p style={{color: 'red'}}>{invalidUsernameError}</p>}
-                {usernamesDontMatchError && <p style={{color: 'red'}}>{usernamesDontMatchError}</p>}
-                <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
-                <input type="email" name="confirmEmail" placeholder="Confirm Email" value={formData.confirmEmail} onChange={handleChange} />
-                {emailError && <p style={{color: 'red'}}>{emailError}</p>}
-                {invalidEmailFormat && <p style={{color: 'red'}}>{invalidEmailFormat}</p>}
-                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-                <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} />
-                {passwordTooShortError && <p style={{color: 'red'}}>{passwordTooShortError}</p>}
-                {passwordsDontMatchError && <p style={{color: 'red'}}>{passwordsDontMatchError}</p>}
-                {generalError && <p style={{color: 'red'}}>{generalError}</p>}
-                {usernameAlreadyExistsError && <p style={{color: 'red'}}>{usernameAlreadyExistsError}</p>}
-                {accountAlreadyDeletedError && <p style={{color: 'red'}}>{accountAlreadyDeletedError}</p>}
-                <button type="submit" disabled={isLoading}>Sign Up</button>
-                <p style={{ marginTop: '10px', fontSize: '14px' }}>Already have an account? <a style={{ textDecoration: 'none', color: 'blue' }} href='/login'>Login</a></p>
+            {successMessage && <p className="success-message">{successMessage}</p>}
+            <form onSubmit={handleSubmit} className="signup-form">
+                {isLoading && <p className="loading-message"><strong>Creating account...</strong></p>}
+                <div className="form-group">
+                    <input type="text" name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} className="input-field" />
+                    {firstNameError && <p className="error-message">{firstNameError}</p>}
+                </div>
+                <div className="form-group">
+                    <input type="text" name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} className="input-field" />
+                    {lastNameError && <p className="error-message">{lastNameError}</p>}
+                </div>
+                <div className="form-group">
+                    <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} className="input-field" />
+                    <input type="text" name="confirmUsername" placeholder="Confirm Username" value={formData.confirmUsername} onChange={handleChange} className="input-field" />
+                    {invalidUsernameError && <p className="error-message">{invalidUsernameError}</p>}
+                    {usernamesDontMatchError && <p className="error-message">{usernamesDontMatchError}</p>}
+                </div>
+                <div className="form-group">
+                    <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="input-field" />
+                    <input type="email" name="confirmEmail" placeholder="Confirm Email" value={formData.confirmEmail} onChange={handleChange} className="input-field" />
+                    {emailError && <p className="error-message">{emailError}</p>}
+                    {invalidEmailFormat && <p className="error-message">{invalidEmailFormat}</p>}
+                </div>
+                <div className="form-group">
+                    <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="input-field" />
+                    <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} className="input-field" />
+                    {passwordTooShortError && <p className="error-message">{passwordTooShortError}</p>}
+                    {passwordsDontMatchError && <p className="error-message">{passwordsDontMatchError}</p>}
+                </div>
+                {generalError && <p className="error-message">{generalError}</p>}
+                {usernameAlreadyExistsError && <p className="error-message">{usernameAlreadyExistsError}</p>}
+                {accountAlreadyDeletedError && <p className="error-message">{accountAlreadyDeletedError}</p>}
+                <button type="submit" className="button" disabled={isLoading}>Sign Up</button>
+                <p className="link-text">Already have an account? <a href='/login' className="link">Login</a></p>
             </form>
-            
         </div>
     );
 }

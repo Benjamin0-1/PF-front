@@ -1,0 +1,117 @@
+/* Base Styling for Admin Navigation Sidebar */
+.admin-nav-bar {
+    width: 250px;
+    position: fixed;
+    right: -250px;  /* Initially hidden off-screen */
+    top: 0;
+    bottom: 0;
+    background-color: #ffffff; /* Light background for the sidebar */
+    color: #333333; /* Dark text for readability */
+    padding: 20px;
+    transition: right 0.3s ease;  /* Smooth transition for sliding in */
+    z-index: 1500;  /* High z-index to ensure it's above other content */
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.15);  /* Subtle shadow for 3D effect */
+    overflow-y: auto;  /* Allows scrolling */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Expanded state of the sidebar */
+.admin-nav-bar.open {
+    right: 0; /* Brings the sidebar into view */
+}
+
+/* Toggle button styling */
+.admin-sidebar-toggle-button {
+    position: absolute;
+    top: 10px;  /* Positioned at the top inside the sidebar */
+    left: -50px;  /* Positioned left outside the sidebar */
+    width: 40px;
+    height: 40px;
+    background-color: #3498db; /* Bright blue for visibility */
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.admin-sidebar-toggle-button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+    transform: scale(1.1); /* Slight scale to indicate interactivity */
+}
+
+/* Styling for navigation links */
+.admin-navbar-nav-link {
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #333333;
+    display: block;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-weight: 500;
+}
+
+.admin-navbar-nav-link:hover {
+    background-color: #ecf0f1; /* Light grey for hover */
+    color: #3498db; /* Blue text on hover for contrast */
+}
+
+.admin-navbar-nav-link.active {
+    background-color: #3498db; /* Blue background for active link */
+    color: white; /* White text for readability */
+}
+
+.admin-navbar-nav-link:not(:last-child) {
+    border-bottom: 1px solid #eeeeee; /* Separator between links */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .admin-nav-bar {
+        width: 100%;  /* Full width on smaller screens */
+        right: -100%;  /* Hidden fully off-screen */
+    }
+
+    .admin-nav-bar.open {
+        right: 0;  /* Fully visible when opened */
+    }
+
+    .admin-sidebar-toggle-button {
+        left: -60px;  /* Adjust position to stay visible */
+    }
+
+    .admin-navbar-nav-link {
+        padding: 12px 30px;  /* Larger touch targets for mobile usability */
+        font-size: 16px;  /* Slightly larger font for readability on mobile */
+    }
+}
+
+/* Animation for the sidebar sliding in */
+@keyframes slideInRight {
+    from {
+        right: -250px;
+    }
+    to {
+        right: 0;
+    }
+}
+
+.admin-nav-bar.open {
+    animation: slideInRight 0.3s forwards; /* Apply the animation when opening */
+}
+
+/* Ensure the sidebar doesn't cause horizontal scrolling */
+.admin-nav-bar html,
+.admin-nav-bar body {
+    padding-right: 250px;  /* Padding to accommodate sidebar width */
+}
+
+/* Reset padding for the home content */
+.admin-nav-bar .Home {
+    padding: 0;
+    margin-left: 250px; /* Adjust margin to accommodate the sidebar */
+}

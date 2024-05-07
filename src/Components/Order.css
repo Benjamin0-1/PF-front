@@ -1,14 +1,54 @@
 .Order {
-    margin: 20px auto;
-    max-width: 800px;
+    margin: 30px auto;
+    max-width: 900px;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    font-family: 'Arial', sans-serif;
 }
 
-.Order p {
-    margin: 5px 0;
+.Order h2 {
+    font-size: 26px;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.Order p, .Order li p {
+    color: #34495e;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.Order .filter-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.filter-buttons button {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: bold;
+}
+
+.filter-buttons button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.filter-buttons button.active {
+    background-color: #e74c3c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .Order ul {
@@ -17,51 +57,97 @@
 }
 
 .Order li {
-    margin-bottom: 15px;
-    padding: 15px;
+    background-color: #ecf0f1;
+    border-left: 5px solid #3498db;
+    margin-bottom: 20px;
+    padding: 20px;
     border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Add transition for hover effect */
+    transition: all 0.3s ease-in-out;
 }
 
 .Order li:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: scale(1.05); /* Scale up the card on hover */
+    border-left: 5px solid #2980b9;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: scale(1.03);
 }
 
-.Order li p {
-    margin: 5px 0;
-}
-
-.Order li p:first-child {
-    font-weight: bold;
+.Order img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    object-fit: cover;
 }
 
 .Order .error {
-    color: #ff6347;
-    font-weight: bold;
+    color: #c0392b;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
 }
 
-.filter-buttons {
+.Order hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.filter-buttons button {
-    margin-right: 10px;
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.pagination button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
     padding: 8px 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
+    margin: 0 10px;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.filter-buttons button.active {
-    background-color: #007bff;
-    color: #fff;
-    border-color: #007bff;
+.pagination button:hover {
+    background-color: #27ae60;
 }
 
-.filter-buttons button:hover {
-    background-color: #f0f0f0;
+.pagination button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    color: #2c3e50;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Responsive Design Improvements */
+@media (max-width: 768px) {
+    .Order {
+        padding: 15px;
+        margin: 20px;
+    }
+
+    .Order h2 {
+        font-size: 22px;
+    }
+
+    .Order li {
+        padding: 15px;
+    }
+
+    .Order img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .filter-buttons button {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
 }

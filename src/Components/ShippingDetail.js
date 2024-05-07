@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
-import './ShippingDetail.css';
+import shippingDetailStyles from './module.ShippingDetail.css';
 
 const accessToken = localStorage.getItem('accessToken');
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import './Sidebar.css';
+import userSideBar from './module.Sidebar.css';
 
 const Sidebar = () => {
     const [expanded, setExpanded] = useState(false);
@@ -10,7 +10,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className={`Sidebar ${expanded ? 'expanded' : ''}`}>
+        <div className={`Sidebar-users ${expanded ? 'expanded-sidebar-users' : ''}`}>
             <div className="toggle-button" onClick={toggleSidebar}>
                 {expanded ? '<' : '>'}
             </div>
@@ -25,9 +25,7 @@ const Sidebar = () => {
                     <li>
                         <Link to="/viewprofile">Profile</Link>
                     </li>
-                    <li>
-                        <Link to="/security">Security</Link>
-                    </li>
+                 
                     <li>
                         <Link to="/favorites">Favorites</Link>
                     </li>
@@ -44,6 +42,9 @@ const Sidebar = () => {
                         <Link to="/shipping">Shipping</Link>
                     </li>
                     
+                  <  li>
+                        <Link to="/userreviews">Reviews</Link>
+                    </li>
 
                     <li>
                         <Link to="/orders">Orders</Link>

@@ -43,7 +43,7 @@ function AdvancedFilter() {
                 return;
             }
 
-            const response = await fetch(`/products/filter/${startPrice}/${endPrice}/${startRating}/${endRating}/${category}/${brand}`, {
+            const response = await fetch(`http://localhost:3001/products/filter/${startPrice}/${endPrice}/${startRating}/${endRating}/${category}/${brand}`, {
                 method: 'GET'
             });
 

@@ -1,0 +1,84 @@
+.LoginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 50px;
+  background: linear-gradient(to bottom right, #e6f7ff, #ffffff);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin: auto;
+  margin-left: 400px;
+}
+
+.LoginForm input[type="text"], .LoginForm input[type="password"], .LoginForm input[type="email"] {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: block;
+}
+
+.LoginForm button {
+  width: 95%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.LoginForm button:hover {
+  background-color: #0056b3;
+}
+
+.LoginForm label {
+  align-self: flex-start;
+  margin-left: 5%;
+  font-weight: bold;
+}
+
+.error-message, .success-message {
+  color: green;
+  text-align: center;
+  font-size: 14px;
+}
+
+.error-message {
+  color: red;
+}
+
+/* Google button styling */
+.GoogleBtn {
+  background-color: #db4437;
+  color: white;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.GoogleBtn:hover {
+  background: #c23321;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .LoginForm {
+      width: 90%;
+      padding: 15px;
+  }
+}

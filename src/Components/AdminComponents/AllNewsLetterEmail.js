@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminDashboard from "./AdminDashboard";
-import './AllNewsLetterEmail.css';
+import allEmailsFromNonRegisteredUsers from   './module.AllNewsLetterEmail.css';
 import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
@@ -74,10 +74,10 @@ function AllNewsLetterEmail() {
 
 
     return (
-        <div className="AllNewsletterEmail">
+        <div className="AllNewsletterEmail-an-e">
             <h2>All Newsletter Emails</h2>
             <h4>total: {allEmails.length}</h4>
-            {generalError && <p className="error-message">{generalError}</p>}
+            {generalError && <p className="error-message-for-tan">{generalError}</p>}
             {noEmailsFound && <p>{noEmailsFound}</p>}
             {allEmails.length > 0 && (
                 <ul>

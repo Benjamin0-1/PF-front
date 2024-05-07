@@ -1,9 +1,13 @@
 import React, {useState, useEffect} from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import FetchWithAuth from "./Auth/FetchWithAuth";
-import './Home.css';
+import homeStyles from './module.Home.css';
 import Newsletter from "./Newsletter";  // <-- newsletter.
 import Filter from "./Filter";
+
+import { useDispatch } from 'react-redux';
+import { addProductCart } from "../redux/actionProducts";
+
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -23,6 +27,27 @@ function Home() {
     const [sortByPriceDesc, setSortByPriceDesc] = useState(false);
 
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const dispatch = useDispatch(); 
+
+    const [successMessages, setSuccessMessages] = useState({});
+
+
+    const handleAddToCart = (product) => {
+        dispatch(addProductCart(product));
+        setSuccessMessages(prevMessages => ({
+            ...prevMessages,
+            [product.id]: 'Added to cart!'
+        }));
+        setTimeout(() => {
+            setSuccessMessages(prevMessages => ({
+                ...prevMessages,
+                [product.id]: ''
+            }));
+        }, 3000); // Message disappears after 3 seconds
+    };
+
+
+    
 
 
     useEffect(() => {
@@ -124,7 +149,7 @@ function Home() {
                 }
         
                 // Pagination logic
-                const paginatedProducts = paginate(data, 9); // Assuming 5 products per page
+                const paginatedProducts = paginate(data, 6); // productos por pagina
                 setProducts(paginatedProducts[currentPage - 1] || []);
                 setTotalPages(paginatedProducts.length);
                 setGeneralError('');
@@ -211,6 +236,15 @@ function Home() {
                             <div className="product">
                                 <h3>{product.name}</h3>
                                 <p>Price: ${product.price}</p>
+                               
+                                {product.stock > 0 && (
+                                    <button onClick={() => handleAddToCart(product)}>
+                                        Add to Cart
+                                    </button>
+                                )}
+                                {successMessages[product.id] && <p style={{ color: 'green' }}>{successMessages[product.id]}</p>}
+                    
+
                             </div>
                         </Link>
                     ))
@@ -223,6 +257,14 @@ function Home() {
                                 <img src={product.image} alt={product.product} />
                                 <p>Price: ${product.price}</p>
                                 <p>Stock: {product.stock === 0 ? 'Out of stock' : product.stock}</p>
+
+                                {product.stock > 0 && (
+                                    <button onClick={() => handleAddToCart(product)}>
+                                        Add to Cart
+                                    </button>
+                                )}
+                                {successMessages[product.id] && <p style={{ color: 'green' }}>{successMessages[product.id]}</p>}
+
 
                             </div>
                         </Link>

@@ -45,7 +45,9 @@ function EmailNewsletter() {
 
 
 
-      const handleEmailSending = async () => {
+      const handleEmailSending = async (e) => {
+        e.preventDefault();
+
         try {
             setIsLoading(true)
             
@@ -60,12 +62,17 @@ function EmailNewsletter() {
 
             
             if (response.status === 200) {
-      
-                const data = await response.json();
-                setAllEmailsSent(data.sentEmails) // <-- it's an array.
-                setSuccessMessage(data.successMessage);
-                setGeneralError('');
-            };
+            const data = await response.json();
+            console.log("Data received:", data); // Check what is received exactly
+            setAllEmailsSent(data.sentEmails);
+            setSuccessMessage(data.successMessage);
+            setGeneralError('');
+        } else {
+            console.log("Response not OK:", response);
+            setGeneralError('Failed to send emails. Please try again.');
+            setSuccessMessage('');
+        }
+
 
             
 

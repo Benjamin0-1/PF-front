@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './FAQ.css'
+import FQSStyles from './module.FAQ.css'
 
 const FAQ = () => {
   const [showAnswer, setShowAnswer] = useState({});

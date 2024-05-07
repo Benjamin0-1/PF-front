@@ -1,120 +1,69 @@
 import React, { useEffect, useState } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
-import './PasswordRecovery.css';
+import forgotPasswordStyles from  './module.PasswordRecovery.css';
 
-const accessToken = localStorage.getItem('accessToken');
+
 const URL = 'http://localhost:3001/reset-password-request';
 const PROFILE_URL = 'http://localhost:3001/profile-info';
 
+
 function PasswordRecovery() {
     const [email, setEmail] = useState('');
-    const [generalError, setGeneralError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [invalidEmailFormatError, setInvalidEmailFormatError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const [userNotFoundError, setUserNotFoundError] = useState('');
-    const [emailPlaceholder, setEmailPlaceholder] = useState('');
+    const [message, setMessage] = useState(null);
 
-    const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$/;
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/; // Simplified email regex for basic validation
 
-    const fetchUserEmail = async () => {    // <-- para que aparezca el valor del email del usuario especifico, dando una mejor experiencia.
-        try {
-            
-            const response = await FetchWithAuth(PROFILE_URL, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-
-            if (!response.ok) {
-                console.log(`error mostrando email: ${response.status}`);
-            };
-
-            const data = await response.json();
-            setEmailPlaceholder(data.email)
-
-        } catch (error) {
-            console.log(`error mostrando email: ${error}`);
-        }
-    };
-
-    const handleSubmit = async () => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         if (!emailRegex.test(email)) {
-            setInvalidEmailFormatError('Email invalido.');
-            setGeneralError('');
+            setMessage({ type: 'error', text: 'Please enter a valid email address.' });
             return;
-        };
-
+        }
+        
+        setIsLoading(true);
         try {
-            setIsLoading(true);
-            const response = await FetchWithAuth(URL, {
+            const response = await fetch('http://localhost:3001/reset-password-request', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
             });
 
-            if (response.status === 404) {
-                setUserNotFoundError(`No existe usuario con email: ${email}`);
-                setGeneralError('');
-                setSuccessMessage('');
-                return
-            };
-
+            const data = await response.json();
             if (!response.ok) {
-                setGeneralError('Ha ocurrido un error');
-                setInvalidEmailFormatError('');
-                setUserNotFoundError('');
-                return;
-            };
+                throw new Error(data.message || 'An error occurred while requesting password reset.');
+            }
 
-            setSuccessMessage(`Codigo de restauracion de contrasena enviado a ${email}`);
-
-            // Navigate to the password reset form page
-            handleNextPage();
-
+            setMessage({ type: 'success', text: `A password reset link has been sent to ${email}.` });
+            window.location.href = '/resetpassword'
+            setEmail(''); // Clear the input after successful submission
         } catch (error) {
-            console.log(`Error: ${error}`);
+            setMessage({ type: 'error', text: error.message });
         } finally {
             setIsLoading(false);
         }
-    }
-
-    // Function to navigate to the password reset form page
-    const handleNextPage = () => {
-        window.location.href = '/resetpassword'; // Change the URL to the correct route
     };
 
-    useEffect(() => {
-        fetchUserEmail();
-    }, []);
-
-    // value={emailPlaceholder} <-- puede ser cambiado para que el usuario pueda manualmente introducir su email
     return (
-        <div className="PasswordRecovery">
+        <div className="PasswordRecovery-classname-unique">
             <h1>Password Recovery</h1>
-            <h5>introduce tu email para luego cambiar tu contrasena</h5>
-            <div>
-                <label htmlFor="email">Email:</label>
-                <input
-    type="email"
-    placeholder={accessToken ? (emailPlaceholder || 'Enter your email') : 'Enter your email'}
-    id="email"
-    value={email}
-    onChange={(e) => setEmail(e.target.value)}
-/>
-                {invalidEmailFormatError && <p>{invalidEmailFormatError}</p>}
-            </div>
-            <button onClick={handleSubmit} disabled={isLoading}>
-                {isLoading ? 'Loading...' : 'Send Recovery Email'}
-            </button>
-            {successMessage && <p>{successMessage}</p>}
-            {generalError && <p>{generalError}</p>}
-            {userNotFoundError && <p>{userNotFoundError}</p>}
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={isLoading}
+                    />
+                </div>
+                <button type="submit" disabled={isLoading}>
+                    {isLoading ? 'Loading...' : 'Send Recovery Email'}
+                </button>
+                {message && <p className={message.type === 'error' ? 'error-message' : 'success-message'}>{message.text}</p>}
+            </form>
         </div>
     );
 }

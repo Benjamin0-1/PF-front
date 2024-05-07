@@ -20,7 +20,6 @@ import UpdateProduct from './Components/AdminComponents/UpdateProduct';
 import PaymentHistory from './Components/PaymentHistory';
 import ReportedProduct from './Components/AdminComponents/ReportedProduct';
 import CreateBrand from './Components/AdminComponents/CreateBrand';
-import CreateReview from './Components/CreateReview';
 import ReportProduct from './Components/ReportProduct';
 import BanUser from './Components/AdminComponents/BanUser';
 import Home from './Components/Home';
@@ -48,6 +47,8 @@ import GrantAdminByUsername from './Components/AdminComponents/GrantAdminByUsern
 import AdvancedFilter from './Components/AdvancedFilter';
 import UpdateProfileInfo from './Components/UpdateProfileInfo';
 import UpdateProfilePassword from './Components/UpdateProfilePassword';
+import UserReviews from './Components/UserReviews';
+import Cart from './Components/Cart';  // <-- CART
 import GoogleLogin from './Components/GoogleLogin';
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
 
   return (
     <Router>
+      < Cart/>
       < Logout/>
 
       <Sidebar isOpen={sidebarOpen} />
@@ -85,7 +87,6 @@ function App() {
         <Route  path='/paymenthistory'  element={< PaymentHistory />}/>
         <Route path='/reportedproducts' element={< ReportedProduct />} />
         <Route path='createbrand' element={< CreateBrand />} />
-        <Route path='/createreview' element={< CreateReview/>} />
         <Route path='reportproduct' element={< ReportProduct />} />
         <Route path='banuser' element={< BanUser />} />
         <Route path='/detail/:id' element={< Detail />} />
@@ -108,7 +109,9 @@ function App() {
         <Route path='/grantadminbyusername' element={< GrantAdminByUsername/>} />
         <Route path='/updateprofileinfo' element={< UpdateProfileInfo />} />
         <Route path='/updateprofilepassword' element={< UpdateProfilePassword />} />
+        <Route path='/userreviews' element={< UserReviews />} />
         <Route path='/advancedfilters' element={< AdvancedFilter />} />
+        <Route path='/cart'  element={< Cart />} />
       <Route path='/google' element={< GoogleLogin />} />
       <Route path='*' element={<h1 style={{marginLeft: '200px'}}>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1 style={{marginLeft: '200px'}}> You are not an admin </h1>} />

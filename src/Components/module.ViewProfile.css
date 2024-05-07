@@ -1,0 +1,128 @@
+.ViewProfile {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    margin-left: 200px;
+}
+
+.ViewProfile h2 {
+    font-size: 28px;
+    color: #0056b3;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #eee;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    padding: 20px;
+    position: relative;
+    transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.card p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #666;
+}
+
+.card strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.button-container button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.button-container button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.button-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.button-container button:first-of-type {
+    margin-left: 0;
+}
+
+.button-container button:last-of-type {
+    margin-right: 0;
+}
+
+.error {
+    color: #e74c3c;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: #999;
+    margin-top: 20px;
+}
+
+.loading::after {
+    content: "Loading...";
+    animation: loading 1s infinite;
+}
+
+@keyframes loading {
+    0% { content: "Loading."; }
+    33% { content: "Loading.."; }
+    66% { content: "Loading..."; }
+}
+
+/* Additional Styles for Responsive Layout */
+@media (max-width: 768px) {
+    .ViewProfile {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card:hover {
+        transform: none;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .button-container button {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+}

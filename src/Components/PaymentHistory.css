@@ -1,43 +1,121 @@
 .PaymentHistory {
-    margin: 20px auto;
-    max-width: 600px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+    margin: 30px auto;
+    max-width: 800px;
+    padding: 30px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
 }
 
-.PaymentHistory p {
-    margin: 5px 0;
+.PaymentHistory h1 {
+    font-size: 24px;
+    color: #34495e;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.PaymentHistory p, .PaymentHistory li p {
+    line-height: 1.6;
+    color: #555;
+    font-size: 16px;
 }
 
 .PaymentHistory ul {
     list-style-type: none;
+    margin: 0;
     padding: 0;
 }
 
 .PaymentHistory li {
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease; /* Added transition for smooth scaling */
+    background-color: #ecf0f1;
+    border: 2px solid #bdc3c7;
+    border-left: 5px solid #3498db;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
 }
 
 .PaymentHistory li:hover {
-    transform: scale(1.05); /* Scale up the card on hover */
+    border-left-color: #2980b9;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateY(-5px);
 }
 
-.PaymentHistory li p {
-    margin: 5px 0;
+.PaymentHistory li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to right, rgba(52, 152, 219, 0.2), rgba(236, 240, 241, 0));
+    z-index: 0;
+    transition: background 0.3s ease;
 }
 
-.PaymentHistory li p:first-child {
-    font-weight: bold;
+.PaymentHistory li:hover::before {
+    background-image: linear-gradient(to right, rgba(52, 152, 219, 0.4), rgba(236, 240, 241, 0));
 }
 
-.PaymentHistory .error {
-    color: #ff6347;
-    font-weight: bold;
+.PaymentHistory img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.PaymentHistory h3 {
+    font-size: 18px;
+    color: #2c3e50;
+    margin-top: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #bdc3c7;
+}
+
+.PaymentHistory .shipping-info {
+    padding-top: 20px;
+}
+
+.PaymentHistory .error, .PaymentHistory .no-data {
+    color: #e74c3c;
+    font-weight: 600;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Animation for loading data */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+}
+
+.PaymentHistory .loading {
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Responsive Layout Improvements */
+@media (max-width: 768px) {
+    .PaymentHistory {
+        padding: 20px;
+    }
+
+    .PaymentHistory h1 {
+        font-size: 20px;
+    }
+
+    .PaymentHistory li {
+        padding: 15px;
+    }
 }
