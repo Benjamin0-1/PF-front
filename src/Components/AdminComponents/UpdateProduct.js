@@ -24,11 +24,11 @@ function UpdateProduct() {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
 
-    if (!accessToken) {
+   /* if (!accessToken) {
         window.location.href = '/login'
-    };
+    }; */
 
-    useEffect(() => {
+   /* useEffect(() => {
         const checkIsAdmin = async () => {
           try {
             const response = await FetchWithAuth('http://localhost:3001/profile-info', {
@@ -48,7 +48,7 @@ function UpdateProduct() {
         };
     
         checkIsAdmin();
-      }, []);
+      }, []); */
 
 
     useEffect(() => {
@@ -155,6 +155,7 @@ function UpdateProduct() {
     };
 
     return (
+        <div className="container" > 
         <div className="UpdateProduct">
      
             <br/>
@@ -217,14 +218,18 @@ function UpdateProduct() {
                     onChange={(e) => setDescription(e.target.value)}
                 />
             </div>
-            <div>
+            <div className="containerButton">
                 <button onClick={handleUpdate}>Update Product</button>
             </div>
             {generalError && <p className="error">{generalError}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
             <br />
             <br/>
+            </div>
+            <div className="adminNavBar">
             <AdminNavBar/>
+            </div>
+            
             < br/>
         </div>
     );

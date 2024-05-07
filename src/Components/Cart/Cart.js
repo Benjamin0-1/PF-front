@@ -26,6 +26,7 @@ const Cart = (product) => {
                             <img src={ p.image } alt={ p.product } />
                             <div className='card-product'>
                                 <p >{ p.product }</p>
+                                <p>{p.price}</p>
                             </div>
                             <footer>
                                 <p>Quantity: { p.quantity }</p>

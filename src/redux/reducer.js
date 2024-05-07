@@ -1,9 +1,11 @@
-import { ADD_CART, CLEAR_CART, GET_FAVORITES, GET_FAVORITES_ERROR, GET_PRODUCT_ID, LOGIN_ERROR_USER, LOGIN_USER, REMOVE_CART, SIGNUP_ERROR_USER, SIGNUP_USER } from "./action-types-products"
+import { ADD_CART, CLEAR_CART, GET_FAVORITES, GET_FAVORITES_ERROR, GET_PRODUCT_ID, LOGIN_ERROR_USER, LOGIN_USER, REMOVE_CART, SEARCH_PRODUCT, SEARCH_PRODUCT_ERROR, SIGNUP_ERROR_USER, SIGNUP_USER } from "./action-types-products"
 
 
 const initialProductsState = {
     cart: [],
-    detailProduct: {}
+    detailProduct: {},
+    resultsSearch: [],
+    error: ""
 }
 
 
@@ -113,6 +115,16 @@ export const reducerProducts = (state = initialProductsState, action) => {
             return {
                 ...state,
                 detailProduct: action.payload
+            }
+        case SEARCH_PRODUCT:
+            return {
+                ...state,
+                resultsSearch: action.payload
+            }
+        case SEARCH_PRODUCT_ERROR:
+            return {
+                ...state,
+                error: action.error
             }
         default:
             return {

@@ -1,15 +1,19 @@
 .UpdateProduct {
     max-width: 600px;
-    margin: auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
+    margin-top: 1rem;
+
 }
 
 .UpdateProduct h2 {
     margin-bottom: 20px;
     font-size: 24px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .UpdateProduct form {
@@ -27,21 +31,52 @@
     width: 100%; /* Make all fields the same size */
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 2px solid #dadada;
+    background-color: #dadada;
+    border-radius: 3px;
+    box-sizing: border-box;
+    transition: box-shadow 0.15s;
+    outline: none;
+    
+}
+
+.UpdateProduct input:focus,
+.UpdateProduct textarea:focus {
+    border-color: rgba(82, 168, 236, .8);
+    background-color: white;
+    
+}
+
+.UpdateProduct input:hover,
+.UpdateProduct textarea:hover {
+    box-shadow: 0 0 0 1px #009acc;
+  }
+
+
+
+  .UpdateProduct input::placeholder,
+  .UpdateProduct textarea::placeholder{
+    color: gray;
+    opacity: .4;
+}
+
+.containerButton{
+    display: flex;
+    justify-content: center;
 }
 
 .UpdateProduct button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color:  #00c0ff;
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: pointer;  
+
 }
 
 .UpdateProduct button:hover {
-    background-color: #0056b3;
+    background-color: #009acc;
 }
 
 .UpdateProduct .error {
@@ -53,3 +88,13 @@
     color: #008000;
     margin-bottom: 10px;
 }
+
+.container{
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+  }
+
+.adminNavBar{
+   margin-top: 3rem;
+ }
