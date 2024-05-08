@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
-import './BanUser.css'; // estilos
+import banAuserforbadBehavior from './module.BanUser.css'; // estilos
 import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');

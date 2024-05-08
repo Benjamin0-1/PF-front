@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './DeleteUserByEmail.css';
+import delteauserbyemail from './module.DeleteUserByEmail.css';
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
 
@@ -45,7 +45,7 @@ function DeleteUserByEmail() {
 
 
         if (!emailRegex.test(email)) {
-            setInvalidEmailFormat('Email invalido.')
+            setInvalidEmailFormat('Invalid email format.')
             setGeneralError('');
             setSuccessMessage('');
             return
@@ -60,11 +60,11 @@ function DeleteUserByEmail() {
                 }
             });
             if (!response.ok) {
-                setGeneralError('Ha ocurrido un error.');
+                setGeneralError('An error has ocurred.');
                 setSuccessMessage('');
                 return;
             }
-            setSuccessMessage(`Usuario con email ${email} eliminado con exito`);
+            setSuccessMessage(`User with email ${email} successfully deleted`);
             setGeneralError('');
         } catch (error) {
             console.log(`Error: ${error}`);

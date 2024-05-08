@@ -48,7 +48,8 @@ import AdvancedFilter from './Components/AdvancedFilter';
 import UpdateProfileInfo from './Components/UpdateProfileInfo';
 import UpdateProfilePassword from './Components/UpdateProfilePassword';
 import UserReviews from './Components/UserReviews';
-import Cart from './Components/Cart';  // <-- CART
+//import Cart from './Components/Cart';  // <-- CART
+import ShoppingCart from './Components/ShoppingCart';
 import GoogleLogin from './Components/GoogleLogin';
 
 function App() {
@@ -62,7 +63,9 @@ function App() {
 
   return (
     <Router>
-      < Cart/>
+
+      < ShoppingCart/>
+    
       < Logout/>
 
       <Sidebar isOpen={sidebarOpen} />
@@ -111,7 +114,8 @@ function App() {
         <Route path='/updateprofilepassword' element={< UpdateProfilePassword />} />
         <Route path='/userreviews' element={< UserReviews />} />
         <Route path='/advancedfilters' element={< AdvancedFilter />} />
-        <Route path='/cart'  element={< Cart />} />
+        <Route path='/shoppingcart' element={< ShoppingCart />} />
+       
       <Route path='/google' element={< GoogleLogin />} />
       <Route path='*' element={<h1 style={{marginLeft: '200px'}}>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1 style={{marginLeft: '200px'}}> You are not an admin </h1>} />

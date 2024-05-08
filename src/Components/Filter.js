@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Filter.css';
 
 const Filter = ({ handleFilter }) => {
     const [priceBigger, setPriceBigger] = useState('');

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth"; // <-- verifica el importe, aqui funciona.
-import './CreateBrand.css'; // estilos.
+import createABrandForproducts from './module.CreateBrand.css'; // estilos.
 import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken'); // <-- verifica el importe, aqui funciona.

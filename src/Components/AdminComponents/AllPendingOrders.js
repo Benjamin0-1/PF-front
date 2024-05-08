@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
-import './AllPendingOrders.css';
+import seeAllthependingorders from  './module.AllPendingOrders.css';
 
 const accessToken = localStorage.getItem('accessToken');
 let ALL_PENDING_ORDERS_URL = 'http://localhost:3001/all-orders/pending';

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import './DeleteUserById.css';
+import deleteaUserBasedOnItsId from './module.DeleteUserById.css';
 import * as yup from 'yup';
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";

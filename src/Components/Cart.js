@@ -1,5 +1,4 @@
 import React, {useId} from "react";
-import './Cart.css';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addProductCart, clearCart, removeCart } from '../redux/actionProducts'; // <--

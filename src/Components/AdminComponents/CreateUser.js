@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
-import './CreateUser.css';
+
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -9,7 +9,7 @@ const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$/;
 
 const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-let URL = 'http://localhost:3001/'; // <-- IMPORTANTE: <-- FALTA AGREGAR URL.
+let URL = 'http://localhost:3001/signup'; // <-- IMPORTANTE: <-- FALTA AGREGAR URL.
 
 function CreateUser() {
     const [generalError, setGeneralError] = useState('');
@@ -66,7 +66,7 @@ function CreateUser() {
         try {
 
             if (formData.firstName.length < 3) {
-                setNameError('Nombre de usuario debe tener al menos 3 caracteres');
+                setNameError('Username must be at least 3 characters long');
                 setGeneralError('');
                 return
             };

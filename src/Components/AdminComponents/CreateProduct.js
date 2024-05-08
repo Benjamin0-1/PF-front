@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './CreateProduct.css';
+import createAproductforEveryone from  './module.CreateProduct.css';
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
 

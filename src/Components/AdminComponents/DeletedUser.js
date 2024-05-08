@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
-import './DeletedUser.css';
+
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -68,14 +68,13 @@ function DeletedUser() {
     }, []);
 
     return (
-        <div className="DeletedUser">
-            
-          <h1>Deleted Users: {deletedUsers.length}</h1>
+        <div className="DeletedUser" style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+          <h1 style={{ marginBottom: '20px' }}>Deleted Users: {deletedUsers.length}</h1>
           {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
           {noUsersFoundError && <p style={{ color: 'blue' }}>{noUsersFoundError}</p>}
-          <div className="user-cards">
+          <div className="user-cards" style={{ display: 'flex', flexWrap: 'wrap' }}>
             {deletedUsers.map(user => (
-              <div key={user.id} className="user-card">
+              <div key={user.id} className="user-card" style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '5px', margin: '10px', width: 'calc(33.33% - 20px)' }}>
                 <p>ID: {user.id}</p>
                 <p>Username: {user.username}</p>
                 <p>Email: {user.email}</p>
@@ -83,9 +82,10 @@ function DeletedUser() {
               </div>
             ))}
           </div>
-          < AdminNavBar/>
+          <AdminNavBar />
         </div>
       );
+      
       
 };
 

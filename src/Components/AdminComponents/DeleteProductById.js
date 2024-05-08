@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
-import './DeleteProductById.css';
+import deletedaProductByItsID  from './module.DeleteProductById.css';
 
 const accessToken = localStorage.getItem('accessToken');
 

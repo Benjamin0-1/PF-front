@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
-import './PaymentHistory.css';
+import seePaymentHistory from  './module.PaymentHistory.css';
 
 const accessToken = localStorage.getItem('accessToken');
 

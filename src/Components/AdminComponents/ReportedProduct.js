@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
-import './ReportedProduct.css';
+import reportedproductsStyles from  './module.ReportedProduct.css';
 
 const PORT = process.env.PORT || 3001;
 const URL = 'http://localhost:3001/products/reported';

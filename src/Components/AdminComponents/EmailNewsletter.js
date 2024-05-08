@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
-import './EmailNewsletter.css';
+import emailAllthenewsletterusers from './module.EmailNewsletter.css';
 import AdminDashboard from "./AdminDashboard";
 import AdminNavBar from "./AdminNavBar";
 import AllNewsLetterEmail from "./AllNewsLetterEmail";

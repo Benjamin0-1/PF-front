@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
-import './AllUsers.css';
+import seeAllUsersOnSiteRegistered from  './module.AllUsers.css';
 
 const URL = 'http://localhost:3001/allusers';
 const accessToken = localStorage.getItem('accessToken');

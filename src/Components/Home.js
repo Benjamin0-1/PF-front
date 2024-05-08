@@ -5,10 +5,6 @@ import homeStyles from './module.Home.css';
 import Newsletter from "./Newsletter";  // <-- newsletter.
 import Filter from "./Filter";
 
-import { useDispatch } from 'react-redux';
-import { addProductCart } from "../redux/actionProducts";
-
-
 const accessToken = localStorage.getItem('accessToken');
 
 
@@ -27,26 +23,51 @@ function Home() {
     const [sortByPriceDesc, setSortByPriceDesc] = useState(false);
 
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const dispatch = useDispatch(); 
+    const [quantities, setQuantities] = useState({}); // quantity of the specific product.
+
 
     const [successMessages, setSuccessMessages] = useState({});
 
-
-    const handleAddToCart = (product) => {
-        dispatch(addProductCart(product));
-        setSuccessMessages(prevMessages => ({
-            ...prevMessages,
-            [product.id]: 'Added to cart!'
+    // there should be a button to adjust the quantity to be added.
+    const handleIncreaseQuantity = (productId) => {
+        setQuantities(prev => ({
+            ...prev,
+            [productId]: (prev[productId] || 0) + 1
         }));
-        setTimeout(() => {
-            setSuccessMessages(prevMessages => ({
-                ...prevMessages,
-                [product.id]: ''
-            }));
-        }, 3000); // Message disappears after 3 seconds
     };
 
+    const handleDecreaseQuantity = (productId) => {
+        setQuantities(prev => ({
+            ...prev,
+            [productId]: Math.max(0, (prev[productId] || 1) - 1)  // Ensure quantity doesn't go below 0
+        }));
+    };
 
+    const handleAddToServerCart = async (productId, quantity) => {
+   //     e.preventDefault();   // Prevent form submission or link navigation
+   //     e.stopPropagation();  // Stop the event from bubbling up to parent elements
+    
+        try {
+            const response = await FetchWithAuth(`http://localhost:3001/user/add-to-cart`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ productId, quantity })
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error('Failed to add product to cart. ' + errorText);
+            }
+            console.log('Product added to server cart with quantity:', quantity);
+        } catch (error) {
+            console.error('Error adding product to cart:', error);
+        }
+    };
+    
+
+    
     
 
 
@@ -149,7 +170,7 @@ function Home() {
                 }
         
                 // Pagination logic
-                const paginatedProducts = paginate(data, 6); // productos por pagina
+                const paginatedProducts = paginate(data, 8); // productos por pagina
                 setProducts(paginatedProducts[currentPage - 1] || []);
                 setTotalPages(paginatedProducts.length);
                 setGeneralError('');
@@ -230,47 +251,42 @@ function Home() {
             <Filter handleFilter={handleFilter} />
 
             <div className="products-container">
-                {filteredProducts.length > 0 ? (
-                    filteredProducts.map(product => (
-                        <Link to={`/detail/${product.id}`} key={product.id} className="product-link">
-                            <div className="product">
-                                <h3>{product.name}</h3>
-                                <p>Price: ${product.price}</p>
-                               
-                                {product.stock > 0 && (
-                                    <button onClick={() => handleAddToCart(product)}>
-                                        Add to Cart
-                                    </button>
-                                )}
-                                {successMessages[product.id] && <p style={{ color: 'green' }}>{successMessages[product.id]}</p>}
-                    
+    {products.map(product => (
+        <div key={product.id} className="product-item">
+            {/* Product Details */}
+            <Link to={`/detail/${product.id}`} className="product-link">
+                <div className="product">
+                    <h3>{product.product}</h3>
+                    <p>{product.description}</p>
+                    <img src={product.image} alt={product.product} />
+                    <p>Price: ${product.price}</p>
+                    <p>Stock: {product.stock === 0 ? 'Out of Stock' : product.stock}</p>
+                </div>
+            </Link>
 
-                            </div>
-                        </Link>
-                    ))
-                ) : (
-                    products.map(product => (
-                        <Link to={`/detail/${product.id}`} key={product.id} className="product-link">
-                            <div className="product">
-                                <h3>{product.product}</h3>
-                                <p>{product.description}</p>
-                                <img src={product.image} alt={product.product} />
-                                <p>Price: ${product.price}</p>
-                                <p>Stock: {product.stock === 0 ? 'Out of stock' : product.stock}</p>
-
-                                {product.stock > 0 && (
-                                    <button onClick={() => handleAddToCart(product)}>
-                                        Add to Cart
-                                    </button>
-                                )}
-                                {successMessages[product.id] && <p style={{ color: 'green' }}>{successMessages[product.id]}</p>}
-
-
-                            </div>
-                        </Link>
-                    ))
-                )}
+            {/* Quantity and Cart Buttons */}
+            <div className="quantity-selector">
+                <button onClick={(e) => {
+                    e.stopPropagation(); // Stop click from propagating to any parent elements
+                    handleDecreaseQuantity(product.id);
+                }}>-</button>
+                <span>{quantities[product.id] || 1}</span>
+                <button onClick={(e) => {
+                    e.stopPropagation(); // Stop click from propagating to any parent elements
+                    handleIncreaseQuantity(product.id);
+                }}>+</button>
             </div>
+            <button onClick={(e) => {
+                e.preventDefault();  // Prevent the Link navigation
+                e.stopPropagation(); // Stop propagation to prevent link navigation
+                handleAddToServerCart(product.id, quantities[product.id] || 1, e);
+            }}>
+                Add to Server Cart
+            </button>
+        </div>
+    ))}
+</div>
+
 
             <div className="pagination">
                 <button disabled={currentPage === 1} onClick={handlePrevPage}>Previous</button>

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminDashboard from "./AdminDashboard";
-import './GrantAdminByUsername.css';
+import grantadminbyusername from './module.GrantAdminByUsername.css';
 
 const accessToken = localStorage.getItem('accessToken');
 

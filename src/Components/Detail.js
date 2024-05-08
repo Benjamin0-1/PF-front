@@ -3,9 +3,6 @@ import FetchWithAuth from './Auth/FetchWithAuth';
 import { useParams } from 'react-router-dom';
 import detailStyles from './module.Detail.css';
 
-import { useDispatch } from 'react-redux';
-import { addProductCart } from "../redux/actionProducts";
-
 const accessToken = localStorage.accessToken;
 
 function Detail() {
@@ -20,7 +17,7 @@ function Detail() {
     const [reviewError, setReviewError] = useState('');
     const [reviewSuccess, setReviewSuccess] = useState('');
     const [showReviewForm, setShowReviewForm] = useState(false);
-    const dispatch = useDispatch();
+
     const [favoritesButtonVisible, setFavoritesButtonVisible] = useState(false);
     const handleReviewToggle = () => setShowReviewForm(!showReviewForm);
     const [reportSuccess, setReportSuccess] = useState('');
@@ -28,29 +25,69 @@ function Detail() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [reportReason, setReportReason] = useState('');
     const [reportDetails, setReportDetails] = useState('');
+    const [quantity, setQuantity] = useState(1);   // quantity
+    const [productAddedToCartSuccess, setProductAddedToCartSuccess] = useState('');
+    const [showCartSuccessMessage, setShowCartSuccessMessage] = useState(false); 
    
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken'); 
         setFavoritesButtonVisible(!!accessToken);
         setIsLoggedIn(!!accessToken);
     }, []); 
-    
-    const addToCart = () => {
-        if (product.stock > 0) {
-            dispatch(addProductCart(product));
-            setCartSuccessMessage('Added to cart successfully!');
-            setTimeout(() => setCartSuccessMessage(''), 3000);  // Clear the message after 3 seconds
+
+
+    const handleQuantityChange = (increment) => {
+        setQuantity(prev => increment ? Math.max(1, prev + 1) : Math.max(1, prev - 1));
+    };
+
+    const addToServerCart = async () => {
+        try {
+            const response = await FetchWithAuth('http://localhost:3001/user/add-to-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ productId: id, quantity })
+            });
+            if (!response.ok) throw new Error('Failed to add product to cart');
+
+
+            setShowCartSuccessMessage(true);
+
+           
+
+            setProductAddedToCartSuccess('Product added to cart successfully')
+         //   alert('Product added to server cart successfully!');
+        } catch (error) {
+            console.error('Error adding product to cart:', error);
         }
     };
 
 
+
+    useEffect(() => {
+        let timer;
+        if (showCartSuccessMessage) {
+            timer = setTimeout(() => {
+                setShowCartSuccessMessage(false);
+            }, 3000);
+        }
+        return () => clearTimeout(timer);
+    }, [showCartSuccessMessage]);
+ 
+
+    
+
+
+
     const handleReviewSubmit = async () => {
         if (!reviewText || !rating) {
-            setReviewError('Por favor, proporcione tanto la reseña como la calificación.');
+            setReviewError('Please provide a review and a rating.');
             return;
         }
         if (!/^\d+(\.\d+)?$/.test(rating) || rating < 1 || rating > 5) {
-            setReviewError('La calificación debe ser un número entre 1 y 5.');
+            setReviewError('Rating must be between 1 and 5.');
             return;
         }
     
@@ -82,7 +119,7 @@ function Detail() {
                 } else if (responseData.productNotOwned) {
                     setReviewError(responseData.productNotOwned);
                 } else {
-                    setReviewError('Error desconocido, intente de nuevo.');
+                    setReviewError('An error has ocurred, please try again.');
                 }
                 return;
             }
@@ -151,7 +188,7 @@ function Detail() {
 
             const data = await response.json();
             if (data.productAlreadyAddedToFavorites) {
-                setProductAlreadyAddedToFavoritesError('Ya has agreagdo este producto a favoritos.');
+                setProductAlreadyAddedToFavoritesError('You have already added this product to your favorites.');
                 setProductAddedSuccessfully('');
                 return;
             };
@@ -161,7 +198,7 @@ function Detail() {
                 return;
             };
 
-            setProductAddedSuccessfully('Producto agregado a favoritos exitosamente.');
+            setProductAddedSuccessfully('Product added to favorites.');
             setProductAlreadyAddedToFavoritesError('');
 
         } catch (error) {
@@ -214,6 +251,24 @@ function Detail() {
                     ))}
                 </ul>
                 <img src={product.image} alt={product.product} />
+
+
+
+
+                <div className='quantity-controls'>
+                    <button onClick={() => handleQuantityChange(false)}>-</button>
+                    <span>{quantity}</span>
+                    <button onClick={() => handleQuantityChange(true)}>+</button>
+                </div>
+                
+                <button onClick={addToServerCart}>Add to cart</button>
+                {showCartSuccessMessage && (
+                <div className='success-message'>
+                    <p>Product added to cart successfully!</p>
+                </div>
+            )}
+
+
                 {favoritesButtonVisible && (
                     <button onClick={addToFavorites} className='addToFavoritesButton'>
                         Add to Favorites
@@ -221,12 +276,7 @@ function Detail() {
                 )}
                 {productAlreadyAddedToFavoritesError && <p style={{color: 'red'}}>{productAlreadyAddedToFavoritesError}</p>}
                 {productAddedSuccessfully && <p style={{color: 'green'}}>{productAddedSuccessfully}</p>}
-                {product.stock > 0 && (
-                    <button onClick={addToCart}>
-                        Add to Cart
-                    </button>
-                )}
-                {cartSuccessMessage && <p style={{color: 'green'}}>{cartSuccessMessage}</p>}
+              
 
                 <button onClick={handleReviewToggle}>Write a Review</button>
                 {showReviewForm && (
