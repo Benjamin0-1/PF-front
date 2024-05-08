@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+
 // Global style for body
 const GlobalStyle = createGlobalStyle`
   body {
@@ -78,6 +79,7 @@ const GamingLanding = () => {
 
   return (
     <>
+
       <GlobalStyle />
       <HeroSection>
         <HeroTitle>Experience the Edge of Technology</HeroTitle>

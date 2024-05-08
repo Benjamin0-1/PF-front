@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import seeOrdersWithId from './module.Order.css';
+import ProfileIcon from "./ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -97,6 +98,7 @@ function Order() {
 
     return (
         <div className="Order">
+            < ProfileIcon/>
             <h2>Total: {orders.length}</h2>
             
 

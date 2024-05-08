@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import shippingDetailStyles from './module.ShippingDetail.css';
+import ProfileIcon from "./ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -85,6 +86,7 @@ function ShippingDetail() {
 
     return (
         <div className="ShippingDetail">
+            < ProfileIcon />
             <h2>Your Shipping Addresses:</h2>
             {invalidAddrDeletion && <p style={{color: 'red'}}>{invalidAddrDeletion}</p>}
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}

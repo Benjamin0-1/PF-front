@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
 import seeAllUsersOnSiteRegistered from  './module.AllUsers.css';
+import ProfileIcon from "../ProfileIcon";
 
 const URL = 'http://localhost:3001/allusers';
 const accessToken = localStorage.getItem('accessToken');
@@ -45,6 +46,7 @@ function AllUsers() {
 
     return (
         <div className="AllUsers">
+            < ProfileIcon/>
             
             <br/>
             <br/>

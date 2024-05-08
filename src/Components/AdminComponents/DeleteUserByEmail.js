@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import delteauserbyemail from './module.DeleteUserByEmail.css';
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
+import ProfileIcon from "../ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -73,7 +74,8 @@ function DeleteUserByEmail() {
 
     return (
         <div className="DeleteUserByEmail">
-            
+          < br/>
+            < ProfileIcon/>
             <br/>
             <h2>Delete User By Email</h2>
             <input 

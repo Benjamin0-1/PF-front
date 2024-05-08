@@ -3,6 +3,7 @@ import deleteaUserBasedOnItsId from './module.DeleteUserById.css';
 import * as yup from 'yup';
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
+import ProfileIcon from "../ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -99,6 +100,7 @@ function DeleteUserById() {
     // puede ser type="number".
     return (
         <div className="DeleteUserById">
+            < ProfileIcon/>
             
             <br/>
             <h2>Eliminar usuario por ID</h2>

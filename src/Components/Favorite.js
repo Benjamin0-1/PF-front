@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import  favStyles from './module.Favorite.css'; // Import the CSS file
+import ProfileIcon from "./ProfileIcon";
+import AdminButtonIcon from "./AdminButtonIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -72,6 +74,8 @@ function Favorite() {
 
     return (
         <div className="Favorite">
+            < ProfileIcon />
+            < AdminButtonIcon/>
             <h2>Your Favorite Products: {favorites.length}</h2>
             {Array.isArray(favorites) && favorites.map((favorite) => (
                 <div key={favorite.id} className="favorite-card">

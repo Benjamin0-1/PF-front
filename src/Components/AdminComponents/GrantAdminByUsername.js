@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminDashboard from "./AdminDashboard";
 import grantadminbyusername from './module.GrantAdminByUsername.css';
+import ProfileIcon from "../ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -60,7 +61,7 @@ function GrantAdminByUsername() {
             const data = await response.json();
 
             if (data.userNotFound) {
-                setUserNotFoundError(`Usuario: ${username} no existe`);
+                setUserNotFoundError(`User: ${username} does not exist`);
                 setGeneralError('');
                 setSuccessMessage('');
                 return;
@@ -106,7 +107,7 @@ function GrantAdminByUsername() {
 
                 // Check if user exists
                 if (!data.userExists) {
-                    setUserNotFoundError(`Usuario: ${username} no existe`);
+                    setUserNotFoundError(`User: ${username} does not exist`);
                     setGeneralError('');
                     setSuccessMessage('');
                 } else {
@@ -115,7 +116,7 @@ function GrantAdminByUsername() {
             } catch (error) {
                 console.log(`error: ${error}`);
                 setUserNotFoundError('');
-                setGeneralError('Error obteniendo detalles del usuario');
+               // setGeneralError('Error obteniendo detalles del usuario'); IMPORTANTE: ARREGLAR ESTO! !
                 setSuccessMessage('');
             }
         };
@@ -129,6 +130,8 @@ function GrantAdminByUsername() {
 
     return (
         <div className="GrantAdminByUsername">
+            < ProfileIcon/>
+            < br/>
             <input
                 type="text"
                 placeholder="Enter username"

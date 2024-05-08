@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import seePaymentHistory from  './module.PaymentHistory.css';
+import ProfileIcon from "./ProfileIcon";
+import ViewCartIcon from "./ViewCartIcon";
+import AdminButtonIcon from "./AdminButtonIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -85,6 +88,9 @@ function PaymentHistory() {
 
     return (
         <div className="PaymentHistory">
+            < ProfileIcon/>
+            < ViewCartIcon/>
+            < AdminButtonIcon/>
             <h1>Total: {userPaymentHistory.length}</h1>
             {generalError && <p>{generalError}</p>}
             {noPaymentsError && <p>{noPaymentsError}</p>}

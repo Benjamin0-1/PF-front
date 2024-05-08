@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth"; // <-- verifica el importe, aqui funciona.
 import createABrandForproducts from './module.CreateBrand.css'; // estilos.
 import AdminNavBar from "./AdminNavBar";
+import ProfileIcon from "../ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken'); // <-- verifica el importe, aqui funciona.
 
@@ -74,6 +75,7 @@ function CreateBrand() {
 
     return (
         <div className="create-brand-container">
+            < ProfileIcon/>
             <br/>
             <br/>
             <input type="text" value={brandName} onChange={handleChange} placeholder="Nombre de la marca" className="brand-input" />

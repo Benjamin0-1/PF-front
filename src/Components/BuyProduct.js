@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import  buyAProductStyles  from './module.BuyProduct.css';
+import ProfileIcon from "./ProfileIcon";
+import AdminButtonIcon from "./AdminButtonIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -271,6 +273,8 @@ const BuyProduct = () => {
 
     return (
         <div className="container">
+            < ProfileIcon/>
+            <AdminButtonIcon />
             <h2>Buy Products</h2>
             {missingShippingInfo && <p style={{color: 'red'}}> {missingShippingInfo} </p>}
             {productInCartNotFound && <p style={{color: 'red'}}>{productInCartNotFound}</p>}

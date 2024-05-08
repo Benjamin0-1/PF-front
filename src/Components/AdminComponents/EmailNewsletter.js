@@ -4,6 +4,7 @@ import emailAllthenewsletterusers from './module.EmailNewsletter.css';
 import AdminDashboard from "./AdminDashboard";
 import AdminNavBar from "./AdminNavBar";
 import AllNewsLetterEmail from "./AllNewsLetterEmail";
+import ProfileIcon from "../ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -93,6 +94,7 @@ function EmailNewsletter() {
 
       return (
         <div className="Newsletter">
+            < ProfileIcon/>
             <h2>Email All Newsletter Subscribers</h2>
             <form onSubmit={handleEmailSending} className="newsletter-form">
                 <div className="form-group">

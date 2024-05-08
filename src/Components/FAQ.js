@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import FQSStyles from './module.FAQ.css'
+import FQSStyles from './module.FAQ.css';
+import ProfileIcon from './ProfileIcon';
+import LoginIconButton from './LoginIcon';
+import AdminButtonIcon from './AdminButtonIcon';
 
 const FAQ = () => {
   const [showAnswer, setShowAnswer] = useState({});
@@ -41,6 +44,9 @@ const FAQ = () => {
 
   return (
     <div className="faq-container">
+      < ProfileIcon/>
+      < LoginIconButton />
+      < AdminButtonIcon/>
       <h1>FAQs</h1>
       {faqs.map((faq, index) => (
         <div className={`faq-item ${showAnswer[index] ? 'open' : ''}`} key={index}>

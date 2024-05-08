@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
+import ProfileIcon from "./ProfileIcon";
+import AdminButtonIcon from "./AdminButtonIcon";
 
 import cartsbeforepurchasecomponent from './module.ViewCart.css';
 
@@ -197,6 +199,8 @@ function ViewCart() {
     // so that users know exactly which  addr they selected before purchasing . 
     return (
         <div className="container">
+            < ProfileIcon/>
+            < AdminButtonIcon/>
             <h2 className="shopping-cart-heading">Your Shopping Cart</h2>
             {cartItems.length === 0 ? (
                 <p>Your cart is empty.</p>

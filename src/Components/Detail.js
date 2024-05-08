@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import FetchWithAuth from './Auth/FetchWithAuth';
 import { useParams } from 'react-router-dom';
 import detailStyles from './module.Detail.css';
+import ProfileIcon from './ProfileIcon';
+import ViewCartIcon from './ViewCartIcon';
+import LoginIconButton from './LoginIcon';
+import AdminButtonIcon from './AdminButtonIcon';
 
 const accessToken = localStorage.accessToken;
 
@@ -237,6 +241,10 @@ function Detail() {
 
     return (
         <div className='detail-container'>
+            < ProfileIcon/>
+            < ViewCartIcon/>
+            < LoginIconButton/>
+            < AdminButtonIcon/>
             <div className='product-details'> 
                 <h2>{product.product}</h2>
                 <p>{product.description}</p>

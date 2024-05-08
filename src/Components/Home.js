@@ -3,7 +3,10 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import homeStyles from './module.Home.css';
 import Newsletter from "./Newsletter";  // <-- newsletter.
-
+import ProfileIcon from "./ProfileIcon";
+import ViewCartIcon from "./ViewCartIcon";
+import LoginIconButton from "./LoginIcon";
+import AdminButtonIcon from "./AdminButtonIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -297,6 +300,10 @@ function Home() {
 
     return (
         <div className="Home">
+            < ProfileIcon/>
+            < ViewCartIcon/>
+            < LoginIconButton/>
+            < AdminButtonIcon/>
             <div className="search-bar">
                 <input
                     type="text"

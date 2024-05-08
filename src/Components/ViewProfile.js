@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import userProfileStyles from './module.ViewProfile.css';
+import AdminButtonIcon from "./AdminButtonIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -57,6 +58,7 @@ function ViewProfile() {
 
     return (
         <div className="ViewProfile">
+            < AdminButtonIcon/>
             <h2 className="card"> <strong>Profile</strong>  </h2>
             <div>
                 <p className="card">First name: {profileInfo.first_name || 'Error mostrando nombre'}</p>
