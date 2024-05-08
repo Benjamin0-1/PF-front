@@ -229,9 +229,10 @@ function BanUser() {
 
 
     return (
-        <div className="BanUser">
+        <div >
             <br/ >
             <br />
+            <div className="BanUser">
             <h2>Ban User</h2>
             <form onSubmit={handleBan}>
                 <label htmlFor="userId">User ID:</label>
@@ -271,7 +272,8 @@ function BanUser() {
             {/* {generalError && <p style={{ color: 'red' }}>{generalError}</p>} */}
             {/* {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>} */}
             <ToastContainer />
-            <div className="adminNavBar">
+            </div>
+            <div >
             <AdminNavBar/>
             </div>
         </div>

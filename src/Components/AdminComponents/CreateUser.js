@@ -135,7 +135,8 @@ function CreateUser() {
 
 
     return (
-        <div className="CreateUser">
+        <div >
+            <div className="CreateUser">
             <h1>Create User</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="firstName">First Name:</label>
@@ -216,8 +217,11 @@ function CreateUser() {
                 {generalError && <p>{generalError}</p>}
                 {successMessage && <p>{successMessage}</p>}
             </form>
+            </div>
             <br/>
+            <div>
             < AdminNavBar/>
+            </div>
         </div>
     );
     
