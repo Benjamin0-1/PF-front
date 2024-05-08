@@ -50,6 +50,7 @@ import UpdateProfilePassword from './Components/UpdateProfilePassword';
 import UserReviews from './Components/UserReviews';
 //import Cart from './Components/Cart';  // <-- CART
 import ShoppingCart from './Components/ShoppingCart';
+import ViewCart from './Components/ViewCart';
 import GoogleLogin from './Components/GoogleLogin';
 
 function App() {
@@ -115,7 +116,7 @@ function App() {
         <Route path='/userreviews' element={< UserReviews />} />
         <Route path='/advancedfilters' element={< AdvancedFilter />} />
         <Route path='/shoppingcart' element={< ShoppingCart />} />
-       
+       <Route path='/viewcart' element={< ViewCart />} />
       <Route path='/google' element={< GoogleLogin />} />
       <Route path='*' element={<h1 style={{marginLeft: '200px'}}>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1 style={{marginLeft: '200px'}}> You are not an admin </h1>} />

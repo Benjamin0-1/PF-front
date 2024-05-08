@@ -1,0 +1,91 @@
+/* Container and General Layout */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+}
+
+/* Typography and Headings */
+.shopping-cart-heading {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* List and Cart Item Styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.cart-item img {
+    width: 60px;
+    height: auto;
+    margin-right: 15px;
+}
+
+.cart-item p {
+    margin: 0 10px;
+    flex: 1;
+}
+
+/* Buttons */
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Loading and Error States */
+.loading, .error {
+    color: #d9534f;
+    text-align: center;
+}
+
+/* Shipping Address Cards */
+.shipping-address {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+.shipping-address:hover {
+    background-color: #0056b3;
+    color: white;
+}
+.shipping-address {
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.shipping-address.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+}

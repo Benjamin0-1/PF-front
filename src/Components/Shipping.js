@@ -1,16 +1,14 @@
-import React, {useState, useEffect} from "react";
+import React, { useState } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import './Shipping.css';
 
 const accessToken = localStorage.getItem('accessToken');
-
 const zipCodeRegex = /^\d+$/;
-
 
 function Shipping() {
     const [generalError, setGeneralError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const [nicknameInUse, setnicknameInUse] = useState('');
+    const [nicknameInUse, setNicknameInUse] = useState('');
     const [invalidCountry, setInvalidCountry] = useState('');
     const [invalidNickname, setInvalidNickname] = useState('');
     const [invalidCity, setInvalidCity] = useState('');
@@ -25,43 +23,40 @@ function Shipping() {
     });
 
     if (!accessToken) {
-        window.location.href = '/login'
-    };
-
+        window.location.href = '/login';
+    }
 
     const handleCreation = async (e) => {
-
         e.preventDefault();
 
+        setInvalidNickname('');
+        setInvalidCountry('');
+        setInvalidCity('');
+        setInvalidZipCode('');
+        setNicknameInUse('');
+        setMaxShippingError('');
+
+        if (formData.nickname.length < 3) {
+            setInvalidNickname('Nickname must be at least 3 characters long.');
+            return;
+        }
+
+        if (formData.country.length < 3) {
+            setInvalidCountry('Please enter a valid country.');
+            return;
+        }
+
+        if (formData.city.length < 3) {
+            setInvalidCity('Please enter a valid city.');
+            return;
+        }
+
+        if (!zipCodeRegex.test(formData.zip_code)) {
+            setInvalidZipCode('Invalid zip code, must be numeric.');
+            return;
+        }
+
         try {
-
-            if (formData.nickname.length < 3) {
-                setInvalidNickname('Apodo debe contener al menos 3 caracteres');
-                setGeneralError('');
-                return
-            };
-
-            if (formData.country.length < 3) {
-                setInvalidCountry('Ingrese un pais valido');
-                setInvalidNickname('');
-                setGeneralError('');
-            };
-
-            if (formData.city.length < 3) {
-                setInvalidCity('Ingrese una ciudad valida');
-                setInvalidCity('');
-                setGeneralError('');
-                return
-            };
-
-            if (formData.zip_code.length === 0 || !zipCodeRegex.test(formData.zip_code)) {
-                setInvalidZipCode('codigo postal invalido, debe ser numero');
-                setInvalidCountry('');
-                setInvalidNickname('');
-                setGeneralError('');
-                return
-            };
-            
             const response = await FetchWithAuth('http://localhost:3001/user/shipping', {
                 method: 'POST',
                 headers: {
@@ -73,54 +68,39 @@ function Shipping() {
 
             const data = await response.json();
 
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to create shipping address.');
+            }
+
             if (data.nicknameAlreadyInUse) {
-                setnicknameInUse(`Ya tienes una direccion con el apodo: ${formData.nickname}`);
-                setGeneralError('');
-                return
-            };
+                setNicknameInUse(`You already have a shipping address with the nickname: ${formData.nickname}`);
+                return;
+            }
 
             if (data.maxShipping) {
-                setMaxShippingError('Ya has alcanzado el limite de 10 direcciones de envio');
-                setnicknameInUse('');
-                setGeneralError('');
+                setMaxShippingError('You have reached the limit of 10 shipping addresses.');
                 return;
-            };
+            }
 
-            setSuccessMessage('Direccion de envio creada con exito');
-            setGeneralError('');
-            setInvalidCountry('');
-            setInvalidNickname('');
-            setnicknameInUse('');
-            setInvalidZipCode('');
-
-            // limpiar form
+            setSuccessMessage('Shipping address created successfully.');
             setFormData({
                 nickname: '',
                 country: '',
                 city: '',
                 zip_code: ''
             });
-    
-            
 
         } catch (error) {
-            console.log();
-            setGeneralError('Ha ocurrido un error');
-            setSuccessMessage('');
-            setInvalidCountry('');
-            setInvalidNickname('');
-            setnicknameInUse('');
-            setInvalidZipCode('');
-        };
+            setGeneralError('An error occurred: ' + error.message);
+        }
     };
-
 
     return (
         <div className="Shipping">
-            <h2>Crear dirección de envío</h2>
+            <h2>Create Shipping Address</h2>
             <form onSubmit={handleCreation}>
                 <div>
-                    <label>Apodo:</label>
+                    <label>Nickname:</label>
                     <input
                         type="text"
                         value={formData.nickname}
@@ -130,7 +110,7 @@ function Shipping() {
                     {nicknameInUse && <p style={{ color: 'red' }}>{nicknameInUse}</p>}
                 </div>
                 <div>
-                    <label>País:</label>
+                    <label>Country:</label>
                     <input
                         type="text"
                         value={formData.country}
@@ -139,15 +119,16 @@ function Shipping() {
                     {invalidCountry && <p style={{ color: 'red' }}>{invalidCountry}</p>}
                 </div>
                 <div>
-                    <label>Ciudad:</label>
+                    <label>City:</label>
                     <input
                         type="text"
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                     />
+                    {invalidCity && <p style={{ color: 'red' }}>{invalidCity}</p>}
                 </div>
                 <div>
-                    <label>Código Postal:</label>
+                    <label>Zip Code:</label>
                     <input
                         type="text"
                         value={formData.zip_code}
@@ -155,16 +136,13 @@ function Shipping() {
                     />
                     {invalidZipCode && <p style={{ color: 'red' }}>{invalidZipCode}</p>}
                 </div>
-                <button type="submit">Crear Dirección de Envío</button>
+                <button type="submit" onClick={handleCreation}>Create Shipping Address</button>
             </form>
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
             {maxShippingError && <p style={{ color: 'red' }}>{maxShippingError}</p>}
         </div>
     );
-};
-
-
-
+}
 
 export default Shipping;

@@ -34,6 +34,9 @@ function ShoppingCart() {
 
     
     const fetchProductsInCart = async () => {
+
+        if (!accessToken) {return;}
+
         setIsLoading(true);
         try {
             const response = await FetchWithAuth('http://localhost:3001/user/viewcart', {
@@ -53,6 +56,9 @@ function ShoppingCart() {
 
 
     const addToCart = async (productId, quantity) => {
+
+        if (!accessToken) {return} // instead of return display a message to the user
+
         try {
             await FetchWithAuth('http://localhost:3001/user/add-to-cart', {
                 method: 'POST',
@@ -69,19 +75,25 @@ function ShoppingCart() {
     };
    
 
- const updateQuantity = async (productId, quantity) => {
-        try {
-            await FetchWithAuth('http://localhost:3001/user/update-cart', {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
-                body: JSON.stringify({ productId, quantity })
-            });
-            setUpdate(!update); // Toggle to re-fetch cart items
-        } catch (error) {
-            console.error(`Error updating cart: ${error}`);
+    // USE TRY CATCH!
+    const updateQuantity = async (productId, newQuantity) => {
+
+        if (!accessToken) {return}
+
+        const response = await fetch('http://localhost:3001/user/update-cart', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify({ productId, quantity: newQuantity })
+        });
+        if (response.ok) {
+            setCartItems(prevItems =>
+                prevItems.map(item => item.id === productId ? { ...item, ProductCart: { ...item.ProductCart, quantity: newQuantity } } : item)
+            );
+        } else {
+            console.error('Failed to update quantity');
         }
     };
 
@@ -137,36 +149,40 @@ function ShoppingCart() {
 
     return (
         <div className="shopping-cart-icon">
-            <button  style={{marginLeft: '1240px'}} onClick={toggleCart}>🛒 </button> {/* Cart icon */}
+            <button style={{ position: 'fixed', top: '20px', right: '20px' }} onClick={toggleCart}>🛒</button>
             {showCart && (
-                <div className='Users-Shopping-Cart-Ultimate'>
+                <div className='Users-Shopping-Cart-Ultimate' style={{ position: 'fixed', top: '50px', right: '20px', width: '300px', background: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
                     <h2>Shopping Cart</h2>
                     {cartItems.length === 0 ? (
                         <p>Your cart is empty</p>
                     ) : (
                         cartItems.map(item => (
-                            <div key={item.id}>
-                                <h3>{item.product}</h3>
-                                <p>Price: ${item.price}</p>
-                                <input
-                                    type="number"
-                                    value={item.quantity}
-                                    onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-                                />
-                                <button onClick={() => deleteFromCart(item.id)}>Remove</button>
+                            <div key={item.id} style={{ marginBottom: '10px' }}>
+                                <h3>{item.product} - ${item.price}</h3>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <div>
+                                        <button onClick={() => updateQuantity(item.id, item.ProductCart.quantity - 1)}>-</button>
+                                        <span style={{ margin: '0 10px' }}>{item.ProductCart.quantity}</span>
+                                        <button onClick={() => updateQuantity(item.id, item.ProductCart.quantity + 1)}>+</button>
+                                    </div>
+                                    <button onClick={() => deleteFromCart(item.id)}>Remove</button>
+                                </div>
                             </div>
                         ))
                     )}
-                    <button onClick={() => {/* proceedToCheckout function here */}}>Proceed to Checkout</button>
+                    <button onClick={() => {proceedToCheckout()}}>Proceed to Checkout</button>
+                    <button onClick={toggleCart} style={{ position: 'absolute', top: '5px', right: '5px' }}>Close</button>
                 </div>
             )}
         </div>
     );
-
+    
 }
 
 export default ShoppingCart;
 
+
+// PROVIDE FEEBACK FOR USERS WHO TRY USING THE CART WITHOUT BEING LOGGED IN ! 
 
 // this component will work inside the HOME component.
 // below every product in the HOME component there will be a button saying 'add to cart' and when clicked, it 
