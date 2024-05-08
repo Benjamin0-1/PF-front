@@ -51,6 +51,7 @@ import UserReviews from './Components/UserReviews';
 //import Cart from './Components/Cart';  // <-- CART
 import ShoppingCart from './Components/ShoppingCart';
 import ViewCart from './Components/ViewCart';
+import LandingPage from './Components/VisualComponents/LandingPage';
 import GoogleLogin from './Components/GoogleLogin';
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
     };
+
 
 
 
@@ -118,11 +120,13 @@ function App() {
         <Route path='/shoppingcart' element={< ShoppingCart />} />
        <Route path='/viewcart' element={< ViewCart />} />
       <Route path='/google' element={< GoogleLogin />} />
+     <Route path='/landingpage' element={< LandingPage />} />
+    
       <Route path='*' element={<h1 style={{marginLeft: '200px'}}>404 Not Found</h1>}/> 
       <Route path='/notadmin'  element={<h1 style={{marginLeft: '200px'}}> You are not an admin </h1>} />
       <Route  path='/ordercancelled' element={<h1 style={{marginLeft: '200px'}}>Order has been cancelled</h1>} />
       <Route path='/errorprocessingorder' element={<h1 style={{marginLeft: '200px'}} >Error processing order</h1>} />
-      <Route path='/' element={< Login/>} />
+      <Route path='/' element={< LandingPage/>} />
       </Routes>
 
     

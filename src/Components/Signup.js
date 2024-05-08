@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import signUpRegisterFormStyles from  './module.Signup.css';
+import signupImage from './Assets/signup.webp'
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -148,8 +149,15 @@ function Signup() {
     };
 
     return (
+        
+
+
         <div className="Signup">
-            <h2>Sign Up</h2>
+        <h2>Sign Up</h2>
+    
+            
+
+
             {successMessage && <p className="success-message">{successMessage}</p>}
             <form onSubmit={handleSubmit} className="signup-form">
                 {isLoading && <p className="loading-message"><strong>Creating account...</strong></p>}

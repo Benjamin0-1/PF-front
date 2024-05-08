@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; 
 import Logginstyles from './module.Login.css';
 
+import fancyImageFrom from './Assets/login.webp'
+
 const accessToken = localStorage.getItem('accessToken');
 
 function Login() {
@@ -129,7 +131,9 @@ function Login() {
     };
 
     return (
-        <div>
+        <div className="login-container" style={{ backgroundImage: `url(${fancyImageFrom})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+            
             <form onSubmit={handleSubmit} className="LoginForm">
                 <label htmlFor="username" style={{ alignSelf: 'flex-start', marginLeft: '5%', fontWeight: 'bold' }}>Username:</label>
                 <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} style={{ width: '90%', padding: '10px', margin: '10px 0', border: '1px solid #ccc', borderRadius: '5px', display: 'block' }} />

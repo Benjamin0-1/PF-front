@@ -21,12 +21,50 @@ function Home() {
     const [alphabeticalOrder, setAlphabeticalOrder] = useState(false);
     const [sortByPriceAsc, setSortByPriceAsc] = useState(false);
     const [sortByPriceDesc, setSortByPriceDesc] = useState(false);
-
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [quantities, setQuantities] = useState({}); // quantity of the specific product.
-
-
+    const [category, setCategory] = useState('');
     const [successMessages, setSuccessMessages] = useState({});
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(1000000); 
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [showCategories, setShowCategories] = useState(false);
+
+
+    const fetchProductsByPriceRange = async () => {
+        try {
+            const response = await fetch(`http://localhost:3001/searchbypricerange/${minPrice}/${maxPrice}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setProducts(data.products);
+            } else {
+                throw new Error(data.message || 'Error fetching products');
+            }
+        } catch (error) {
+            setGeneralError(`Fetch error: ${error.message}`);
+        }
+
+    };
+
+    useEffect(() => {
+        fetchProductsByPriceRange();
+    }, [minPrice, maxPrice]);
+
+    const handlePriceChange = (type, value) => {
+        if (type === 'min') {
+            setMinPrice(value);
+        } else if (type === 'max') {
+            setMaxPrice(value);
+        }
+    };
+
+
+    
 
     // there should be a button to adjust the quantity to be added.
     const handleIncreaseQuantity = (productId) => {
@@ -211,8 +249,50 @@ function Home() {
         setCurrentPage(prevPage => prevPage - 1);
     };
 
+    // get all categories that exist
+    const fetchCategories = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/all-category');
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message);
+            setCategories(data);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    };
+
+    // select category by simply clicking on it.
+    const handleCategorySelect = async (categoryName) => {
+        setSelectedCategory(categoryName);
+        const response = await fetch(`http://localhost:3001/category/${categoryName}`);
+        const data = await response.json();
+        if (response.ok) {
+            setProducts(data);
+        } else {
+            console.error('Failed to fetch category products:', data.message);
+            setGeneralError(data.message || 'Failed to load products for the selected category');
+        }
+    };
     
-    
+    const handleCategorySearch = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await FetchWithAuth(`http://localhost:3001/category/${category}`,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch products');
+            }
+            const data = await response.json();
+            setProducts(data);
+        } catch (error) {
+            setGeneralError('Failed to fetch products');
+        }
+    };
 
 
     return (
@@ -233,6 +313,33 @@ function Home() {
                     </div>
                 )}
             </div>
+
+
+                
+                <div className="categories">
+                <button onClick={() => setShowCategories(!showCategories)}>
+                {showCategories ? 'Hide Categories' : 'Show Categories'}
+                <div className="category-list">
+                    {categories.map((category) => (
+                        <p key={category.id} onClick={() => handleCategorySelect(category.category)}>
+                            {category.category}
+                        </p>
+                    ))}
+                </div>
+            </button>
+                </div>
+
+
+
+
+
+            <div className="price-filters">
+                <input type="range" min="0" max="1000" value={minPrice} onChange={(e) => handlePriceChange('min', e.target.value)} />
+                <input type="range" min="0" max="1000" value={maxPrice} onChange={(e) => handlePriceChange('max', e.target.value)} />
+                <p>Price Range: ${minPrice} - ${maxPrice}</p>
+            </div>
+
+          
 
             <div className="toggle-button">
                     <button onClick={() => setAlphabeticalOrder(!alphabeticalOrder)}>

@@ -1,48 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import advandedfiltercss from './module.AdvancedFilters.css'
 
 function AdvancedFilter() {
-    const [startPrice, setStartPrice] = useState('');
-    const [endPrice, setEndPrice] = useState('');
-    const [startRating, setStartRating] = useState('');
-    const [endRating, setEndRating] = useState('');
+    const [startPrice, setStartPrice] = useState(0);
+    const [endPrice, setEndPrice] = useState(500);
+    const [startRating, setStartRating] = useState(1);
+    const [endRating, setEndRating] = useState(5);
     const [category, setCategory] = useState('');
     const [brand, setBrand] = useState('');
+    const [categories, setCategories] = useState([]); // Assume you fetch this from the server
+    const [brands, setBrands] = useState([]); // Assume you fetch this from the server
     const [generalError, setGeneralError] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (name === 'startPrice') {
-            setStartPrice(value);
-        } else if (name === 'endPrice') {
-            setEndPrice(value);
-        } else if (name === 'startRating') {
-            setStartRating(value);
-        } else if (name === 'endRating') {
-            setEndRating(value);
-        } else if (name === 'category') {
-            setCategory(value);
-        } else if (name === 'brand') {
-            setBrand(value);
-        }
-    };
+    useEffect(() => {
+        // Simulating fetching of categories and brands
+        setCategories(['electronico', 'telefono', 'tv']);
+        setBrands(['Apple', 'Samsung', 'Sony']);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         try {
-            if (category.length < 2) {
-                setGeneralError('Enter a valid category');
-                return;
+            // Validations can be more complex based on requirements
+            if (!category) {
+                throw new Error('Please select a category');
+            }
+            if (!brand) {
+                throw new Error('Please select a brand');
             }
 
-            if (brand.length < 2) {
-                setGeneralError('Enter a valid brand name');
-                return;
-            }
-
+            // Example fetch call
             const response = await fetch(`http://localhost:3001/products/filter/${startPrice}/${endPrice}/${startRating}/${endRating}/${category}/${brand}`, {
                 method: 'GET'
             });
@@ -52,47 +43,66 @@ function AdvancedFilter() {
             }
 
             const data = await response.json();
-
             if (data.length === 0) {
-                setGeneralError('No products with such filters have been found');
-                setFilteredProducts([]);
-                return
+                throw new Error('No products with such filters have been found');
             }
-
-
-            setFilteredProducts(data)
-
+            setFilteredProducts(data);
+            setGeneralError('');
         } catch (error) {
             console.error('Error filtering products:', error);
-            setGeneralError('Error filtering products. Please try again later.');
+            setGeneralError(error.message);
             setFilteredProducts([]);
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false);
     };
 
     return (
-        <div className="AdvancedFilter" style={{ marginLeft: '200px' }}>
-            {console.log(filteredProducts)}
-            <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
-                <input type="text" name="startPrice" value={startPrice} onChange={handleChange} placeholder="Start Price" style={{ width: 'calc(100% - 80px)', padding: '10px', marginBottom: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }} />
-                <input type="text" name="endPrice" value={endPrice} onChange={handleChange} placeholder="End Price" style={{ width: 'calc(100% - 80px)', padding: '10px', marginBottom: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }} />
-                <input type="text" name="startRating" value={startRating} onChange={handleChange} placeholder="Start Rating" style={{ width: 'calc(100% - 80px)', padding: '10px', marginBottom: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }} />
-                <input type="text" name="endRating" value={endRating} onChange={handleChange} placeholder="End Rating" style={{ width: 'calc(100% - 80px)', padding: '10px', marginBottom: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }} />
-                <input type="text" name="category" value={category} onChange={handleChange} placeholder="Category" style={{ width: 'calc(100% - 80px)', padding: '10px', marginBottom: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }} />
-                <input type="text" name="brand" value={brand} onChange={handleChange} placeholder="Brand" style={{ width: 'calc(100% - 80px)', padding: '10px', marginBottom: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }} />
-                <button type="submit" disabled={loading} style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '16px' }}>Filter Products</button>
+        <div className="AdvancedFilter">
+            <form onSubmit={handleSubmit} className="filter-form">
+                <div className="filter-group">
+                    <label>Start Price: ${startPrice}</label>
+                    <input type="range" min="0" max="1000" value={startPrice} onChange={(e) => setStartPrice(e.target.value)} />
+                </div>
+                <div className="filter-group">
+                    <label>End Price: ${endPrice}</label>
+                    <input type="range" min="0" max="1000" value={endPrice} onChange={(e) => setEndPrice(e.target.value)} />
+                </div>
+                <div className="filter-group">
+                    <label>Rating: {startRating} to {endRating}</label>
+                    <input type="range" min="1" max="5" value={startRating} onChange={(e) => setStartRating(e.target.value)} />
+                    <input type="range" min="1" max="5" value={endRating} onChange={(e) => setEndRating(e.target.value)} />
+                </div>
+                <div className="filter-group">
+                    <label>Category:</label>
+                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                        <option value="">Select Category</option>
+                        {categories.map(cat => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="filter-group">
+                    <label>Brand:</label>
+                    <select value={brand} onChange={(e) => setBrand(e.target.value)}>
+                        <option value="">Select Brand</option>
+                        {brands.map(b => (
+                            <option key={b} value={b}>{b}</option>
+                        ))}
+                    </select>
+                </div>
+                <button type="submit" disabled={loading}>Filter Products</button>
             </form>
-            {generalError && <p className="error" style={{ color: 'red', marginBottom: '10px' }}>{generalError}</p>}
-            {loading && <p style={{ marginBottom: '10px' }}>Loading...</p>}
+            {generalError && <p className="error">{generalError}</p>}
+            {loading && <p>Loading...</p>}
             {filteredProducts.length > 0 && (
-               
                 <div>
                     <h2>Filtered Products</h2>
                     <ul>
                         {filteredProducts.map(product => (
-                            <li key={product.id}>{product.product}</li>
-                            
+                            <li key={product.id}>{product.product}
+                            <p>price: {product.price}</p>
+                            </li>
                         ))}
                     </ul>
                 </div>
