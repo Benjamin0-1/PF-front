@@ -37,6 +37,7 @@ function CreateProduct() {
     const [invalidBrandIdFormatError, setInvalidBrandIdFormatError] = useState('');
     const [invalidProductLengthError, setInvalidProductLengthError] = useState('');
     const [invalidAttributeError, setInvalidAttributeError] = useState('');
+    const [productAlreadyExists, setProductAlreadyExists] = useState('');
 
     // funcion para asegurarse de que el usuario es admin.
     // si es que no son admins, seran redirigidos a una pagina que simplemente les mostrara que no son admins.
@@ -151,6 +152,13 @@ function CreateProduct() {
                 body: JSON.stringify(formData)
             });
 
+            const data = await response.json();
+            if (data.productAlreadyExists) {
+                setProductAlreadyExists(`Product: ${formData.product} already exists !`)
+                alert('product already exists')
+                return
+            }
+
             if (!response.ok) {
                 setErrorMessage('Ha ocurrido un error.')
                 return;
@@ -220,6 +228,7 @@ function CreateProduct() {
             <br/>
             <h2>Add Product</h2>
             <form onSubmit={handleSubmit}>
+                {productAlreadyExists && <p style={{color: 'red'}}>{productAlreadyExists}</p>}
                 {isLoading && <p>Sending emails and creating product....</p>}
                 <label htmlFor="brandId">Brand ID:</label>
                 <input type="text" id="brandId" name="brandId" value={formData.brandId} onChange={handleChange} />
@@ -261,13 +270,15 @@ function CreateProduct() {
     
                 
                 {/* Add more input fields for other form data */}
+
+                {productAlreadyExists && <p style={{color: 'red'}}>{productAlreadyExists}</p>}
                 
                 <button type="submit">Add Product</button>
             </form>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
             <p style={{color: 'red'}}>{noBrandFoundError}</p>
-            {isLoading && <p>Sending emails and creating product....</p>}
+            {isLoading && <p> <strong> Sending emails and creating product.... </strong></p>}
     
             <div className="BrandList">
                 <h2>Brands</h2>

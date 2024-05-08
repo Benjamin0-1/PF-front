@@ -219,7 +219,7 @@ function ViewCart() {
             <h3>Select a Shipping Address:</h3>
             {shippingAddresses.map((address) => (
             <div key={address.shippingId} className={`shipping-address ${selectedShippingId === address.shippingId ? 'selected' : ''}`} onClick={() => handleSelectShippingAddress(address.shippingId)}>
-                <p>{address.address}, {address.city}, {address.state}, {address.country}</p>
+                <p> Nickname: {address.nickname}.  Country: {address.country}. City {address.city} Zip code: {address.zip_code}</p>
             </div>
         ))}
         <button onClick={proceedToCheckout}>Proceed to Checkout</button>

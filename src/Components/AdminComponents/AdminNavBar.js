@@ -9,6 +9,8 @@ function AdminNavBar() {
         setIsOpen(!isOpen);  // Toggle the state to show/hide the sidebar
     };
 
+
+    // <Link to='/createuser' className="admin-navbar-nav-link">Create a User</Link>
     return (
         <div className={`admin-nav-bar ${isOpen ? 'open' : ''}`}>
             <button onClick={toggleSidebar} className="admin-sidebar-toggle-button">
@@ -29,7 +31,7 @@ function AdminNavBar() {
                     <Link to='/createbrand' className="admin-navbar-nav-link">Add a New Brand</Link>
                     <Link to='/banuser' className="admin-navbar-nav-link">Ban a User</Link>
                     <Link to='/deletedusers' className="admin-navbar-nav-link">See Deleted Users</Link>
-                    <Link to='/createuser' className="admin-navbar-nav-link">Create a User</Link>
+                   
                     <Link to='/deleteproductbyid' className="admin-navbar-nav-link">Delete Product by ID</Link>
                     <Link to='/reportedproducts' className="admin-navbar-nav-link">See All Reported Products</Link>
                     <Link to='/emailnewsletter' className="admin-navbar-nav-link">Email Newsletter Users</Link>

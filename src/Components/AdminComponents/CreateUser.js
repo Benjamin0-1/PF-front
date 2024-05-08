@@ -135,91 +135,100 @@ function CreateUser() {
 
 
     return (
-        <div className="CreateUser">
-            <h1>Create User</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="firstName">First Name:</label>
+        <div className="CreateUser" style={{ fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '0 auto', padding: '20px', backgroundColor: '#f4f4f4', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+            <h1 style={{ color: '#333', textAlign: 'center' }}>Create User</h1>
+            <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px', background: 'white', padding: '20px', borderRadius: '8px' }}>
+                <label htmlFor="firstName" style={{ fontWeight: 'bold', marginBottom: '5px', display: 'block' }}>First Name:</label>
                 <input
                     type="text"
                     id="firstName"
                     value={formData.firstName}
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                 />
-                {nameError && <p>{nameError}</p>}
+                {nameError && <p style={{ margin: '5px 0', color: '#d8000c', backgroundColor: '#ffbaba', borderColor: '#d8000c', padding: '10px', borderRadius: '5px', fontSize: '14px' }}>{nameError}</p>}
     
-                <label htmlFor="lastName">Last Name:</label>
+                <label htmlFor="lastName" style={{ fontWeight: 'bold', marginBottom: '5px', display: 'block' }}>Last Name:</label>
                 <input
                     type="text"
                     id="lastName"
                     value={formData.lastName}
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                 />
-                {lastNameError && <p>{lastNameError}</p>}
+                {lastNameError && <p style={{ margin: '5px 0', color: '#d8000c', backgroundColor: '#ffbaba', borderColor: '#d8000c', padding: '10px', borderRadius: '5px', fontSize: '14px' }}>{lastNameError}</p>}
     
-                <label htmlFor="username">Username:</label>
+                <label htmlFor="username" style={{ fontWeight: 'bold', marginBottom: '5px', display: 'block' }}>Username:</label>
                 <input
                     type="text"
                     id="username"
                     value={formData.username}
                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                 />
-                {usernameError && <p>{usernameError}</p>}
+                {usernameError && <p style={{ margin: '5px 0', color: '#d8000c', backgroundColor: '#ffbaba', borderColor: '#d8000c', padding: '10px', borderRadius: '5px', fontSize: '14px' }}>{usernameError}</p>}
     
-                <label htmlFor="confirmUsername">Confirm Username:</label>
+                <label htmlFor="confirmUsername" style={{ fontWeight: 'bold', marginBottom: '5px', display: 'block' }}>Confirm Username:</label>
                 <input
                     type="text"
                     id="confirmUsername"
                     value={formData.confirmUsername}
                     onChange={(e) => setFormData({ ...formData, confirmUsername: e.target.value })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                 />
-                {usernamesDontMatch && <p>{usernamesDontMatch}</p>}
+                {usernamesDontMatch && <p style={{ margin: '5px 0', color: '#d8000c', backgroundColor: '#ffbaba', borderColor: '#d8000c', padding: '10px', borderRadius: '5px', fontSize: '14px' }}>{usernamesDontMatch}</p>}
     
-                <label htmlFor="email">Email:</label>
+                <label htmlFor="email" style={{ fontWeight: 'bold', marginBottom: '5px', display: 'block' }}>Email:</label>
                 <input
                     type="email"
                     id="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                 />
-                {invalidEmailFormat && <p>{invalidEmailFormat}</p>}
+                {invalidEmailFormat && <p style={{ margin: '5px 0', color: '#d8000c', backgroundColor: '#ffbaba', borderColor: '#d8000c', padding: '10px', borderRadius: '5px', fontSize: '14px' }}>{invalidEmailFormat}</p>}
     
-                <label htmlFor="confirmEmail">Confirm Email:</label>
+                <label htmlFor="confirmEmail" style={{ fontWeight: 'bold', marginBottom: '5px', display: 'block' }}>Confirm Email:</label>
                 <input
                     type="email"
                     id="confirmEmail"
                     value={formData.confirmEmail}
                     onChange={(e) => setFormData({ ...formData, confirmEmail: e.target.value })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                 />
-                {emailsDontMatch && <p>{emailsDontMatch}</p>}
+                {emailsDontMatch && <p style={{ margin: '5px 0', color: '#d8000c', backgroundColor: '#ffbaba', borderColor: '#d8000c', padding: '10px', borderRadius: '5px', fontSize: '14px' }}>{emailsDontMatch}</p>}
     
-                <label htmlFor="password">Password:</label>
+                <label htmlFor="password" style={{ fontWeight: 'bold', marginBottom: '5px', display: 'block' }}>Password:</label>
                 <input
                     type="password"
                     id="password"
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                 />
     
-                <label htmlFor="confirmPassword">Confirm Password:</label>
+                <label htmlFor="confirmPassword" style={{ fontWeight: 'bold', marginBottom: '5px', display: 'block' }}>Confirm Password:</label>
                 <input
                     type="password"
                     id="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                    style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
                 />
-                {invalidPassword && <p>{invalidPassword}</p>}
-                {passwordsDontMatch && <p>{passwordsDontMatch}</p>}
+                {invalidPassword && <p style={{ margin: '5px 0', color: '#d8000c', backgroundColor: '#ffbaba', borderColor: '#d8000c', padding: '10px', borderRadius: '5px', fontSize: '14px' }}>{invalidPassword}</p>}
+                {passwordsDontMatch && <p style={{ margin: '5px 0', color: '#d8000c', backgroundColor: '#ffbaba', borderColor: '#d8000c', padding: '10px', borderRadius: '5px', fontSize: '14px' }}>{passwordsDontMatch}</p>}
     
-                <button type="submit" disabled={isLoading}>
+                <button type="submit" disabled={isLoading} style={{ backgroundColor: '#5cabff', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontSize: '16px' }}>
                     {isLoading ? 'Loading...' : 'Create User'}
                 </button>
-                {generalError && <p>{generalError}</p>}
-                {successMessage && <p>{successMessage}</p>}
+                {generalError && <p style={{ margin: '5px 0', color: '#d8000c', backgroundColor: '#ffbaba', borderColor: '#d8000c', padding: '10px', borderRadius: '5px', fontSize: '14px' }}>{generalError}</p>}
+                {successMessage && <p style={{ margin: '5px 0', color: '#4F8A10', backgroundColor: '#DFF2BF', borderColor: '#4F8A10', padding: '10px', borderRadius: '5px', fontSize: '14px' }}>{successMessage}</p>}
             </form>
-            <br/>
-            < AdminNavBar/>
+            <br />
+            <AdminNavBar />
         </div>
     );
+    
     
 };
 

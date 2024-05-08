@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import homeStyles from './module.Home.css';
 import Newsletter from "./Newsletter";  // <-- newsletter.
-import Filter from "./Filter";
+
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -247,8 +247,7 @@ function Home() {
                 </div>
 
 
-            {/* Render the Filter component */}
-            <Filter handleFilter={handleFilter} />
+           
 
             <div className="products-container">
     {products.map(product => (

@@ -1,26 +1,26 @@
-
-
+/* Base settings for the entire CreateProduct container */
 .CreateProduct {
-    max-width: 500px;
-    margin: auto;
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .CreateProduct h2 {
+    color: #333;
     text-align: center;
-    margin-bottom: 20px;
 }
 
 .CreateProduct form {
     display: grid;
-    grid-gap: 10px;
-}
-
-.CreateProduct label {
-    font-weight: bold;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
 }
 
 .CreateProduct input[type="text"],
@@ -28,50 +28,104 @@
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
 .CreateProduct textarea {
-    height: 100px; 
+    height: 100px;
+}
+
+.CreateProduct label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
 }
 
 .CreateProduct button {
-    width: 100%;
-    padding: 10px;
+    background-color: #5cabff;
+    color: white;
     border: none;
+    padding: 10px 20px;
     border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 16px;
 }
 
 .CreateProduct button:hover {
-    background-color: #0056b3;
+    background-color: #4a90e2;
 }
 
+/* Error messages styling */
 .CreateProduct p {
-    margin-top: 10px;
+    margin: 5px 0;
 }
 
-.BrandItem {
+.CreateProduct p[style*="color: red"] {
+    color: #d8000c;
+    background-color: #ffbaba;
+    border-color: #d8000c;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.CreateProduct p[style*="color: green"] {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    border-color: #4F8A10;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Loading message styling */
+.CreateProduct p[style*="Sending emails and creating product"] {
+    font-style: italic;
+    color: #605ca8;
+    background-color: #f0f0f5;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Brands display styling */
+.CreateProduct .BrandList {
+    margin-top: 20px;
+}
+
+.CreateProduct .BrandItem {
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background-color: #f0f0f0;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.BrandName {
-    font-size: 16px;
+.CreateProduct .BrandName,
+.CreateProduct .BrandId {
     font-weight: bold;
 }
 
-.BrandId {
-    font-size: 14px;
-    color: #666;
+@media (min-width: 768px) {
+    .CreateProduct form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .CreateProduct input[type="text"],
+    .CreateProduct textarea,
+    .CreateProduct button {
+        grid-column: span 2;
+    }
+
+    .CreateProduct label {
+        grid-column: span 1;
+    }
+}
+
+/* Responsive design adjustments */
+@media (max-width: 767px) {
+    .CreateProduct {
+        padding: 10px;
+    }
 }
