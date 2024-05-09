@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import userSpecificReviews from './module.UserReviews.css';
+import Rating from 'react-rating-stars-component'; // <-- rating stars
+import { Button, Card, Typography, Snackbar } from '@mui/material';
 
 const accessToken = localStorage.getItem('accessToken');
 const USER_REVIEWS_URL = 'http://localhost:3001/user/reviews';
+
 
 // IMPORTANTE: <--------- FALTA PODER ELIMINAR REVIEW.
 
@@ -59,12 +62,11 @@ function UserReviews() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
-                },
-                body: JSON.stringify(reviewId) 
+                }
             });
 
             if (response.ok) {
-                setReviews(prevReviews => prevReviews.filter(review => review.Review.id !== reviewId));
+              //  setReviews(prevReviews => prevReviews.filter(review => review.Review.id !== reviewId)); // <-- genera ERROR MASIVO
                 setReviewDeleted('review deleted successfully')
             } else {
                 setFailedToDeleteReview('Failed to delete review')
@@ -77,24 +79,30 @@ function UserReviews() {
 
     return (
         <div className="UserReviews">
-            <h2>User Reviews</h2>
-            {noReviewsFound && <p className="message no-reviews-found">{noReviewsFound}</p>}
-            {generalError && <p className="message error-message">{generalError}</p>}
-            {reviewDeleted && <p className="message success-message">{reviewDeleted}</p>}
-            {failedToDeleteReview && <p className="message error-message">{failedToDeleteReview}</p>}
+            <Typography variant="h4">User Reviews</Typography>
+            {noReviewsFound && <Typography className="message no-reviews-found">{noReviewsFound}</Typography>}
+            {generalError && <Typography className="message error-message">{generalError}</Typography>}
+            {reviewDeleted && <Snackbar open message={reviewDeleted} autoHideDuration={6000} />}
+            {failedToDeleteReview && <Snackbar open message={failedToDeleteReview} autoHideDuration={6000} />}
             {reviews.map(product => (
-                <div key={product.id} className="review-item">
-                    <h4>{product.name}</h4>
+                <Card key={product.id} className="review-item">
+                    <Typography variant="h5">{product.product} - ${product.price.toFixed(2)}</Typography>
+                    <img src={product.image} alt={product.product} className="product-image"/>
+                    <Typography className="product-description">{product.description}</Typography>
                     {product.Reviews.map(review => (
                         <div key={review.id} className="review-content">
-                            <strong>Review by:</strong> {review.User.username}
-                            <p>{review.review}</p>
-                            <div className="review-actions">
-                                <button onClick={() => handleDelete(review.id)} className="review-delete-btn">Delete Review</button>
-                            </div>
+                            <Typography variant="subtitle1">Review by: {review.User.username}</Typography>
+                            <Typography>Review: {review.review}</Typography>
+                            <Rating
+                                value={review.rating}
+                                size={20}
+                                isHalf={true}
+                                edit={false}
+                            />
+                            <Button variant="contained" color="secondary" onClick={() => handleDelete(review.id)}>Delete Review</Button>
                         </div>
                     ))}
-                </div>
+                </Card>
             ))}
         </div>
     );

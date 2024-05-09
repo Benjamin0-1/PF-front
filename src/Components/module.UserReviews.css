@@ -154,3 +154,10 @@
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
 }
 
+.product-image {
+    width: 50%; /* Make the image fill the container width */
+    height: 220px; /* Fixed height for all images */
+    object-fit: cover; /* Ensures the image covers the area without distorting aspect ratio */
+    border-radius: 5px; /* Optional: adds rounded corners to the images */
+    margin-bottom: 10px; /* Adds space below the image */
+}
