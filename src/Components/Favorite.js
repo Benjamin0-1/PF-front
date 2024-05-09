@@ -70,7 +70,7 @@ function Favorite() {
         handleFetch();
     }, []);
 
-    // ADD : <-- DELETE FROM FAVORITES BUTTON.
+   
 
     return (
         <div className="Favorite">

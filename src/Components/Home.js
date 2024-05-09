@@ -8,6 +8,7 @@ import ViewCartIcon from "./ViewCartIcon";
 import LoginIconButton from "./LoginIcon";
 import AdminButtonIcon from "./AdminButtonIcon";
 
+
 const accessToken = localStorage.getItem('accessToken');
 
 
@@ -25,7 +26,7 @@ function Home() {
     const [sortByPriceAsc, setSortByPriceAsc] = useState(false);
     const [sortByPriceDesc, setSortByPriceDesc] = useState(false);
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [quantities, setQuantities] = useState({}); // quantity of the specific product.
+    const [quantities, setQuantities] = useState({}); // 
     const [category, setCategory] = useState('');
     const [successMessages, setSuccessMessages] = useState({});
     const [minPrice, setMinPrice] = useState(0);
@@ -80,13 +81,13 @@ function Home() {
     const handleDecreaseQuantity = (productId) => {
         setQuantities(prev => ({
             ...prev,
-            [productId]: Math.max(0, (prev[productId] || 1) - 1)  // Ensure quantity doesn't go below 0
+            [productId]: Math.max(0, (prev[productId] || 1) - 1)  
         }));
     };
 
     const handleAddToServerCart = async (productId, quantity) => {
-   //     e.preventDefault();   // Prevent form submission or link navigation
-   //     e.stopPropagation();  // Stop the event from bubbling up to parent elements
+   //     e.preventDefault(); 
+   //     e.stopPropagation();  
     
         try {
             const response = await FetchWithAuth(`http://localhost:3001/user/add-to-cart`, {
@@ -231,7 +232,7 @@ function Home() {
     
     
     
-    // Pagination function remains unchanged
+    
     const paginate = (array, pageSize) => {
         return array.reduce((acc, item, index) => {
             const pageIndex = Math.floor(index / pageSize);
@@ -303,7 +304,7 @@ function Home() {
             < ProfileIcon/>
             < ViewCartIcon/>
             < LoginIconButton/>
-            < AdminButtonIcon/>
+       < AdminButtonIcon/>
             <div className="search-bar">
                 <input
                     type="text"
@@ -322,19 +323,7 @@ function Home() {
             </div>
 
 
-                
-                <div className="categories">
-                <button onClick={() => setShowCategories(!showCategories)}>
-                {showCategories ? 'Hide Categories' : 'Show Categories'}
-                <div className="category-list">
-                    {categories.map((category) => (
-                        <p key={category.id} onClick={() => handleCategorySelect(category.category)}>
-                            {category.category}
-                        </p>
-                    ))}
-                </div>
-            </button>
-                </div>
+            
 
 
 

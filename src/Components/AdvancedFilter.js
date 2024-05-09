@@ -13,7 +13,73 @@ function AdvancedFilter() {
     const [generalError, setGeneralError] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [CategoriesFromFetch, setCategoriesFromFetch] = useState([]);
+    const [allBrands, setAllBrands] = useState([]); // from fetch
 
+
+    useEffect(() => {
+        
+        const fetchAllproducts = async () => {
+            try {
+                
+                const response = await fetch('http://localhost:3001/allproducts')
+                const data = await response.json();
+
+                if (data.length === 0) {
+                    throw new Error('No products found');
+                  
+                };
+
+                // this will change when the user filters
+                setFilteredProducts(data)
+
+            } catch (error) {
+                console.log(`error fetching allproducts ${error}`);
+            }
+        }
+
+
+    }, []);
+
+    // these will populate the dropdown menu of categories
+    const fetchAllCategories = async () => {
+        try {
+            
+            const response = await fetch('http://localhost:3001/all-category');
+            const data = await response.json();
+            if (data.length === 0) {
+                throw new Error('There are zero categories')
+            }
+
+            setCategoriesFromFetch(data); // <--   THIS 
+
+        } catch (error) {
+            console.log(`error fetching all-category: ${error}`);
+        }
+    };
+
+    const fetchAllBrands = async () => {
+
+        try {
+            
+            const response = await fetch('http://localhost:3001/allbrands');
+            const data = await response.json();
+
+            if (data.length === 0) {
+                throw new Error('There are no brands yet') // <-- this is not an error.
+            }
+            setAllBrands(data)
+
+        } catch (error) {
+            console.log(`error fetching allbrands : ${error}`);
+        }
+
+    };
+
+
+
+
+    // and this gets removed because it does not get the real available categories
     useEffect(() => {
         // Simulating fetching of categories and brands
         setCategories(['electronico', 'telefono', 'tv']);

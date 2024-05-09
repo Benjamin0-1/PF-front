@@ -6,18 +6,19 @@ import ProfileIcon from './ProfileIcon';
 import ViewCartIcon from './ViewCartIcon';
 import LoginIconButton from './LoginIcon';
 import AdminButtonIcon from './AdminButtonIcon';
+import Rating from 'react-rating-stars-component'; 
 
 const accessToken = localStorage.accessToken;
 
 function Detail() {
     const [generalError, setGeneralError] = useState('');
-    const { id } = useParams(); // <-- Corrected: Added parentheses to useParams
-    const [product, setProduct] = useState(null); // <-- Changed initial state to null
+    const { id } = useParams(); // 
+    const [product, setProduct] = useState(null); 
     const [productAlreadyAddedToFavoritesError, setProductAlreadyAddedToFavoritesError] = useState('');
     const [productAddedSuccessfully, setProductAddedSuccessfully] = useState('');
     const [cartSuccessMessage, setCartSuccessMessage] = useState('');
     const [reviewText, setReviewText] = useState('');
-    const [rating, setRating] = useState('');
+   // const [rating, setRating] = useState('');
     const [reviewError, setReviewError] = useState('');
     const [reviewSuccess, setReviewSuccess] = useState('');
     const [showReviewForm, setShowReviewForm] = useState(false);
@@ -32,6 +33,7 @@ function Detail() {
     const [quantity, setQuantity] = useState(1);   // quantity
     const [productAddedToCartSuccess, setProductAddedToCartSuccess] = useState('');
     const [showCartSuccessMessage, setShowCartSuccessMessage] = useState(false); 
+    const [rating, setRating] = useState(0);
    
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken'); 
@@ -81,6 +83,10 @@ function Detail() {
     }, [showCartSuccessMessage]);
  
 
+
+    const handleRatingChange = (newRating) => {
+        setRating(newRating);
+    };
     
 
 
@@ -109,7 +115,7 @@ function Detail() {
             const responseData = await response.json();
     
             if (!response.ok) {
-                // Handling specific error messages based on the key returned
+                
                 if (responseData.missingRating) {
                     setReviewError(responseData.missingRating);
                 } else if (responseData.invalidRating) {
@@ -287,12 +293,21 @@ function Detail() {
               
 
                 <button onClick={handleReviewToggle}>Write a Review</button>
+                
                 {showReviewForm && (
-                    <div>
-                        <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Write your review here" />
-                        <input type="number" value={rating} onChange={e => setRating(e.target.value)} placeholder="Rating (1-5)" min="1" max="5" />
-                        <button onClick={handleReviewSubmit}>Submit Review</button>
-                    </div>
+                                        <div>
+                                        <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Write your review here" />
+                                        <Rating
+                                            value={rating}
+                                            onChange={handleRatingChange}
+                                            size={24}
+                                            activeColor="#ffd700"
+                                            isHalf={true}
+                                            edit={true}
+                                        />
+                                        <button onClick={handleReviewSubmit}>Submit Review</button>
+                                    </div>
+                
                 )}
                 {reviewError && <p style={{ color: 'red' }}>{reviewError}</p>}
                 {reviewSuccess && <p style={{ color: 'green' }}>{reviewSuccess}</p>}
@@ -321,15 +336,21 @@ function Detail() {
             <br />
 
             {product.Reviews && product.Reviews.length > 0 && (
-                <div className='reviews-container'>
-                    <h3>Reviews</h3>
-                    <ul>
-                        {product.Reviews.map(review => (
-                            <li className='review' key={review.id}>
-                                <p>username: {review.User.username}</p>
-                                <p>{review.review}</p>
-                                <p>Rating: {review.rating}</p>
-                                <p>Review Date: {review.reviewDate}</p>
+                    <div className='reviews-container'>
+                        <h3>Reviews</h3>
+                        <ul>
+                            {product.Reviews.map(review => (
+                                <li key={review.id}>
+                                    <p>{review.User.username}</p>
+                                    <p>{review.review}</p>
+                                    <Rating
+                                        value={review.rating}
+                                        size={24}  // Size of stars
+                                        isHalf={true}  // Allow half-star ratings
+                                        edit={false}  // Make stars read-only
+                                    />
+                                    <p>Review Date: {review.reviewDate}</p>
+
                             </li>
                         ))}
                     </ul>

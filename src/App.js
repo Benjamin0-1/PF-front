@@ -52,7 +52,16 @@ import UserReviews from './Components/UserReviews';
 import ShoppingCart from './Components/ShoppingCart';
 import ViewCart from './Components/ViewCart';
 import LandingPage from './Components/VisualComponents/LandingPage';
+import AboutUsPage from './Components/AboutUs';
 import GoogleLogin from './Components/GoogleLogin';
+
+
+
+
+import NotFoundPage from './Components/NotFoundPage';
+import PaymentCancelled from './Components/PaymentCancelled';
+
+
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -122,7 +131,12 @@ function App() {
       <Route path='/google' element={< GoogleLogin />} />
      <Route path='/landingpage' element={< LandingPage />} />
     
-      <Route path='*' element={<h1 style={{marginLeft: '200px'}}>404 Not Found</h1>}/> 
+      <Route path='*' element={<NotFoundPage />}/> 
+
+      <Route path='/paymentcancelled' element={< PaymentCancelled />} />
+      <Route path='/aboutus' element={< AboutUsPage/>} />
+
+
       <Route path='/notadmin'  element={<h1 style={{marginLeft: '200px'}}> You are not an admin </h1>} />
       <Route  path='/ordercancelled' element={<h1 style={{marginLeft: '200px'}}>Order has been cancelled</h1>} />
       <Route path='/errorprocessingorder' element={<h1 style={{marginLeft: '200px'}} >Error processing order</h1>} />

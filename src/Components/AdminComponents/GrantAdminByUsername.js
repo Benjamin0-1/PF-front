@@ -16,10 +16,9 @@ function GrantAdminByUsername() {
     const [userNotFoundError, setUserNotFoundError] = useState('');
 
 
-    // here goes a useEffect that will bring the specific user details
-    // as the user types, this gets added to the dependancy array to refresh it on every key press.
 
-    // prevent access
+
+    
     if (!accessToken) {
         window.location.href = '/login'
     };
@@ -90,9 +89,9 @@ function GrantAdminByUsername() {
         }
     };
 
-    // get user details each time the admin types something.
+  
     useEffect(() => {
-        // Fetch user details based on username
+        
         const fetchUserDetails = async () => {
             try {
                 // Perform API request to fetch user details   <-- users/info/details/:username

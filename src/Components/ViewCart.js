@@ -36,19 +36,19 @@ function ViewCart() {
                 stripeScript.async = true;
                 stripeScript.onload = () => {
                     console.log('Stripe.js has loaded.');
-                    // Now you can safely use Stripe here
+                   
                 };
                 document.body.appendChild(stripeScript);
             } else {
                 console.log('Stripe.js is already loaded.');
-                // Now you can safely use Stripe here
+               
             }
         };
     
         loadStripe();
     
         return () => {
-            // Cleanup function
+            
         };
     }, []);
 
@@ -72,11 +72,11 @@ function ViewCart() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
                 },
-                body: JSON.stringify({ products: productsPayload, reqShippingId: reqShippingId }) //< FIX FIXED value because otherwise it doesnt work.
+                body: JSON.stringify({ products: productsPayload, reqShippingId: reqShippingId }) 
             });
             const checkoutSession = await response.json();
             if (response.ok) {
-                redirectToCheckout(checkoutSession.id); // Make sure this is the correct property
+                redirectToCheckout(checkoutSession.id); 
             } else {
                 throw new Error(checkoutSession.message || 'Failed to initiate checkout');
             }
@@ -102,7 +102,7 @@ function ViewCart() {
     
 
 
-    // fetch all data required for purchase
+    
     useEffect(() => {
         fetchCartItems();
         fetchShippingAddresses();
@@ -153,9 +153,9 @@ function ViewCart() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
                 },
-                body: JSON.stringify({ productId, quantity: newQuantity }) // <-- it's through body not params
+                body: JSON.stringify({ productId, quantity: newQuantity }) 
             });
-            fetchCartItems(); // <-- same goes for this, there's no need to reload the page
+            fetchCartItems(); 
         } catch (error) {
             setError(`Update error: ${error.message}`);
         }
@@ -170,9 +170,9 @@ function ViewCart() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
                 },
-                body: JSON.stringify({productId}) // it's throight body not params
+                body: JSON.stringify({productId}) 
             });
-           // instead of fetching agan, just use the .map method to make them dissapear from the screen
+           
            setCartItems(cartItems.filter(item => item.id !== productId));
 
         } catch (error) {
@@ -237,12 +237,4 @@ function ViewCart() {
 
 export default ViewCart;
 
-// this component is one of the most important ones.
-// it will display everything on the user's cart by getting the products from the server.
-// it will then display them in a friendly manner.
-// it will have buttons to quickly delete and change a product quantity, much like in the ShoppingCart component.
-// it will also render all shipping info related to the user, so it can quickly
-// click on the one that wishes to be used for the purchase. like in the BuyProduct component.
-// it will load stripe and everything required for it. 
-// the 'Finish Checkout' button will take everything that's rendered in this component
-// and then go to stripe to finish the purchase.
+

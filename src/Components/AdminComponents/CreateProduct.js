@@ -196,21 +196,21 @@ function CreateProduct() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name === "categoryNames") {
-            // If the input field is for categories, split the value by comma to get an array of category strings
+            
             const categoryStrings = value.split(',').map(category => category.trim());
-            // Map over each category string to construct an array of category objects with name and description properties
+           
             const categories = categoryStrings.map(categoryString => {
-                // Assuming each category string is in the format of "name:description"
+              
                 const [name, description] = categoryString.split(':');
                 return { name, description };
             });
-            // Update the state with the array of category objects
+            
             setFormData(prevState => ({
                 ...prevState,
                 [name]: categories
             }));
         } else {
-            // For other input fields, update the state normally
+            
             setFormData(prevState => ({
                 ...prevState,
                 [name]: value

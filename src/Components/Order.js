@@ -22,7 +22,7 @@ function Order() {
                 if (filterAsc) {
                     url += '/asc';
                 } else {
-                    url += '/desc'; // Default to descending order if not filtered by ascending
+                    url += '/desc'; // Default es ascending
                 }
 
                 const response = await FetchWithAuth(url, {
@@ -86,7 +86,7 @@ function Order() {
     }, [filterType]);
 
     const toggleFilterType = () => {
-        // Toggle between 'pending' and 'fulfilled'
+        
         setFilterType(prevFilterType => (prevFilterType === 'pending' ? 'fulfilled' : 'pending'));
     };
     

@@ -51,7 +51,7 @@ function BanUser() {
 
     const fetchUserDetails = async () => {
         try {
-            setDetailError(''); // Clear detailError when starting to fetch new user details
+            setDetailError(''); 
 
             const response = await FetchWithAuth(`http://localhost:3001/user-details/${userId}`, {
                 method: 'GET',

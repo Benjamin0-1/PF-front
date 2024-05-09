@@ -12,7 +12,7 @@ function PasswordRecovery() {
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState(null);
 
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/; // Simplified email regex for basic validation
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/; // verificar correos invalidos
 
     const handleSubmit = async (event) => {
         event.preventDefault();

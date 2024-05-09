@@ -83,7 +83,7 @@ function AllPendingOrders() {
         }
     };
 
-    // search order by id.
+   // buscar orden by id
     const handleSearch = async () => {};
 
     const fetchPendingOrders = async () => {

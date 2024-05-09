@@ -4,6 +4,8 @@ import  buyAProductStyles  from './module.BuyProduct.css';
 import ProfileIcon from "./ProfileIcon";
 import AdminButtonIcon from "./AdminButtonIcon";
 
+// Este componente lo hice para testear el checkout.
+
 const accessToken = localStorage.getItem('accessToken');
 
 let URL = 'http://localhost:3001/create-checkout-session';
@@ -42,23 +44,22 @@ const BuyProduct = () => {
                 stripeScript.async = true;
                 stripeScript.onload = () => {
                     console.log('Stripe.js has loaded.');
-                    // Now you can safely use Stripe here
+                   
                 };
                 document.body.appendChild(stripeScript);
             } else {
                 console.log('Stripe.js is already loaded.');
-                // Now you can safely use Stripe here
+                
             }
         };
     
         loadStripe();
     
         return () => {
-            // Cleanup function
+           
         };
     }, []);
 
-    // get products and their values.
     const fetchProducts = async () => {
         try {
             
@@ -249,16 +250,16 @@ const BuyProduct = () => {
         setProducts(updatedProducts);
     };
 
-    // add more erros: noAddrSelectedError, noStockError, productIdNotFoundError. 
+    
     const handleAddProduct = (product) => {
-        // Check if the product is already in the list
+        
         const productExists = products.some((p) => p.id === product.id);
     
         if (!productExists) {
             // If the product is not already in the list, add it
             setProducts([...products, { id: product.id, quantity: product.quantity }]);
         } else {
-            // If the product is already in the list, increase its quantity
+            
             const updatedProducts = products.map((p) => {
                 if (p.id === product.id) {
                     return { ...p, quantity: p.quantity + product.quantity };

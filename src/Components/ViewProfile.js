@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import userProfileStyles from './module.ViewProfile.css';
 import AdminButtonIcon from "./AdminButtonIcon";
+import ViewCartIcon from "./ViewCartIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -58,6 +59,7 @@ function ViewProfile() {
 
     return (
         <div className="ViewProfile">
+            < ViewCartIcon/>
             < AdminButtonIcon/>
             <h2 className="card"> <strong>Profile</strong>  </h2>
             <div>
