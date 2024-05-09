@@ -7,6 +7,9 @@ import ViewCartIcon from './ViewCartIcon';
 import LoginIconButton from './LoginIcon';
 import AdminButtonIcon from './AdminButtonIcon';
 import Rating from 'react-rating-stars-component'; 
+import { IoCartOutline, IoHeartOutline, IoFlagOutline, IoCheckmarkOutline, IoPencil } from 'react-icons/io5';
+ // nuevos estilos 
+
 
 const accessToken = localStorage.accessToken;
 
@@ -247,110 +250,110 @@ function Detail() {
 
     return (
         <div className='detail-container'>
-            < ProfileIcon/>
-            < ViewCartIcon/>
-            < LoginIconButton/>
-            < AdminButtonIcon/>
-            <div className='product-details'> 
+            <ProfileIcon/>
+            <ViewCartIcon/>
+            <LoginIconButton/>
+            <AdminButtonIcon/>
+            <div className='product-details'>
                 <h2>{product.product}</h2>
                 <p>{product.description}</p>
                 <p>Price: ${product.price}</p>
                 <p>Stock: {product.stock}</p>
                 <p>Attributes: {product.attributes}</p>
                 <p>Brand: {product.Brand.brand}</p>
-                <p>Categories:</p>
+                <p>Category:</p>
                 <ul>
                     {product.Categories.map(category => (
                         <li key={category.id}>{category.category}</li>
                     ))}
                 </ul>
                 <img src={product.image} alt={product.product} />
-
-
-
-
+    
                 <div className='quantity-controls'>
                     <button onClick={() => handleQuantityChange(false)}>-</button>
                     <span>{quantity}</span>
                     <button onClick={() => handleQuantityChange(true)}>+</button>
                 </div>
-                
-                <button onClick={addToServerCart}>Add to cart</button>
+    
+                <IoCartOutline size={24} onClick={addToServerCart} style={{ cursor: 'pointer' }} title="Add to Cart"/>
                 {showCartSuccessMessage && (
-                <div className='success-message'>
-                    <p>Product added to cart successfully!</p>
-                </div>
-            )}
-
-
+                    <div className='success-message'>
+                        <p>Product added to cart successfully!</p>
+                    </div>
+                )}
+    
                 {favoritesButtonVisible && (
-                    <button onClick={addToFavorites} className='addToFavoritesButton'>
-                        Add to Favorites
-                    </button>
+                    <IoHeartOutline size={24} onClick={addToFavorites} style={{ cursor: 'pointer', color: 'red' }} title="Add to Favorites"/>
                 )}
                 {productAlreadyAddedToFavoritesError && <p style={{color: 'red'}}>{productAlreadyAddedToFavoritesError}</p>}
                 {productAddedSuccessfully && <p style={{color: 'green'}}>{productAddedSuccessfully}</p>}
-              
-
-                <button onClick={handleReviewToggle}>Write a Review</button>
+    
+                <IoPencil size={24} onClick={handleReviewToggle} style={{ cursor: 'pointer' }} title="Write a Review"/>
                 
                 {showReviewForm && (
-                                        <div>
-                                        <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Write your review here" />
-                                        <Rating
-                                            value={rating}
-                                            onChange={handleRatingChange}
-                                            size={24}
-                                            activeColor="#ffd700"
-                                            isHalf={true}
-                                            edit={true}
-                                        />
-                                        <button onClick={handleReviewSubmit}>Submit Review</button>
-                                    </div>
-                
+                    <div>
+                        <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="Write your review here" />
+                        <Rating
+                            value={rating}
+                            onChange={handleRatingChange}
+                            size={24}
+                            activeColor="#ffd700"
+                            isHalf={true}
+                            edit={true}
+                        />
+                        <IoCheckmarkOutline size={24} onClick={handleReviewSubmit} style={{ cursor: 'pointer' }} title="Submit Review"/>
+                    </div>
                 )}
                 {reviewError && <p style={{ color: 'red' }}>{reviewError}</p>}
                 {reviewSuccess && <p style={{ color: 'green' }}>{reviewSuccess}</p>}
-
-
             </div>
-
-
+    
             <div className='Report'>
             {isLoggedIn && (
-    <>
-        <select value={reportReason} onChange={e => setReportReason(e.target.value)}>
-            <option value="">Select a reason</option>
-            <option value="inappropriate">Inappropriate Content</option>
-            <option value="misleading">Misleading or False Information</option>
-            <option value="other">Other</option>
-        </select>
-        <button onClick={handleReport}>Report Product</button>
-        {reportSuccess && <p style={{ color: 'green' }}>{reportSuccess}</p>}
-        {reportError && <p style={{ color: 'red' }}>{reportError}</p>}
-    </>
-)}
+                <>
+                <select 
+                    value={reportReason} 
+                    onChange={e => setReportReason(e.target.value)}
+                    style={{
+                        fontSize: '12px', // Smaller font size
+                        padding: '5px', // Reduced padding
+                        height: '30px', // Smaller height
+                        width: '200px' // Narrower width
+                    }}
+                >
+                    <option value="">Select a reason</option>
+                    <option value="inappropriate">Inappropriate Content</option>
+                    <option value="false-info">Misleading or False Information</option>
+                    <option value="bad-quality">Bad quality</option>
+                    <option value="fake">It's a fake</option>
+                    <option value="community-guidelines">Does not follow community guidelines</option>
+                    <option value="breaks-easily">It breaks easily</option>
+                </select>
 
+                    <IoFlagOutline size={24} onClick={handleReport} style={{ cursor: 'pointer' }} title="Report Product"/>
+                    {reportSuccess && <p style={{ color: 'green' }}>{reportSuccess}</p>}
+                    {reportError && <p style={{ color: 'red' }}>{reportError}</p>}
+                </>
+            )}
             </div>
-
+    
             <br />
-
+    
             {product.Reviews && product.Reviews.length > 0 && (
-                    <div className='reviews-container'>
-                        <h3>Reviews</h3>
-                        <ul>
-                            {product.Reviews.map(review => (
-                                <li key={review.id}>
-                                    <p>{review.User.username}</p>
-                                    <p>{review.review}</p>
-                                    <Rating
-                                        value={review.rating}
-                                        size={24}  // Size of stars
-                                        isHalf={true}  // Allow half-star ratings
-                                        edit={false}  // Make stars read-only
-                                    />
-                                    <p>Review Date: {review.reviewDate}</p>
-
+                <div className='reviews-container'>
+                    <h3>Reviews</h3>
+                    <ul>
+                        {product.Reviews.map(review => (
+                            <li key={review.id}>
+                                <p>{review.User.username}</p>
+                                <p>{review.review}</p>
+                                <Rating
+                                    value={review.rating}
+                                    size={24}
+                                    isHalf={true}
+                                    edit={false}
+                                />
+                                <p>Review Date: {review.reviewDate}</p>
                             </li>
                         ))}
                     </ul>
@@ -358,9 +361,9 @@ function Detail() {
             )}
         </div>
     );
-
     
 
 }
 
 export default Detail;
+

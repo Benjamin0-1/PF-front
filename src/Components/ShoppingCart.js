@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import FetchWithAuth from './Auth/FetchWithAuth';
+import { Button, IconButton, Tooltip, styled } from '@mui/material';  // <== UI
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';  // <==    Ui
+ 
 
 const accessToken = localStorage.getItem('accessToken'); // if no token then it means the user is not logged in
                                                         // then we display a message telling them they can't add to cart
@@ -147,32 +150,77 @@ function ShoppingCart() {
 
     if (isLoading) return <p>Loading...</p>;
 
+
+    // MATERIAL UI.
+    const StyledIconButton = styled(IconButton)({
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+    });
+    
+    const StyledCartContainer = styled('div')({
+        position: 'fixed',
+        top: '50px',
+        right: '20px',
+        width: '300px',
+        background: 'white',
+        padding: '20px',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+    });
+    
+    const StyledCartHeader = styled('h2')({
+        marginBottom: '20px',
+    });
+    
+    const StyledCartItem = styled('div')({
+        marginBottom: '10px',
+    });
+    
+    const StyledQuantityContainer = styled('div')({
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: '10px',
+    });
+    
+    const StyledCloseButton = styled(Button)({
+        position: 'absolute',
+        top: '5px',
+        right: '5px',
+    });
+    
+
     return (
         <div className="shopping-cart-icon">
-            <button style={{ position: 'fixed', top: '20px', right: '20px' }} onClick={toggleCart}>🛒</button>
+            <StyledIconButton onClick={() => setShowCart(!showCart)}>
+                <Tooltip title="Shopping Cart">
+                    <ShoppingCartIcon />
+                </Tooltip>
+            </StyledIconButton>
             {showCart && (
-                <div className='Users-Shopping-Cart-Ultimate' style={{ position: 'fixed', top: '50px', right: '20px', width: '300px', background: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
-                    <h2>Shopping Cart</h2>
+                <StyledCartContainer>
+                    <StyledCartHeader>Shopping Cart</StyledCartHeader>
                     {cartItems.length === 0 ? (
                         <p>Your cart is empty</p>
                     ) : (
                         cartItems.map(item => (
-                            <div key={item.id} style={{ marginBottom: '10px' }}>
+                            <StyledCartItem key={item.id}>
                                 <h3>{item.product} - ${item.price}</h3>
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <StyledQuantityContainer>
                                     <div>
-                                        <button onClick={() => updateQuantity(item.id, item.ProductCart.quantity - 1)}>-</button>
+                                        <Button onClick={() => updateQuantity(item.id, item.ProductCart.quantity - 1)}>-</Button>
                                         <span style={{ margin: '0 10px' }}>{item.ProductCart.quantity}</span>
-                                        <button onClick={() => updateQuantity(item.id, item.ProductCart.quantity + 1)}>+</button>
+                                        <Button onClick={() => updateQuantity(item.id, item.ProductCart.quantity + 1)}>+</Button>
                                     </div>
-                                    <button onClick={() => deleteFromCart(item.id)}>Remove</button>
-                                </div>
-                            </div>
+                                    <Button onClick={() => deleteFromCart(item.id)}>Remove</Button>
+                                </StyledQuantityContainer>
+                            </StyledCartItem>
                         ))
                     )}
-                    <button onClick={() => {proceedToCheckout()}}>Proceed to Checkout</button>
-                    <button onClick={toggleCart} style={{ position: 'absolute', top: '5px', right: '5px' }}>Close</button>
-                </div>
+                    <Button onClick={proceedToCheckout}>Proceed to Checkout</Button>
+                    <StyledCloseButton onClick={() => setShowCart(false)}>Close</StyledCloseButton>
+                </StyledCartContainer>
             )}
         </div>
     );

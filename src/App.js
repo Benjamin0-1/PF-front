@@ -55,7 +55,7 @@ import LandingPage from './Components/VisualComponents/LandingPage';
 import AboutUsPage from './Components/AboutUs';
 import GoogleLogin from './Components/GoogleLogin';
 
-
+import HomeButton from './Components/HomeButton';
 
 
 import NotFoundPage from './Components/NotFoundPage';
@@ -76,7 +76,11 @@ function App() {
   return (
     <Router>
 
+      <HomeButton />
+     
+
       < ShoppingCart/>
+      
     
       < Logout/>
 
@@ -130,6 +134,8 @@ function App() {
        <Route path='/viewcart' element={< ViewCart />} />
       <Route path='/google' element={< GoogleLogin />} />
      <Route path='/landingpage' element={< LandingPage />} />
+
+     
     
       <Route path='*' element={<NotFoundPage />}/> 
 

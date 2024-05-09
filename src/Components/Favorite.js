@@ -4,6 +4,10 @@ import  favStyles from './module.Favorite.css'; // Import the CSS file
 import ProfileIcon from "./ProfileIcon";
 import AdminButtonIcon from "./AdminButtonIcon";
 
+import { Button, Typography, Card, CardContent, CardMedia } from "@mui/material";
+import { Delete as DeleteIcon } from "@mui/icons-material"; // MUI 5
+
+
 const accessToken = localStorage.getItem('accessToken');
 
 let URL = 'http://localhost:3001/products/user/favorites';

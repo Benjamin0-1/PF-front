@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import advandedfiltercss from './module.AdvancedFilters.css'
+import advancedfiltercss from './module.AdvancedFilters.css'; 
+import { Link } from 'react-router-dom';
+
+import { 
+    Grid, Card, CardContent, Typography, Button, FormControl, InputLabel, Select, MenuItem, Slider, Box, CircularProgress
+} from "@mui/material";
+
 
 function AdvancedFilter() {
     const [startPrice, setStartPrice] = useState(0);
@@ -8,82 +14,40 @@ function AdvancedFilter() {
     const [endRating, setEndRating] = useState(5);
     const [category, setCategory] = useState('');
     const [brand, setBrand] = useState('');
-    const [categories, setCategories] = useState([]); // Assume you fetch this from the server
-    const [brands, setBrands] = useState([]); // Assume you fetch this from the server
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
     const [generalError, setGeneralError] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [CategoriesFromFetch, setCategoriesFromFetch] = useState([]);
-    const [allBrands, setAllBrands] = useState([]); // from fetch
-
 
     useEffect(() => {
-        
-        const fetchAllproducts = async () => {
+        const fetchData = async () => {
+            setLoading(true);
             try {
-                
-                const response = await fetch('http://localhost:3001/allproducts')
-                const data = await response.json();
+                const responses = await Promise.all([
+                    fetch('http://localhost:3001/all-category'),
+                    fetch('http://localhost:3001/allbrands'),
+                    fetch('http://localhost:3001/allproducts')
+                ]);
 
-                if (data.length === 0) {
-                    throw new Error('No products found');
-                  
-                };
+                if (responses.some(response => !response.ok)) {
+                    throw new Error('Failed to fetch data from one or more endpoints');
+                }
 
-                // this will change when the user filters
-                setFilteredProducts(data)
+                const [categoriesData, brandsData, productsData] = await Promise.all(responses.map(res => res.json()));
 
+                setCategories(categoriesData.map(cat => ({ id: cat.id, name: cat.category })));
+                setBrands(brandsData.map(brand => ({ id: brand.id, name: brand.brand })));
+                setFilteredProducts(productsData);
             } catch (error) {
-                console.log(`error fetching allproducts ${error}`);
+                console.error('Error loading data:', error);
+                setGeneralError('Failed to load initial data.');
+            } finally {
+                setLoading(false);
             }
-        }
+        };
 
-
-    }, []);
-
-    // these will populate the dropdown menu of categories
-    const fetchAllCategories = async () => {
-        try {
-            
-            const response = await fetch('http://localhost:3001/all-category');
-            const data = await response.json();
-            if (data.length === 0) {
-                throw new Error('There are zero categories')
-            }
-
-            setCategoriesFromFetch(data); // <--   THIS 
-
-        } catch (error) {
-            console.log(`error fetching all-category: ${error}`);
-        }
-    };
-
-    const fetchAllBrands = async () => {
-
-        try {
-            
-            const response = await fetch('http://localhost:3001/allbrands');
-            const data = await response.json();
-
-            if (data.length === 0) {
-                throw new Error('There are no brands yet') // <-- this is not an error.
-            }
-            setAllBrands(data)
-
-        } catch (error) {
-            console.log(`error fetching allbrands : ${error}`);
-        }
-
-    };
-
-
-
-
-    // and this gets removed because it does not get the real available categories
-    useEffect(() => {
-        // Simulating fetching of categories and brands
-        setCategories(['electronico', 'telefono', 'tv']);
-        setBrands(['Apple', 'Samsung', 'Sony']);
+        fetchData();
     }, []);
 
     const handleSubmit = async (e) => {
@@ -91,90 +55,117 @@ function AdvancedFilter() {
         setLoading(true);
 
         try {
-            // Validations can be more complex based on requirements
-            if (!category) {
-                throw new Error('Please select a category');
-            }
-            if (!brand) {
-                throw new Error('Please select a brand');
+            if (!category || !brand) {
+                throw new Error('Please select both a category and a brand');
             }
 
-            // Example fetch call
             const response = await fetch(`http://localhost:3001/products/filter/${startPrice}/${endPrice}/${startRating}/${endRating}/${category}/${brand}`, {
                 method: 'GET'
             });
 
             if (!response.ok) {
-                throw new Error('Failed to fetch');
+                throw new Error('Failed to fetch filtered products');
             }
 
             const data = await response.json();
             if (data.length === 0) {
-                throw new Error('No products with such filters have been found');
+                throw new Error('No products found with the selected filters');
             }
             setFilteredProducts(data);
             setGeneralError('');
         } catch (error) {
             console.error('Error filtering products:', error);
             setGeneralError(error.message);
-            setFilteredProducts([]);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="AdvancedFilter">
-            <form onSubmit={handleSubmit} className="filter-form">
-                <div className="filter-group">
-                    <label>Start Price: ${startPrice}</label>
-                    <input type="range" min="0" max="1000" value={startPrice} onChange={(e) => setStartPrice(e.target.value)} />
-                </div>
-                <div className="filter-group">
-                    <label>End Price: ${endPrice}</label>
-                    <input type="range" min="0" max="1000" value={endPrice} onChange={(e) => setEndPrice(e.target.value)} />
-                </div>
-                <div className="filter-group">
-                    <label>Rating: {startRating} to {endRating}</label>
-                    <input type="range" min="1" max="5" value={startRating} onChange={(e) => setStartRating(e.target.value)} />
-                    <input type="range" min="1" max="5" value={endRating} onChange={(e) => setEndRating(e.target.value)} />
-                </div>
-                <div className="filter-group">
-                    <label>Category:</label>
-                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                        <option value="">Select Category</option>
-                        {categories.map(cat => (
-                            <option key={cat} value={cat}>{cat}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="filter-group">
-                    <label>Brand:</label>
-                    <select value={brand} onChange={(e) => setBrand(e.target.value)}>
-                        <option value="">Select Brand</option>
-                        {brands.map(b => (
-                            <option key={b} value={b}>{b}</option>
-                        ))}
-                    </select>
-                </div>
-                <button type="submit" disabled={loading}>Filter Products</button>
+        <Box sx={{ flexGrow: 1, padding: 3 }}>
+            <form onSubmit={handleSubmit}>
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={12} sm={6}>
+                        <Typography gutterBottom>Start Price: ${startPrice}</Typography>
+                        <Slider value={startPrice} onChange={(e, newValue) => setStartPrice(newValue)} min={0} max={1000} />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Typography gutterBottom>End Price: ${endPrice}</Typography>
+                        <Slider value={endPrice} onChange={(e, newValue) => setEndPrice(newValue)} min={0} max={1000} />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography gutterBottom>Rating: {startRating} to {endRating}</Typography>
+                        <Slider value={startRating} onChange={(e, newValue) => setStartRating(newValue)} min={1} max={5} />
+                        <Slider value={endRating} onChange={(e, newValue) => setEndRating(newValue)} min={1} max={5} />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth>
+                            <InputLabel>Category</InputLabel>
+                            <Select
+                                value={category}
+                                label="Category"
+                                onChange={(e) => setCategory(e.target.value)}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                {categories.map((cat) => (
+                                    <MenuItem key={cat.id} value={cat.name}>{cat.name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth>
+                            <InputLabel>Brand</InputLabel>
+                            <Select
+                                value={brand}
+                                label="Brand"
+                                onChange={(e) => setBrand(e.target.value)}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                {brands.map((b) => (
+                                    <MenuItem key={b.id} value={b.name}>{b.name}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button type="submit" variant="contained" color="primary" disabled={loading}>
+                            Filter Products
+                        </Button>
+                    </Grid>
+                </Grid>
             </form>
-            {generalError && <p className="error">{generalError}</p>}
-            {loading && <p>Loading...</p>}
+            {generalError && <Typography color="error">{generalError}</Typography>}
+            {loading && <CircularProgress />}
             {filteredProducts.length > 0 && (
-                <div>
-                    <h2>Filtered Products</h2>
-                    <ul>
-                        {filteredProducts.map(product => (
-                            <li key={product.id}>{product.product}
-                            <p>price: {product.price}</p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <Box sx={{ marginTop: 2 }}>
+                    {filteredProducts.map(product => (
+                        <Card key={product.id} sx={{ marginBottom: 2 }}>
+                            <Link to={`/detail/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        {product.product}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Price: ${product.price}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Stock: {product.stock === 0 ? 'Out of Stock' : product.stock}
+                                    </Typography>
+                                   
+                                </CardContent>
+                            </Link>
+                        </Card>
+                    ))}
+                </Box>
             )}
-        </div>
+        </Box>
     );
 }
 
 export default AdvancedFilter;
+// <img src={product.image} alt={product.product} style={{ width: '20%', height: 'auto' }} />

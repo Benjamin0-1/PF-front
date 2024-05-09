@@ -7,7 +7,13 @@ import ProfileIcon from "./ProfileIcon";
 import ViewCartIcon from "./ViewCartIcon";
 import LoginIconButton from "./LoginIcon";
 import AdminButtonIcon from "./AdminButtonIcon";
+import FiltersIcon from "./AdvancedFilterButton";
 
+import { Snackbar, Alert } from '@mui/material';
+import { IconButton, TextField, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+
+import { ArrowBackIosNew as ArrowBackIcon, ArrowForwardIos as ArrowForwardIcon } from '@mui/icons-material'; // paginado
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -34,7 +40,21 @@ function Home() {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [showCategories, setShowCategories] = useState(false);
+    const [productAddedToCart, setProductAddedToCart] = useState('');
 
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
+    
+    
+    
 
     const fetchProductsByPriceRange = async () => {
         try {
@@ -47,7 +67,8 @@ function Home() {
             if (response.ok) {
                 setProducts(data.products);
             } else {
-                throw new Error(data.message || 'Error fetching products');
+                //throw new Error(data.message || 'Error fetching products'); quitarlo de la PANTALLA
+                console.log('error fetching products');
             }
         } catch (error) {
             setGeneralError(`Fetch error: ${error.message}`);
@@ -102,7 +123,12 @@ function Home() {
                 const errorText = await response.text();
                 throw new Error('Failed to add product to cart. ' + errorText);
             }
+
+            setSnackbarMessage('Product added to cart successfully!'); // Set a success message
+            setSnackbarOpen(true);  // Open the snackbar
+
             console.log('Product added to server cart with quantity:', quantity);
+           
         } catch (error) {
             console.error('Error adding product to cart:', error);
         }
@@ -301,18 +327,26 @@ function Home() {
 
     return (
         <div className="Home">
-            < ProfileIcon/>
-            < ViewCartIcon/>
-            < LoginIconButton/>
-       < AdminButtonIcon/>
-            <div className="search-bar">
-                <input
+
+         
+            <div className="Home">
+                <TextField
+                    fullWidth
                     type="text"
                     placeholder="Search product"
                     value={productToSearch}
                     onChange={(e) => setProductToSearch(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleSearch} aria-label="search">
+                                    <SearchIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        )
+                    }}
+                    variant="outlined"
                 />
-                <button onClick={handleSearch}>Search</button>
                 {noProductSearchError && <p style={{ color: 'red' }}>{noProductSearchError}</p>}
                 {foundProduct.length > 0 && (
                     <div className="found-product">
@@ -322,8 +356,13 @@ function Home() {
                 )}
             </div>
 
-
             
+
+
+            < ProfileIcon/>
+            < ViewCartIcon/>
+            < LoginIconButton/>
+            < AdminButtonIcon/>
 
 
 
@@ -334,6 +373,8 @@ function Home() {
                 <input type="range" min="0" max="1000" value={maxPrice} onChange={(e) => handlePriceChange('max', e.target.value)} />
                 <p>Price Range: ${minPrice} - ${maxPrice}</p>
             </div>
+
+            < FiltersIcon/>
 
           
 
@@ -366,6 +407,8 @@ function Home() {
                 </div>
             </Link>
 
+
+
             {/* Quantity and Cart Buttons */}
             <div className="quantity-selector">
                 <button onClick={(e) => {
@@ -378,22 +421,52 @@ function Home() {
                     handleIncreaseQuantity(product.id);
                 }}>+</button>
             </div>
+
+
             <button onClick={(e) => {
-                e.preventDefault();  // Prevent the Link navigation
-                e.stopPropagation(); // Stop propagation to prevent link navigation
-                handleAddToServerCart(product.id, quantities[product.id] || 1, e);
-            }}>
-                Add to Server Cart
-            </button>
-        </div>
+                        e.preventDefault();  // bug reparado
+                        e.stopPropagation(); // bug reparado
+                        handleAddToServerCart(product.id, quantities[product.id] || 1);
+                            }}>
+                                Add to cart
+                            </button>
+
+
+                            <Snackbar
+                        open={snackbarOpen}
+                        autoHideDuration={6000}
+                        onClose={handleSnackbarClose}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                    >
+    <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%', backgroundColor: 'green', color: 'white' }}>
+        {snackbarMessage}
+    </Alert>
+</Snackbar>
+</div>
+
     ))}
 </div>
 
 
-            <div className="pagination">
-                <button disabled={currentPage === 1} onClick={handlePrevPage}>Previous</button>
+<div className="pagination">
+                <IconButton 
+                    onClick={handlePrevPage} 
+                    disabled={currentPage === 1}
+                    aria-label="previous page"
+                >
+                    <ArrowBackIcon />
+                </IconButton>
                 <span>{currentPage} / {totalPages}</span>
-                <button disabled={currentPage === totalPages} onClick={handleNextPage}>Next</button>
+                <IconButton 
+                    onClick={handleNextPage} 
+                    disabled={currentPage === totalPages}
+                    aria-label="next page"
+                >
+                    <ArrowForwardIcon />
+                </IconButton>
             </div>
 
             {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
@@ -401,6 +474,7 @@ function Home() {
             <br />
             {newsletterVisible && <Newsletter />}
         </div>
+
     );    
 
     

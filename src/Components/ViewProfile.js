@@ -3,6 +3,8 @@ import FetchWithAuth from "./Auth/FetchWithAuth";
 import userProfileStyles from './module.ViewProfile.css';
 import AdminButtonIcon from "./AdminButtonIcon";
 import ViewCartIcon from "./ViewCartIcon";
+import { Button, Card, CardContent, Typography, Box } from '@mui/material'; // ESTILOS
+
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -58,30 +60,70 @@ function ViewProfile() {
     }, []); 
 
     return (
-        <div className="ViewProfile">
-            < ViewCartIcon/>
-            < AdminButtonIcon/>
-            <h2 className="card"> <strong>Profile</strong>  </h2>
-            <div>
-                <p className="card">First name: {profileInfo.first_name || 'Error mostrando nombre'}</p>
-                <p className="card">Last name: {profileInfo.last_name || 'Error mostrando apellido'}</p>
-                <p className="card">Username: {profileInfo.username}</p>
-                <p className="card">Email: {profileInfo.email}</p>
-                <p className="card">Admin: {profileInfo.is_admin ? 'Yes' : 'No'}</p>
-                <p className="card">Two Factor Authentication: {profileInfo.two_factor_authentication ? 'Enabled' : 'Disabled'}</p>
-                <p className="card">Te uniste en la fecha: {profileInfo.createdAt}</p>
-                <br />
-
-                {isButtonVisible && <button onClick={() => window.location.href='/activate2fa'}> Enable Two-Factor Authentication </button>}
-                <button onClick={() => {window.location.href='/updateprofileinfo'}} >Update profile info</button>
-                <button onClick={() => {window.location.href='/updateprofilepassword'}} style={{marginLeft: '50px'}}>Update password</button>
-
-               
-            </div>
-            {generalError && <p>{generalError}</p>}
-        </div>
+        <Box className="ViewProfile" sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
+            <Card variant="outlined">
+                <CardContent>
+                    <Typography variant="h5" component="div" sx={{ mb: 2 }}>
+                        Profile
+                    </Typography>
+                    <Box sx={{ mb: 1 }}>
+                        <Typography variant="body1">
+                            First name: {profileInfo.first_name || 'N/A'}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ mb: 1 }}>
+                        <Typography variant="body1">
+                            Last name: {profileInfo.last_name || 'N/A'}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ mb: 1 }}>
+                        <Typography variant="body1">
+                            Username: {profileInfo.username || 'N/A'}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ mb: 1 }}>
+                        <Typography variant="body1">
+                            Email: {profileInfo.email || 'N/A'}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ mb: 1 }}>
+                        <Typography variant="body1">
+                            Admin: {profileInfo.is_admin ? 'Yes' : 'No'}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ mb: 1 }}>
+                        <Typography variant="body1">
+                            Two Factor Authentication: {profileInfo.two_factor_authentication ? 'Enabled' : 'Disabled'}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ mb: 1 }}>
+                        <Typography variant="body1">
+                            Joined on: {profileInfo.createdAt || 'N/A'}
+                        </Typography>
+                    </Box>
+                </CardContent>
+                <Box sx={{ display: 'flex', justifyContent: 'space-around', p: 2 }}>
+                    {isButtonVisible && (
+                        <Button variant="contained" onClick={() => window.location.href='/activate2fa'}>
+                            Enable Two-Factor Authentication
+                        </Button>
+                    )}
+                    <Button variant="outlined" onClick={() => {window.location.href='/updateprofileinfo'}}>
+                        Update Profile Info
+                    </Button>
+                    <Button variant="outlined" onClick={() => {window.location.href='/updateprofilepassword'}} sx={{ ml: 2 }}>
+                        Update Password
+                    </Button>
+                </Box>
+                {generalError && <Typography color="error">{generalError}</Typography>}
+            </Card>
+            <ViewCartIcon />
+            <AdminButtonIcon />
+        </Box>
     );
-    
 }
+
+    
+
 
 export default ViewProfile;

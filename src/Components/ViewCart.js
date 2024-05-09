@@ -236,5 +236,3 @@ function ViewCart() {
 }
 
 export default ViewCart;
-
-

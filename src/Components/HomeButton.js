@@ -1,6 +1,6 @@
 import React from "react";
 import { IconButton, Tooltip, styled } from '@mui/material';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import HomeIcon from '@mui/icons-material/Home'; // Importing Home icon
 
 const StyledIconButton = styled(IconButton)({
     padding: '10px 20px',
@@ -17,7 +17,7 @@ const StyledIconButton = styled(IconButton)({
     outline: 'none',
     position: 'fixed',
     bottom: '20px',
-    right: '20px',
+    right: '60px', // Adjusted positioning for better accessibility
     '&:hover': {
         backgroundImage: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
         boxShadow: '0 5px 15px rgba(0, 0, 0, 0.2)',
@@ -35,31 +35,29 @@ const StyledIconButton = styled(IconButton)({
         padding: '8px 16px',
         fontSize: '14px',
         bottom: '10px',
-        right: '10px',
+        right: '50px',
     },
     '@media (max-width: 480px)': {
         width: '90%',
         maxWidth: '200px',
         left: '50%',
         transform: 'translateX(-50%)',
-        bottom: '5px',
+        bottom: '15px', 
     }
 });
 
-function Logout() {
-    const handleLogout = () => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        window.location.href = '/login';
+function HomeButton() {
+    const handleHome = () => {
+        window.location.href = '/home'; 
     };
 
     return (
-        <Tooltip title="Logout">
-            <StyledIconButton onClick={handleLogout}>
-                <ExitToAppIcon />
+        <Tooltip title="Home">
+            <StyledIconButton onClick={handleHome}>
+                <HomeIcon />
             </StyledIconButton>
         </Tooltip>
     );
 }
 
-export default Logout;
+export default HomeButton;

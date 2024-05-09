@@ -68,7 +68,7 @@ const VisualChart = () => {
     };
   
     return (
-        <div style={{ width: "1400px", height: "500px", marginLeft: "250px" }}>
+        <div style={{ width: "1400px", height: "500px", marginLeft: "100px" }}>
             <br />
           <Bar data={data} />
           <br />
