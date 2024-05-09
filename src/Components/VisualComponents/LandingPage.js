@@ -1,15 +1,15 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { Parallax } from 'react-parallax';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import { motion } from 'framer-motion';
 
 
-// Global style for body
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background: #121212;
     color: white;
   }
@@ -23,20 +23,19 @@ const Container = styled.div`
 
 const HeroSection = styled.div`
   height: 75vh;
-  background: url(https://cdn.mos.cms.futurecdn.net/6t8Zh249QiFmVnkQdCCtHK.jpg) center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
 `;
 
-const HeroTitle = styled.h1`
+const HeroTitle = styled(motion.h1)`
   color: #00ffea;
   font-size: 48px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
-const ProductCard = styled.div`
+const ProductCard = styled(motion.div)`
   padding: 10px;
   border-radius: 10px;
   background: #222;
@@ -65,55 +64,70 @@ const Footer = styled.footer`
   border-top: 3px solid #00ffea;
 `;
 
+const responsiveCarousel = {
+  superLargeDesktop: {
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
+};
+
 const GamingLanding = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    cssEase: "linear",
-  };
+  const backgroundImages = [
+    'https://cdn.mos.cms.futurecdn.net/6t8Zh249QiFmVnkQdCCtHK.jpg',
+    "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6562/6562576_sd.jpg"
+    // mas imagenes
+    
+  ];
+
+  const products = [
+    { id: 1, name: 'Gaming Laptop', price: '$999', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjnoDtJ5feZm4SYFIuPfpGY4T1832E_2CDXeTxiRz4pA&s' },
+    { id: 2, name: 'Gaming Monitor', price: '$399', imageUrl: 'https://www.mundodeportivo.com/alfabeta/hero/2024/03/ps5-pro-concepto.1710751857.9833.jpg?width=768&aspect_ratio=16:9&format=nowebp' },
+    { id: 3, name: 'Gaming Chair', price: '$249', imageUrl: 'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6562/6562576_sd.jpg' }
+  ];
 
   return (
     <>
-
       <GlobalStyle />
-      <HeroSection>
-        <HeroTitle>Experience the Edge of Technology</HeroTitle>
-      </HeroSection>
+      <Parallax strength={300} bgImage={backgroundImages[0]}>
+        <HeroSection>
+          <HeroTitle
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+            Experience the Edge of Technology
+          </HeroTitle>
+        </HeroSection>
+      </Parallax>
       <Container>
         <h2>Featured Products</h2>
-        <Slider {...settings}>
-          <ProductCard>
-            <ProductImage src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" width="300" height="200" />
-            <ProductName>Razer Huntsman V2</ProductName>
-            <ProductPrice>$249.99</ProductPrice>
-          </ProductCard>
-          <ProductCard>
-            <ProductImage src="https://e7.pngegg.com/pngimages/199/713/png-clipart-laptop-razer-blade-stealth-13-razer-blade-14-intel-core-computer-razor-blade-drawing-netbook-computer.png" width="300" height="200" />
-            <ProductName>Razer Naga X</ProductName>
-            <ProductPrice>$79.99</ProductPrice>
-          </ProductCard>
-          <ProductCard>
-            <ProductImage src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQCFin2zDtbqYExLFc7XZ0lc2KiZTzr8ULmoM7X3GlGw&s" width="300" height="200" />
-            <ProductName>Razer DeathAdder V2 Pro</ProductName>
-            <ProductPrice>$129.99</ProductPrice>
-          </ProductCard>
-        </Slider>
+        <Carousel responsive={responsiveCarousel} autoPlay={true} autoPlaySpeed={3000} infinite={true}>
+          {products.map(product => (
+            <ProductCard key={product.id}>
+              <ProductImage src={product.imageUrl} alt={product.name} />
+              <ProductName>{product.name}</ProductName>
+              <ProductPrice>{product.price}</ProductPrice>
+            </ProductCard>
+          ))}
+        </Carousel>
       </Container>
       <Footer>
         © 2024 Electronic Tech E-commerce. All rights reserved.
       </Footer>
     </>
   );
-
-
-
-
-
 };
 
 export default GamingLanding;
