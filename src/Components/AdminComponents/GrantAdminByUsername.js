@@ -6,7 +6,7 @@ import ProfileIcon from "../ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
-let URL = 'http://localhost:3001/grant-admin-by-username';
+const API_URL = process.env.REACT_APP_URL
 
 function GrantAdminByUsername() {
     const [generalError, setGeneralError] = useState('');
@@ -14,10 +14,6 @@ function GrantAdminByUsername() {
     const [username, setUsername] = useState('');
     const [alreadyAdmin, setAlreadyAdmin] = useState('');
     const [userNotFoundError, setUserNotFoundError] = useState('');
-
-
-
-
     
     if (!accessToken) {
         window.location.href = '/login'
@@ -26,7 +22,7 @@ function GrantAdminByUsername() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -48,7 +44,7 @@ function GrantAdminByUsername() {
     const handleCreateAdmin = async () => {
         try {
             
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/grant-admin-by-username`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,7 +91,7 @@ function GrantAdminByUsername() {
         const fetchUserDetails = async () => {
             try {
                 // Perform API request to fetch user details   <-- users/info/details/:username
-                const response = await FetchWithAuth(`http://localhost:3001/users/info/details/${username}`, {
+                const response = await FetchWithAuth(`${API_URL}/users/info/details/${username}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

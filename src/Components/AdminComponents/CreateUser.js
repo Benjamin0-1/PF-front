@@ -9,7 +9,9 @@ const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$/;
 
 const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-let URL = 'http://localhost:3001/signup'; // <-- IMPORTANTE: <-- FALTA AGREGAR URL.
+ const API_URL = process.env.REACT_APP_URL
+
+//let URL = 'http://localhost:3001/signup'; // <-- IMPORTANTE: <-- FALTA AGREGAR URL.
 
 function CreateUser() {
     const [generalError, setGeneralError] = useState('');
@@ -41,7 +43,7 @@ function CreateUser() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -114,7 +116,7 @@ function CreateUser() {
                 setPasswordsDontMatch('Las contraseña deben ser iguales')
             }
 
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

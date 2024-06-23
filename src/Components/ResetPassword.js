@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FetchWithAuth from './Auth/FetchWithAuth';
 import resetPassowordStyles from './module.ResetPassword.css';
-
+const API_URL = process.env.REACT_APP_URL
 
 function ResetPassword() {
     const [resetToken, setResetToken] = useState('');
@@ -21,7 +21,7 @@ function ResetPassword() {
         }
 
         try {
-            const response = await fetch('http://localhost:3001/reset-password', {
+            const response = await fetch(`${API_URL}/reset-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ resetToken, newPassword, confirmNewPassword })

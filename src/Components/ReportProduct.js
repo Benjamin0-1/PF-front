@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import './ReportProduct.css';
+const API_URL = process.env.REACT_APP_URL
 
 // VERIFICAR TODOS LOS IMPORTES YA QUE PUEDEN TENER OTROS CAMINOS EN TU PC.
 
 const accessToken = localStorage.getItem('accessToken');
-const URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/products/report/id';
 
 function ReportProduct() {
     const [productId, setProductId] = useState('');
@@ -15,7 +15,7 @@ function ReportProduct() {
 
     const handleReport = async () => {
         try {
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/products/report/id`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

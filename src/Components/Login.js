@@ -5,6 +5,7 @@ import Logginstyles from './module.Login.css';
 import fancyImageFrom from './Assets/login.webp'
 
 const accessToken = localStorage.getItem('accessToken');
+const API_URL = process.env.REACT_APP_URL
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -48,7 +49,7 @@ function Login() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:3001/login', {
+            const response = await fetch(`${API_URL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -101,7 +102,7 @@ function Login() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:3001/verify', {
+            const response = await fetch(`${API_URL}/verify`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

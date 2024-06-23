@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import forgotPasswordStyles from  './module.PasswordRecovery.css';
-
-
-const URL = 'http://localhost:3001/reset-password-request';
-const PROFILE_URL = 'http://localhost:3001/profile-info';
+const API_URL = process.env.REACT_APP_URL
 
 
 function PasswordRecovery() {
@@ -23,7 +20,7 @@ function PasswordRecovery() {
         
         setIsLoading(true);
         try {
-            const response = await fetch('http://localhost:3001/reset-password-request', {
+            const response = await fetch(`${API_URL}/reset-password-request`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })

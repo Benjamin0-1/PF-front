@@ -5,8 +5,9 @@ import allEmailsFromNonRegisteredUsers from   './module.AllNewsLetterEmail.css';
 import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
+const API_URL = process.env.REACT_APP_URL
 
-const all_newsletter_emails_url = 'http://localhost:3001/all-newsletter-emails'
+//const all_newsletter_emails_url = 'http://localhost:3001/all-newsletter-emails'
 
 function AllNewsLetterEmail() {
     const [generalError, setGeneralError] = useState('');
@@ -20,7 +21,7 @@ function AllNewsLetterEmail() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ function AllNewsLetterEmail() {
             
             try {
                 
-                const response = await FetchWithAuth(all_newsletter_emails_url, {
+                const response = await FetchWithAuth(`${API_URL}/all-newsletter-emails`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

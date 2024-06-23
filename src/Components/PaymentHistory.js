@@ -4,14 +4,9 @@ import seePaymentHistory from  './module.PaymentHistory.css';
 import ProfileIcon from "./ProfileIcon";
 import ViewCartIcon from "./ViewCartIcon";
 import AdminButtonIcon from "./AdminButtonIcon";
+const API_URL = process.env.REACT_APP_URL
 
 const accessToken = localStorage.getItem('accessToken');
-
-const PORT = process.env.PORT || 3001;
-let URL = `http://localhost:${PORT}/payment-history`;
-let DETAIL_URL = `http://localhost:${PORT}/product-detail`;
-
-//URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/payment-history'; // <-- 
 
 function PaymentHistory() {
     const [generalError, setGeneralError] = useState('');
@@ -25,7 +20,7 @@ function PaymentHistory() {
 
     const getProductName = async (productId) => {
         try {
-            const response = await fetch(`${DETAIL_URL}/${productId}`);
+            const response = await fetch(`${API_URL}/product-detail/${productId}`);
 
             if (response.status === 404) {
                 console.log('Error: producto no existe');
@@ -48,7 +43,7 @@ function PaymentHistory() {
 
     const fetchDetails = async () => {
         try {
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/payment-history`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

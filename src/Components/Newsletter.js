@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import  theNewsletterstyles from  './module.Newsletter.css';
+const API_URL = process.env.REACT_APP_URL
 
 function Newsletter() {
     const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ function Newsletter() {
 
       try {
         
-        const response = await fetch(`http://localhost:3001/newsletter/${email}`, {
+        const response = await fetch(`${API_URL}/newsletter/${email}`, {
           method: 'POST'
       });
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import './UpdateProfileInfo.css';
+const API_URL = process.env.REACT_APP_URL
 
 const accessToken = localStorage.getItem('accessToken');
 
-let URL = 'http://localhost:3001/profile/update-profile-info';
 
 function UpdateProfileInfo() {
     const [generalError, setGeneralError] = useState('');
@@ -32,7 +32,7 @@ function UpdateProfileInfo() {
     useEffect(() => {
         const fetchProfileInfo = async () => {
             try {
-                const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+                const response = await FetchWithAuth(`${API_URL}/profile-info`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ function UpdateProfileInfo() {
                 return;
             }
 
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/products/report/id`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

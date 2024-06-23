@@ -3,9 +3,9 @@ import FetchWithAuth from "./Auth/FetchWithAuth";
 import userSpecificReviews from './module.UserReviews.css';
 import Rating from 'react-rating-stars-component'; // <-- rating stars
 import { Button, Card, Typography, Snackbar } from '@mui/material';
+const API_URL = process.env.REACT_APP_URL
 
 const accessToken = localStorage.getItem('accessToken');
-const USER_REVIEWS_URL = 'http://localhost:3001/user/reviews';
 
 
 // IMPORTANTE: <--------- FALTA PODER ELIMINAR REVIEW.
@@ -24,7 +24,7 @@ function UserReviews() {
     useEffect(() => {
         const fetchUserReviews = async () => {
             try {
-                const response = await FetchWithAuth(USER_REVIEWS_URL, {
+                const response = await FetchWithAuth(`${API_URL}/user/reviews`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ function UserReviews() {
 
     const handleDelete = async (reviewId) => {
         try {
-            const response = await FetchWithAuth(`http://localhost:3001/review/${reviewId}`, {
+            const response = await FetchWithAuth(`${API_URL}/review/${reviewId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const URL  = `https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/allbrands`;
+const API_URL = process.env.REACT_APP_URL
 
 function AllBrand() {
     const [brands, setBrands] = useState([]);
@@ -10,7 +10,7 @@ function AllBrand() {
     useEffect(() => {
         const fetchBrands = async () => {
             try {
-                const response = await fetch(URL);
+                const response = await fetch(`${API_URL}/allbrands`);
                 if (!response.ok) {
                     setGeneralError('Ha ocurrido un error');
                     return;

@@ -4,18 +4,19 @@ import AdminNavBar from "./AdminNavBar";
 import FetchWithAuth from "../Auth/FetchWithAuth";
 
 const accessToken = localStorage.getItem('accessToken');
+const API_URL = process.env.REACT_APP_URL
 
 function AdminDashboard() {
 
-
     if (!accessToken) {
-        window.location.href = '/login'
+        window.location.href = '/login';
+     
     };
 
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',

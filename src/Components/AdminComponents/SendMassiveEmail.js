@@ -5,6 +5,8 @@ import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
 
+const API_URL = process.env.REACT_APP_URL
+
 function SendMassiveEmail() {
     const [generalError, setGeneralError] = useState('');
     const [subject, setSubject] = useState('');
@@ -19,7 +21,7 @@ function SendMassiveEmail() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -40,9 +42,8 @@ function SendMassiveEmail() {
 
     const sendEmails = async () => {
         setIsLoading(true);
-        const URL = 'http://localhost:3001/send-email-to-all-users';
         try {
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/send-email-to-all-users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

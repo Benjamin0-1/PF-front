@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
-
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
 import reportedproductsStyles from  './module.ReportedProduct.css';
 
 const PORT = process.env.PORT || 3001;
-const URL = 'http://localhost:3001/products/reported';
+
+const API_URL = process.env.REACT_APP_URL
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -21,7 +21,7 @@ function ReportedProduct() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ function ReportedProduct() {
 
     const fetchRecords = async () => {
         try {
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/products/reported`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

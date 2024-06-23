@@ -6,13 +6,7 @@ import AdminNavBar from "./AdminNavBar";
 const accessToken = localStorage.getItem('accessToken');
 console.log(`Access token: ${accessToken}`);
 
-// mejoras: <-- error brandId no existe. Poder ver brands y sus ids para mejorar la experiencia
-
-let BRAND_DETAIL = `https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/allbrands`;
-let PROFILE_INFO_URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/profile-info';
-
-BRAND_DETAIL = 'http://localhost:3001/allbrands';
-PROFILE_INFO_URL = 'http://localhost:3001/profile-info';
+const API_URL = process.env.REACT_APP_URL
 
 function CreateProduct() {
     const [formData, setFormData] = useState({
@@ -44,7 +38,7 @@ function CreateProduct() {
     const checkIsAdmin = async () => {
         try {
             
-            const response = await FetchWithAuth(PROFILE_INFO_URL, {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -69,7 +63,7 @@ function CreateProduct() {
     useEffect(() => {
         const fetchBrandsDetails = async () => {
             try {
-                const response = await fetch(BRAND_DETAIL);
+                const response = await fetch(`${API_URL}/allbrands`);
                 const data = await response.json();
 
                 if (response.ok) {
@@ -143,7 +137,7 @@ function CreateProduct() {
             };
 
             
-            const response = await FetchWithAuth('http://localhost:3001/product', {
+            const response = await FetchWithAuth(`${API_URL}/product`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

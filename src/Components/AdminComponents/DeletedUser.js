@@ -4,6 +4,7 @@ import AdminNavBar from "./AdminNavBar";
 
 
 const accessToken = localStorage.getItem('accessToken');
+const API_URL = process.env.REACT_APP_URL
 
 function DeletedUser() {
     const [deletedUsers, setDeletedUsers] = useState([]);
@@ -13,7 +14,7 @@ function DeletedUser() {
     useEffect(() => {
         const checkIsAdmin = async () => {
             try {
-                const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+                const response = await FetchWithAuth(`${API_URL}/profile-info`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ function DeletedUser() {
     useEffect(() => {
         const fetchDeletedUsers = async () => {
             try {
-                const response = await FetchWithAuth('http://localhost:3001/all-deleted-users', {
+                const response = await FetchWithAuth(`${API_URL}/all-deleted-users`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

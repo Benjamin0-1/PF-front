@@ -6,6 +6,8 @@ import AdminNavBar from "./AdminNavBar";
 // los tokens siempre se obtienen del /login.
 const accessToken = localStorage.getItem('accessToken');
 
+const API_URL = process.env.REACT_APP_URL
+
 function DeleteUserByUsername() {
     const [usernameToDelete, setUsernameToDelete] = useState('');
     const [generalError, setGeneralError] = useState('');
@@ -38,12 +40,13 @@ function DeleteUserByUsername() {
 
     if (!accessToken) {
         window.location.href = '/login'
+      
     };
 
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -64,7 +67,7 @@ function DeleteUserByUsername() {
 
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/deleteuser/${usernameToDelete}`, {
+            const response = await fetch(`${API_URL}/deleteuser/${usernameToDelete}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

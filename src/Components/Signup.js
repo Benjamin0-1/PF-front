@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import signUpRegisterFormStyles from  './module.Signup.css';
 import signupImage from './Assets/signup.webp'
+const API_URL = process.env.REACT_APP_URL
 
 function Signup() {
     const [formData, setFormData] = useState({
@@ -33,9 +34,6 @@ function Signup() {
         window.location.href = '/viewprofile';
     }
 
-    const PORT = 3001;
-    const URL = 'http://localhost';
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -47,7 +45,7 @@ function Signup() {
         }
 
         try {
-            const response = await fetch(`${URL}:${PORT}/signup`, {
+            const response = await fetch(`${API_URL}/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json' 

@@ -4,15 +4,11 @@ import ProfileIcon from "./ProfileIcon";
 import AdminButtonIcon from "./AdminButtonIcon";
 
 import cartsbeforepurchasecomponent from './module.ViewCart.css';
+const API_URL = process.env.REACT_APP_URL
 
 const PUBLISHABLE_KEY = 'pk_test_51P7RX608Xe3eKAmZNBa0XOqO2r1gfHIWZfrOxantEvF9QZ8HJgooaHnw86z2mbu2lDpSO1kOzbQ3Rl2IzivzoFVb00n6EW77lL';
 
 const accessToken = localStorage.getItem('accessToken');
-const VIEW_CART_URL = 'http://localhost:3001/user/viewcart';
-const UPDATE_CART_URL = 'http://localhost:3001/user/update-cart';
-const DELETE_CART_ITEM_URL = 'http://localhost:3001/user/delete-from-cart';
-const CHECKOUT_URL = 'http://localhost:3001/create-checkout-session';
-const SHIPPING_INFO_URL = 'http://localhost:3001/shipping-info';
 
 function ViewCart() {
     const [cartItems, setCartItems] = useState([]);
@@ -66,7 +62,7 @@ function ViewCart() {
         }));
     
         try {
-            const response = await FetchWithAuth(CHECKOUT_URL, {
+            const response = await FetchWithAuth(`${API_URL}/create-checkout-session`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -111,7 +107,7 @@ function ViewCart() {
     const fetchCartItems = async () => {
         setLoading(true);
         try {
-            const response = await FetchWithAuth(VIEW_CART_URL, {
+            const response = await FetchWithAuth(`${API_URL}/user/viewcart`, {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${accessToken}` }
             });
@@ -130,7 +126,7 @@ function ViewCart() {
 
     const fetchShippingAddresses = async () => {
         try {
-            const response = await FetchWithAuth(SHIPPING_INFO_URL, {
+            const response = await FetchWithAuth(`${API_URL}/shipping-info`, {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${accessToken}` }
             });
@@ -147,7 +143,7 @@ function ViewCart() {
 
     const updateQuantity = async (productId, newQuantity) => {
         try {
-            await FetchWithAuth(UPDATE_CART_URL, {
+            await FetchWithAuth(`${API_URL}/user/update-cart`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -164,7 +160,7 @@ function ViewCart() {
     const deleteItem = async (productId) => {
         try {
             
-            const response = await FetchWithAuth('http://localhost:3001/user/delete-from-cart', {
+            const response = await FetchWithAuth(`${API_URL}/user/delete-from-cart`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

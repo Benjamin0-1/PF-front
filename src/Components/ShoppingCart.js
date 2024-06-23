@@ -2,17 +2,12 @@ import React, { useState, useEffect } from 'react';
 import FetchWithAuth from './Auth/FetchWithAuth';
 import { Button, IconButton, Tooltip, styled } from '@mui/material';  // <== UI
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';  // <==    Ui
+const API_URL = process.env.REACT_APP_URL
  
 
 const accessToken = localStorage.getItem('accessToken'); // if no token then it means the user is not logged in
                                                         // then we display a message telling them they can't add to cart
                                                         // until they log in. Or we can redirect them to /login
-
-let ALL_PRODUCTS_IN_CART_URL = 'http://localhost:3001/user/viewcart';
-let ADD_CART_TO_CART_URL = 'http://localhost:3001/user/add-to-cart';
-let DELETE_A_PRODUCT_FROM_CART = 'http://localhost:3001/user/delete-from-cart'; // this will delete the product from the cart no matter the quantity
-let DELETE_ALL_PRODUCTS_FROM_CART = 'http://localhost:3001/user/clear-cart';
-let UPDATE_CART_URL = 'http://localhost:3001/user/update-cart';
                     
 function ShoppingCart() {
     const [cartItems, setCartItems] = useState([]);
@@ -42,7 +37,7 @@ function ShoppingCart() {
 
         setIsLoading(true);
         try {
-            const response = await FetchWithAuth('http://localhost:3001/user/viewcart', {
+            const response = await FetchWithAuth(`${API_URL}/user/viewcart`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
@@ -63,7 +58,7 @@ function ShoppingCart() {
         if (!accessToken) {return} // instead of return display a message to the user
 
         try {
-            await FetchWithAuth('http://localhost:3001/user/add-to-cart', {
+            await FetchWithAuth(`${API_URL}/user/add-to-cart`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -83,7 +78,7 @@ function ShoppingCart() {
 
         if (!accessToken) {return}
 
-        const response = await fetch('http://localhost:3001/user/update-cart', {
+        const response = await fetch(`${API_URL}/user/update-cart`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -104,7 +99,7 @@ function ShoppingCart() {
     // this is also a button that will be displayed to delete a specific product from the cart.
     const deleteFromCart = async (productId) => {
         try {
-            await FetchWithAuth('http://localhost:3001/user/delete-from-cart', {
+            await FetchWithAuth(`${API_URL}/user/delete-from-cart`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -124,7 +119,7 @@ function ShoppingCart() {
     // this will delete all products from the cart, leaving it empty.
     const deleteAllProductsFromCart = async () => {
         try {
-            await FetchWithAuth('http://localhost:3001/user/clear-cart', {
+            await FetchWithAuth(`${API_URL}/user/clear-cart`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
@@ -148,7 +143,7 @@ function ShoppingCart() {
 
 
 
-    if (isLoading) return <p>Loading...</p>;
+    
 
 
     // MATERIAL UI.

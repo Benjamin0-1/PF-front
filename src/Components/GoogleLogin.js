@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+const API_URL = process.env.REACT_APP_URL
+
 function GoogleLogin() {
     const [object, setObject] = useState([]);
     const [notFound, setNotFound] = useState('');
@@ -7,7 +9,7 @@ function GoogleLogin() {
 
     // Function to open Google authentication window
     const handleLogin = () => {
-        window.open('http://localhost:3001/auth/google', '_self');
+        window.open(`${API_URL}/auth/google`, '_self');
     };
 
 

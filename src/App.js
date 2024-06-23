@@ -61,6 +61,8 @@ import HomeButton from './Components/HomeButton';
 import NotFoundPage from './Components/NotFoundPage';
 import PaymentCancelled from './Components/PaymentCancelled';
 
+// CV
+import CV from './CV-Del-Later/CV';
 
 
 function App() {
@@ -147,6 +149,8 @@ function App() {
       <Route  path='/ordercancelled' element={<h1 style={{marginLeft: '200px'}}>Order has been cancelled</h1>} />
       <Route path='/errorprocessingorder' element={<h1 style={{marginLeft: '200px'}} >Error processing order</h1>} />
       <Route path='/' element={< LandingPage/>} />
+
+      <Route path='/cv'  element={< CV/>}/>
       </Routes>
 
     

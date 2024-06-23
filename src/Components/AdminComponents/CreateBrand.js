@@ -6,9 +6,7 @@ import ProfileIcon from "../ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken'); // <-- verifica el importe, aqui funciona.
 
-const PORT = process.env.PORT || 3001; // <-- esto funciona en localhost y heroku.
-let URL  = `https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/brand`;
-URL = 'http://localhost:3001/brand';
+const API_URL = process.env.REACT_APP_URL
 
 function CreateBrand() {
     const [brandName, setBrandName] = useState('');
@@ -22,7 +20,7 @@ function CreateBrand() {
     const checkIsAdmin = async () => {
         try {
             
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,7 +41,7 @@ function CreateBrand() {
 
     const handleCreation = async () => {
         try {
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/brand`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

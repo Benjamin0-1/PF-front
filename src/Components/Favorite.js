@@ -7,10 +7,9 @@ import AdminButtonIcon from "./AdminButtonIcon";
 import { Button, Typography, Card, CardContent, CardMedia } from "@mui/material";
 import { Delete as DeleteIcon } from "@mui/icons-material"; // MUI 5
 
+const API_URL = process.env.REACT_APP_URL
 
 const accessToken = localStorage.getItem('accessToken');
-
-let URL = 'http://localhost:3001/products/user/favorites';
 
 function Favorite() {
     const [favorites, setFavorites] = useState([]);
@@ -24,7 +23,7 @@ function Favorite() {
     const handleDeleteFavorite = async (id) => {
         try {
             
-            const response = await FetchWithAuth(`http://localhost:3001/delete-favorite/${id}`, {
+            const response = await FetchWithAuth(`${API_URL}/delete-favorite/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +43,7 @@ function Favorite() {
     const handleFetch = async () => {
         try {
             
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/products/user/favorites`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

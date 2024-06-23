@@ -4,6 +4,8 @@ import DeleteProductById from "./DeleteProductById";
 
 const accessToken = localStorage.getItem('accessToken');
 
+const API_URL = process.env.REACT_APP_URL
+
 function ParentProductDelete() {
     const [generalError, setGeneralError] = useState('');
 
@@ -14,7 +16,7 @@ function ParentProductDelete() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',

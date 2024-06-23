@@ -4,16 +4,10 @@ import userProfileStyles from './module.ViewProfile.css';
 import AdminButtonIcon from "./AdminButtonIcon";
 import ViewCartIcon from "./ViewCartIcon";
 import { Button, Card, CardContent, Typography, Box } from '@mui/material'; // ESTILOS
+const API_URL = process.env.REACT_APP_URL
 
 
 const accessToken = localStorage.getItem('accessToken');
-
-
-let URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/profile-info';
-
-let PROFILE_URL = 'http://localhost:3001/profile-info';
-
-
 
 
 function ViewProfile() {
@@ -27,7 +21,7 @@ function ViewProfile() {
 
     const fetchProfile = async () => {
         try {
-            const response = await FetchWithAuth(PROFILE_URL, {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

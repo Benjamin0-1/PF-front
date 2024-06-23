@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import './Shipping.css';
+const API_URL = process.env.REACT_APP_URL
 
 const accessToken = localStorage.getItem('accessToken');
 const zipCodeRegex = /^\d+$/;
@@ -57,7 +58,7 @@ function Shipping() {
         }
 
         try {
-            const response = await FetchWithAuth('http://localhost:3001/user/shipping', {
+            const response = await FetchWithAuth(`${API_URL}/user/shipping`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

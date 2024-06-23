@@ -12,6 +12,7 @@ import { IoCartOutline, IoHeartOutline, IoFlagOutline, IoCheckmarkOutline, IoPen
 
 
 const accessToken = localStorage.accessToken;
+const API_URL = process.env.REACT_APP_URL
 
 function Detail() {
     const [generalError, setGeneralError] = useState('');
@@ -51,7 +52,7 @@ function Detail() {
 
     const addToServerCart = async () => {
         try {
-            const response = await FetchWithAuth('http://localhost:3001/user/add-to-cart', {
+            const response = await FetchWithAuth(`${API_URL}/user/add-to-cart`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ function Detail() {
         }
     
         try {
-            const response = await FetchWithAuth('http://localhost:3001/review', {
+            const response = await FetchWithAuth(`${API_URL}/review`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json', // Ensures server knows what format we expect
@@ -149,7 +150,7 @@ function Detail() {
     //report
     const handleReport = async () => {
         try {
-            const response = await FetchWithAuth(`http://localhost:3001/products/report/id`, {
+            const response = await FetchWithAuth(`${API_URL}/products/report/id`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -190,7 +191,7 @@ function Detail() {
         if (!accessToken) return;
 
         try {
-            const response = await FetchWithAuth('http://localhost:3001/products/user/favorites', {
+            const response = await FetchWithAuth(`${API_URL}/products/user/favorites`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -223,7 +224,7 @@ function Detail() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/product-detail/${id}`);
+                const response = await fetch(`${API_URL}/product-detail/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch product detail');
                 }

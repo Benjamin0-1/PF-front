@@ -5,11 +5,9 @@ import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
 
-const URL = 'http://localhost:3001/update-product';
+const API_URL = process.env.REACT_APP_URL
 
 //MEJORAS QUE FALTA: <-- PODER EDITAR CATEGORIA Y TAMBIEN BRAND (POR ID).
-
-const DETAIL_URL = 'http://localhost:3001/product-detail'
 
 function UpdateProduct() {
     const [generalError, setGeneralError] = useState('');
@@ -31,7 +29,7 @@ function UpdateProduct() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -58,7 +56,7 @@ function UpdateProduct() {
 
         const fetchProductDetail = async () => {
             try {
-                const response = await fetch(`${DETAIL_URL}/${productId}`);
+                const response = await fetch(`${API_URL}/product-detail/${productId}`);
     
                 if (response.status === 404) {
                     setGeneralError('Product not found');
@@ -117,7 +115,7 @@ function UpdateProduct() {
         return;
     }
         try {
-            const response = await FetchWithAuth(`${URL}/${productId}`, {
+            const response = await FetchWithAuth(`${API_URL}/update-product/${productId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

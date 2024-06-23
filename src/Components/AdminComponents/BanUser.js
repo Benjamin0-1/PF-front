@@ -5,7 +5,7 @@ import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
 
-let URL = 'http://localhost:3001/ban'; // <-- esto aun no esta en Heroku.
+const API_URL = process.env.REACT_APP_URL
 
 function BanUser() {
     const [generalError, setGeneralError] = useState('');
@@ -30,7 +30,7 @@ function BanUser() {
     const checkIsAdmin = async () => {
         try {
             
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ function BanUser() {
         try {
             setDetailError(''); 
 
-            const response = await FetchWithAuth(`http://localhost:3001/user-details/${userId}`, {
+            const response = await FetchWithAuth(`${API_URL}/user-details/${userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ function BanUser() {
         try {
             setIsLoading(true)
 
-            const response = await FetchWithAuth(`${URL}/${userId}`, {
+            const response = await FetchWithAuth(`${API_URL}/${userId}`, {
                 method: 'POST', // <-- tambien puede cambiarse a PUT.
                 headers: {
                     'Content-Type': 'application/json',

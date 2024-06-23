@@ -3,7 +3,7 @@ import FetchWithAuth from "../Auth/FetchWithAuth";
 import seeAllthependingorders from  './module.AllPendingOrders.css';
 
 const accessToken = localStorage.getItem('accessToken');
-let ALL_PENDING_ORDERS_URL = 'http://localhost:3001/all-orders/pending';
+const API_URL = process.env.REACT_APP_URL
 
 function AllPendingOrders() {
     const [generalError, setGeneralError] = useState('');
@@ -11,7 +11,6 @@ function AllPendingOrders() {
     const [noOrdersFound, setNoOrdersFound] = useState('');
     const [page, setPage] = useState(1);
     const [totalCount, setTotalCount] = useState(0);
-
     const [currentPage, setCurrentPage] = useState(1);
     const [sortByAsc, setSortByAsc] = useState(true);
     const [orderAlreadyFulfilledError, setOrderAlreadyFulfilledError] = useState('');
@@ -29,7 +28,7 @@ function AllPendingOrders() {
     useEffect(() => {
         const checkIsAdmin = async () => {
             try {
-                const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+                const response = await FetchWithAuth(`${API_URL}/profile-info`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -51,7 +50,7 @@ function AllPendingOrders() {
      // fulfill
      const handleFulfill = async (orderId) => {
         try {
-            const response = await FetchWithAuth('http://localhost:3001/orders/fulfill', {
+            const response = await FetchWithAuth(`${API_URL}/orders/fulfill`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -88,7 +87,8 @@ function AllPendingOrders() {
 
     const fetchPendingOrders = async () => {
         try {
-            const response = await FetchWithAuth(`${ALL_PENDING_ORDERS_URL}${sortByAsc ? '/asc' : '/desc'}`, {
+            // VERIFY
+            const response = await FetchWithAuth(`${API_URL}/all-orders/pending${sortByAsc ? '/asc' : '/desc'}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

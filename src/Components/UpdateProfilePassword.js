@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import './UpdateProfilePassword.css';
+const API_URL = process.env.REACT_APP_URL
 
 const accessToken = localStorage.getItem('accessToken');
 
-let URL = 'http://localhost:3001/user/update-user-password';
 
 function UpdateProfilePassword() {
     const [generalError, setGeneralError] = useState('');
@@ -32,7 +32,7 @@ function UpdateProfilePassword() {
 
         try {
             
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/user/update-user-password`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

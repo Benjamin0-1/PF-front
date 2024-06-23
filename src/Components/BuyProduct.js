@@ -8,9 +8,7 @@ import AdminButtonIcon from "./AdminButtonIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
-let URL = 'http://localhost:3001/create-checkout-session';
-//                                          https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/create-checkout-session
-//URL = 'https://proyecto-final-backend-0e01b3696ca9.herokuapp.com/create-checkout-session';
+const API_URL = process.env.REACT_APP_URL
 
 const PUBLISHABLE_KEY = 'pk_test_51P7RX608Xe3eKAmZNBa0XOqO2r1gfHIWZfrOxantEvF9QZ8HJgooaHnw86z2mbu2lDpSO1kOzbQ3Rl2IzivzoFVb00n6EW77lL';
 
@@ -63,7 +61,7 @@ const BuyProduct = () => {
     const fetchProducts = async () => {
         try {
             
-            const response = await fetch('http://localhost:3001/allproducts');
+            const response = await fetch(`${API_URL}/allproducts`);
             const data = await response.json();
 
             if (data.length === 0) {
@@ -85,7 +83,7 @@ const BuyProduct = () => {
             setLoading(true);
             setError(null);
 
-            const response = await FetchWithAuth('http://localhost:3001/shipping-info', {
+            const response = await FetchWithAuth(`${API_URL}/shipping-info`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,7 +114,7 @@ const BuyProduct = () => {
             setLoading(true);
             setError(null);
 
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/create-checkout-session`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -168,7 +166,7 @@ const BuyProduct = () => {
             setLoading(true);
             setError(null);
     
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/create-checkout-session`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

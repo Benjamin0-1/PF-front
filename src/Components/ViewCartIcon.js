@@ -3,6 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
 
+
 function ViewCartIcon() {
     const [isViewCartVisible, setIsViewCartVisible] = useState(false); // Visibility based on accessToken
     const navigate = useNavigate();

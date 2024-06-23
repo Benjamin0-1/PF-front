@@ -6,6 +6,8 @@ import ProfileIcon from "../ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
+const API_URL = process.env.REACT_APP_URL
+
 function DeleteUserByEmail() {
     const [email, setEmail] = useState('');
     const [generalError, setGeneralError] = useState('');
@@ -21,7 +23,7 @@ function DeleteUserByEmail() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +55,7 @@ function DeleteUserByEmail() {
         }
 
         try {
-            const response = await FetchWithAuth(`http://localhost:3001/deleteuser/email/${email}`, {
+            const response = await FetchWithAuth(`${API_URL}/deleteuser/email/${email}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

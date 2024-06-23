@@ -8,7 +8,7 @@ import ProfileIcon from "../ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken');
 
-let newsletter_url = 'http://localhost:3001/email-all-newsletter';
+const API_URL = process.env.REACT_APP_URL
 
 function EmailNewsletter() {
     const [generalError, setGeneralError] = useState('');
@@ -25,7 +25,7 @@ function EmailNewsletter() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ function EmailNewsletter() {
         try {
             setIsLoading(true)
             
-            const response = await FetchWithAuth(newsletter_url, {
+            const response = await FetchWithAuth(`${API_URL}/email-all-newsletter`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

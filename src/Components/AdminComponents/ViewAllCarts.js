@@ -5,7 +5,6 @@ import FetchWithAuth from "../Auth/FetchWithAuth";
 
 const accessToken = localStorage.getItem('accessToken');
 
-let ALL_CARTS_URL = 'http://localhost:3001/carts/view-all-carts';
 
 function ViewAllCarts() {
     const [generalError, setGeneralError] = useState(''); // <-- for the catch block
@@ -16,7 +15,7 @@ function ViewAllCarts() {
             
         try {
             
-            const response = await FetchWithAuth(ALL_CARTS_URL, {
+            const response = await FetchWithAuth(`${API_URL}/carts/view-all-carts`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

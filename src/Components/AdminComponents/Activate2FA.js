@@ -5,6 +5,7 @@ import './Activate2FA.css';
 
 const accessToken = localStorage.getItem('accessToken');
 let TWO_FA_URL = 'http://localhost:3001/2fa/activate-and-generate-secret';
+const API_URL = process.env.REACT_APP_URL
 
 function Active2FA() {
     const [generalError, setGeneralError] = useState('');
@@ -20,7 +21,7 @@ function Active2FA() {
     useEffect(() => {
         const checkIsAdmin = async () => {
             try {
-                const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+                const response = await FetchWithAuth(`${API_URL}/profile-info`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ function Active2FA() {
 
     const handleEnable = async () => {
         try {
-            const response = await FetchWithAuth(TWO_FA_URL, {
+            const response = await FetchWithAuth(`${API_URL}/2fa/activate-and-generate-secret`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

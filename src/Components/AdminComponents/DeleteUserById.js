@@ -11,6 +11,7 @@ const validationSchema = yup.object().shape({
     userId: yup.number().required('Must enter a user id to delete')
 })
 
+const API_URL = process.env.REACT_APP_URL
 
 function DeleteUserById() {
     const [userId, setUserId] = useState('');
@@ -26,7 +27,7 @@ function DeleteUserById() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -44,10 +45,6 @@ function DeleteUserById() {
     
         checkIsAdmin();
       }, []);
-  
-
-    const URL = 'http://localhost';
-    const PORT = process.env.PORT || 3001
 
     const handleDelete = async (e) => {
         e.preventDefault();
@@ -55,7 +52,7 @@ function DeleteUserById() {
         try {
             await validationSchema.validate({userId});
             // si se valida:
-            const response = await FetchWithAuth(`${URL}:${PORT}/deleteuser/id/${userId}`, {
+            const response = await FetchWithAuth(`${API_URL}/deleteuser/id/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

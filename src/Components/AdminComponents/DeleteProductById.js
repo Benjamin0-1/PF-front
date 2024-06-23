@@ -5,6 +5,7 @@ import deletedaProductByItsID  from './module.DeleteProductById.css';
 
 const accessToken = localStorage.getItem('accessToken');
 
+const API_URL = process.env.REACT_APP_URL
 
 function DeleteProductById() {
     const [generalError, setGeneralError] = useState('');
@@ -18,7 +19,7 @@ function DeleteProductById() {
         const checkIsAdmin = async () => {
 
           try {
-            const response = await FetchWithAuth('http://localhost:3001/product/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/product/profile-info`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ function DeleteProductById() {
 
             setIsLoading(true);
 
-            const response = await FetchWithAuth(`http://localhost:3001/product/${productId}`, {
+            const response = await FetchWithAuth(`${API_URL}/product/${productId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

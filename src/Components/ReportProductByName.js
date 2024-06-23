@@ -7,6 +7,7 @@
 import React, {useState, useEffect} from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import './ReportProductByName.css';
+const API_URL = process.env.REACT_APP_URL
 
 let REPORT_URL = ''; // <-- falta agregar en el servidor.
 
@@ -25,7 +26,7 @@ function ReportProductByName() {
     useEffect(() => {
         const checkIsAdmin = async () => {
           try {
-            const response = await FetchWithAuth('http://localhost:3001/profile-info', {
+            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -35,6 +36,7 @@ function ReportProductByName() {
             const data = await response.json();
             if (!data.is_admin) {
               window.location.href = '/notadmin';
+              return // rendering
             }
           } catch (error) {
             console.log(`error: ${error}`);
@@ -48,8 +50,8 @@ function ReportProductByName() {
         e.preventDefault();
 
         try {
-            
-            const response = await FetchWithAuth(REPORT_URL, {
+            // /id
+            const response = await FetchWithAuth(`${API_URL}/products/report/name`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

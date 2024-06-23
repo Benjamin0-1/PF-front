@@ -6,6 +6,7 @@ import {
     Grid, Card, CardContent, Typography, Button, FormControl, InputLabel, Select, MenuItem, Slider, Box, CircularProgress
 } from "@mui/material";
 
+const API_URL = process.env.REACT_APP_URL
 
 function AdvancedFilter() {
     const [startPrice, setStartPrice] = useState(0);
@@ -25,9 +26,9 @@ function AdvancedFilter() {
             setLoading(true);
             try {
                 const responses = await Promise.all([
-                    fetch('http://localhost:3001/all-category'),
-                    fetch('http://localhost:3001/allbrands'),
-                    fetch('http://localhost:3001/allproducts')
+                    fetch(`${API_URL}/all-category`),
+                    fetch(`${API_URL}/allbrands`),
+                    fetch(`${API_URL}/allproducts`)
                 ]);
 
                 if (responses.some(response => !response.ok)) {
@@ -59,7 +60,7 @@ function AdvancedFilter() {
                 throw new Error('Please select both a category and a brand');
             }
 
-            const response = await fetch(`http://localhost:3001/products/filter/${startPrice}/${endPrice}/${startRating}/${endRating}/${category}/${brand}`, {
+            const response = await fetch(`${API_URL}/products/filter/${startPrice}/${endPrice}/${startRating}/${endRating}/${category}/${brand}`, {
                 method: 'GET'
             });
 

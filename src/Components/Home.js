@@ -16,7 +16,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { ArrowBackIosNew as ArrowBackIcon, ArrowForwardIos as ArrowForwardIcon } from '@mui/icons-material'; // paginado
 
 const accessToken = localStorage.getItem('accessToken');
-
+const API_URL = process.env.REACT_APP_URL
 
 function Home() {
     const [products, setProducts] = useState([]);
@@ -58,7 +58,7 @@ function Home() {
 
     const fetchProductsByPriceRange = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/searchbypricerange/${minPrice}/${maxPrice}`, {
+            const response = await fetch(`${API_URL}/searchbypricerange/${minPrice}/${maxPrice}`, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
@@ -111,7 +111,7 @@ function Home() {
    //     e.stopPropagation();  
     
         try {
-            const response = await FetchWithAuth(`http://localhost:3001/user/add-to-cart`, {
+            const response = await FetchWithAuth(`${API_URL}/user/add-to-cart`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ function Home() {
     // filters.
     const handleFilter = async (filterUrl) => {
         try {
-            const response = await fetch(`http://localhost:3001${filterUrl}`);
+            const response = await fetch(`${API_URL}${filterUrl}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
@@ -179,7 +179,7 @@ function Home() {
     const handleSearch = async () => {
         try {
             
-            const response = await fetch(`http://localhost:3001/search/product/${productToSearch}`);
+            const response = await fetch(`${API_URL}/search/product/${productToSearch}`);
 
 
             if (response.status === 404) {
@@ -214,13 +214,13 @@ function Home() {
     useEffect(() => {
         const fetchAllProducts = async () => {
             try {
-                let apiUrl = 'http://localhost:3001/allproducts';
+                let apiUrl = `${API_URL}/allproducts`;
                 if (alphabeticalOrder) {
-                    apiUrl = 'http://localhost:3001/products/alphorder';
+                    apiUrl = `${API_URL}/products/alphorder`;
                 } else if (sortByPriceAsc) {
-                    apiUrl = 'http://localhost:3001/searchbyprice/asc';
+                    apiUrl = `${API_URL}/searchbyprice/asc`;
                 } else if (sortByPriceDesc) {
-                    apiUrl = 'http://localhost:3001/searchbyprice/desc';
+                    apiUrl = `${API_URL}/searchbyprice/desc`;
                 }
         
                 const response = await fetch(apiUrl);
@@ -282,7 +282,7 @@ function Home() {
     // get all categories that exist
     const fetchCategories = async () => {
         try {
-            const response = await fetch('http://localhost:3001/all-category');
+            const response = await fetch(`${API_URL}/all-category`);
             const data = await response.json();
             if (!response.ok) throw new Error(data.message);
             setCategories(data);
@@ -294,7 +294,7 @@ function Home() {
     // select category by simply clicking on it.
     const handleCategorySelect = async (categoryName) => {
         setSelectedCategory(categoryName);
-        const response = await fetch(`http://localhost:3001/category/${categoryName}`);
+        const response = await fetch(`${API_URL}/category/${categoryName}`);
         const data = await response.json();
         if (response.ok) {
             setProducts(data);
@@ -307,7 +307,7 @@ function Home() {
     const handleCategorySearch = async (e) => {
         e.preventDefault();
         try {
-            const response = await FetchWithAuth(`http://localhost:3001/category/${category}`,{
+            const response = await FetchWithAuth(`${API_URL}/category/${category}`,{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

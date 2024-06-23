@@ -2,10 +2,10 @@ import React, {useState, useEffect} from "react";
 import FetchWithAuth from "./Auth/FetchWithAuth";
 import shippingDetailStyles from './module.ShippingDetail.css';
 import ProfileIcon from "./ProfileIcon";
+const API_URL = process.env.REACT_APP_URL
 
 const accessToken = localStorage.getItem('accessToken');
 
-let URL ='http://localhost:3001/shipping-info';
 
 function ShippingDetail() {
     const [generalError, setGeneralError] = useState('');
@@ -19,7 +19,7 @@ function ShippingDetail() {
     const fetchShippingDetails = async () => {
         try {
 
-            const response = await FetchWithAuth(URL, {
+            const response = await FetchWithAuth(`${API_URL}/shipping-info`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ function ShippingDetail() {
      // esta funcion tiene el proposito de automaticamente poder eliminar una shipping info, asi como con la seccion de favoritos.
      const handleDeleteShipping = async (shippingId) => {
         try {
-            const response = await fetch(`http://localhost:3001/delete-shipping-info/${shippingId}`, {
+            const response = await fetch(`${API_URL}/delete-shipping-info/${shippingId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

@@ -4,6 +4,7 @@ import seeOrdersWithId from './module.Order.css';
 import ProfileIcon from "./ProfileIcon";
 
 const accessToken = localStorage.getItem('accessToken');
+const API_URL = process.env.REACT_APP_URL
 
 // <-- ADD FILTERS !!! TOTALAMOUNT ASC DESC
 
@@ -18,7 +19,7 @@ function Order() {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                let url = 'http://localhost:3001/my-orders';
+                let url = `${API_URL}/my-orders`;
                 if (filterAsc) {
                     url += '/asc';
                 } else {
@@ -56,7 +57,7 @@ function Order() {
     useEffect(() => {
         const fetchOrdersData = async () => {
             try {
-                let url = `http://localhost:3001/my-orders/${filterType}`;
+                let url = `${API_URL}/my-orders/${filterType}`;
 
                 const response = await FetchWithAuth(url, {
                     method: 'GET',

@@ -4,8 +4,9 @@ import AdminNavBar from "./AdminNavBar";
 import seeAllUsersOnSiteRegistered from  './module.AllUsers.css';
 import ProfileIcon from "../ProfileIcon";
 
-const URL = 'http://localhost:3001/allusers';
+const API_URL = process.env.REACT_APP_URL
 const accessToken = localStorage.getItem('accessToken');
+
 
 function AllUsers() {
     const [generalError, setGeneralError] = useState('');
@@ -15,7 +16,7 @@ function AllUsers() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await FetchWithAuth(URL, {
+                const response = await FetchWithAuth(`${API_URL}/allusers`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
