@@ -157,7 +157,7 @@ function Login() {
                 <p style={{ marginTop: '10px', fontSize: '14px', marginLeft: '5%' }}>Forgot password: <a style={{ color: '#007bff', textDecoration: 'none' }} href='/passwordrecovery'>Reset password</a></p>
                 <p style={{ marginTop: '10px', fontSize: '14px', marginLeft: '5%' }}>or create an account: <a style={{ color: '#007bff', textDecoration: 'none' }} href='/signup'>Signup</a></p>
                 <h3 style={{ marginLeft: '130px', color: 'blue' }}>or</h3>
-                <button type="button" onClick={() => { window.location.href = 'http://localhost:3001/auth/google' }} className="GoogleBtn">Continue with Google</button>
+                <button type="button" onClick={() => { window.location.href = `${API_URL}/auth/google` }} className="GoogleBtn">Continue with Google</button>
             </form>
             <br />
             <br />
