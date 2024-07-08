@@ -9,6 +9,8 @@ import fancyImageFrom from './Assets/login.webp';
 const accessToken = localStorage.getItem('accessToken');
 const API_URL = process.env.REACT_APP_URL;
 
+
+
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -178,8 +180,7 @@ function Login() {
                 <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>Login</Button>
                 <Typography variant="body2" sx={{ mt: 2 }}>Forgot password? <a href='/passwordrecovery' style={{ color: '#007bff', textDecoration: 'none' }}>Reset password</a></Typography>
                 <Typography variant="body2" sx={{ mt: 2 }}>or create an account: <a href='/signup' style={{ color: '#007bff', textDecoration: 'none' }}>Signup</a></Typography>
-                <Typography variant="h6" align="center" sx={{ mt: 2, color: 'blue' }}>or</Typography>
-                <Button type="button" variant="contained" color="secondary" fullWidth onClick={() => { window.location.href = `${API_URL}/auth/google` }} sx={{ mt: 2 }}>Continue with Google</Button>
+
             </form>
             <ToastContainer />
         </Container>
