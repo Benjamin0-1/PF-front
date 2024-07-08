@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react
 import Signup from './Components/Signup';
 import DeleteUserById from './Components/AdminComponents/DeleteUserById';
 import Login from './Components/Login';
+import { Box } from "@mui/material";
 //:
 import Donation from './Components/Donation';
 import BuyProduct from './Components/BuyProduct';
@@ -61,12 +62,13 @@ import HomeButton from './Components/HomeButton';
 import NotFoundPage from './Components/NotFoundPage';
 import PaymentCancelled from './Components/PaymentCancelled';
 
-// CV
-import CV from './CV-Del-Later/CV';
+
 
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const accessToken = localStorage.getItem('accessToken');
+
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
@@ -75,90 +77,79 @@ function App() {
 
 
 
-  return (
-    <Router>
-
-      <HomeButton />
-     
-
-      < ShoppingCart/>
-      
-    
-      < Logout/>
-
-      <Sidebar isOpen={sidebarOpen} />
-
-      <Routes>  
-        <Route path='/signup' element={< Signup />} />
-        <Route path='/login' element={< Login />} />
-        <Route path='/home' element={< Home />} />
-        <Route path='/deleteuserbyid' element={< DeleteUserById />} />
-        <Route path='/donate' element={< Donation />} />
-        <Route path='/buy' element={< BuyProduct />} />
-        <Route path='/createproduct' element={< CreateProduct />} />
-        < Route path='/deleteuserbyusername' element={< DeleteUserByUsername/>} />
-        <Route path='/deleteuserbyemail' element={< DeleteUserByEmail />} />
-        <Route path='/allusers' element={< AllUsers />} />
-        <Route path='sendmassiveeamil' element={< SendMassiveEmail />} />
-        <Route path='allbrands' element={< AllBrand />} />
-        <Route path='/passwordrecovery' element={< PasswordRecovery />} />
-        <Route  path='/resetpassword' element={< ResetPassword />} />
-        <Route path='/viewprofile' element={< ViewProfile />} />
-        <Route path='updateproduct' element={< UpdateProduct />} />
-        <Route  path='/paymenthistory'  element={< PaymentHistory />}/>
-        <Route path='/reportedproducts' element={< ReportedProduct />} />
-        <Route path='createbrand' element={< CreateBrand />} />
-        <Route path='reportproduct' element={< ReportProduct />} />
-        <Route path='banuser' element={< BanUser />} />
-        <Route path='/detail/:id' element={< Detail />} />
-        <Route path='/admin' element={<AdminDashboard />} />
-        <Route path='/deletedusers' element={< DeletedUser />} />
-        <Route path='/createuser' element={< CreateUser />} />
-        <Route path='/faq' element={< FAQ />} />
-        <Route path='newsletter' element={< Newsletter />} />
-        <Route path='/favorites' element={<  Favorite/>} />
-        <Route path='/deleteproductbyid' element={< DeleteProductById />} />
-        <Route path='/shipping' element={< Shipping />} />
-        <Route path='/orders' element={< Order />} />
-        <Route path='/shippingdetails' element={< ShippingDetail />} />
-        <Route path='/emailnewsletter' element={< EmailNewsletter />} />
-        <Route path='/allnewsletteremails' element={< AllNewsLetterEmail />} />
-        <Route path='/visualchart' element={< VisualChart />} />
-        <Route path='/reportproductbyname' element={< ReportProductByName />} />
-        <Route path='/allpendingorders' element={ < AllPendingOrders /> } />
-        <Route path='/activate2fa'  element={< Active2FA />}/>
-        <Route path='/grantadminbyusername' element={< GrantAdminByUsername/>} />
-        <Route path='/updateprofileinfo' element={< UpdateProfileInfo />} />
-        <Route path='/updateprofilepassword' element={< UpdateProfilePassword />} />
-        <Route path='/userreviews' element={< UserReviews />} />
-        <Route path='/advancedfilters' element={< AdvancedFilter />} />
-        <Route path='/shoppingcart' element={< ShoppingCart />} />
-       <Route path='/viewcart' element={< ViewCart />} />
-      <Route path='/google' element={< GoogleLogin />} />
-     <Route path='/landingpage' element={< LandingPage />} />
-
-     
-    
-      <Route path='*' element={<NotFoundPage />}/> 
-
-      <Route path='/paymentcancelled' element={< PaymentCancelled />} />
-      <Route path='/aboutus' element={< AboutUsPage/>} />
-
-
-      <Route path='/notadmin'  element={<h1 style={{marginLeft: '200px'}}> You are not an admin </h1>} />
-      <Route  path='/ordercancelled' element={<h1 style={{marginLeft: '200px'}}>Order has been cancelled</h1>} />
-      <Route path='/errorprocessingorder' element={<h1 style={{marginLeft: '200px'}} >Error processing order</h1>} />
-      <Route path='/' element={< LandingPage/>} />
-
-      <Route path='/cv'  element={< CV/>}/>
-      </Routes>
-
-    
-
-    </Router>
-    
+    return (
+      <Router>
+          <Box display="flex" alignItems="center" gap={2}>
+              <HomeButton />
+              <ShoppingCart />
+              {accessToken && <Logout />}
+          </Box>
+          <Sidebar isOpen={sidebarOpen} />
+  
+          <Routes>
+              <Route path='/signup' element={<Signup />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/home' element={<Home />} />
+              <Route path='/deleteuserbyid' element={<DeleteUserById />} />
+              <Route path='/donate' element={<Donation />} />
+              <Route path='/buy' element={<BuyProduct />} />
+              <Route path='/createproduct' element={<CreateProduct />} />
+              <Route path='/deleteuserbyusername' element={<DeleteUserByUsername />} />
+              <Route path='/deleteuserbyemail' element={<DeleteUserByEmail />} />
+              <Route path='/allusers' element={<AllUsers />} />
+              <Route path='sendmassiveeamil' element={<SendMassiveEmail />} />
+              <Route path='allbrands' element={<AllBrand />} />
+              <Route path='/passwordrecovery' element={<PasswordRecovery />} />
+              <Route path='/resetpassword' element={<ResetPassword />} />
+              <Route path='/viewprofile' element={<ViewProfile />} />
+              <Route path='updateproduct' element={<UpdateProduct />} />
+              <Route path='/paymenthistory' element={<PaymentHistory />} />
+              <Route path='/reportedproducts' element={<ReportedProduct />} />
+              <Route path='createbrand' element={<CreateBrand />} />
+              <Route path='reportproduct' element={<ReportProduct />} />
+              <Route path='banuser' element={<BanUser />} />
+              <Route path='/detail/:id' element={<Detail />} />
+              <Route path='/admin' element={<AdminDashboard />} />
+              <Route path='/deletedusers' element={<DeletedUser />} />
+              <Route path='/createuser' element={<CreateUser />} />
+              <Route path='/faq' element={<FAQ />} />
+              <Route path='newsletter' element={<Newsletter />} />
+              <Route path='/favorites' element={<Favorite />} />
+              <Route path='/deleteproductbyid' element={<DeleteProductById />} />
+              <Route path='/shipping' element={<Shipping />} />
+              <Route path='/orders' element={<Order />} />
+              <Route path='/shippingdetails' element={<ShippingDetail />} />
+              <Route path='/emailnewsletter' element={<EmailNewsletter />} />
+              <Route path='/allnewsletteremails' element={<AllNewsLetterEmail />} />
+              <Route path='/visualchart' element={<VisualChart />} />
+              <Route path='/reportproductbyname' element={<ReportProductByName />} />
+              <Route path='/allpendingorders' element={<AllPendingOrders />} />
+              <Route path='/activate2fa' element={<Active2FA />} />
+              <Route path='/grantadminbyusername' element={<GrantAdminByUsername />} />
+              <Route path='/updateprofileinfo' element={<UpdateProfileInfo />} />
+              <Route path='/updateprofilepassword' element={<UpdateProfilePassword />} />
+              <Route path='/userreviews' element={<UserReviews />} />
+              <Route path='/advancedfilters' element={<AdvancedFilter />} />
+              <Route path='/shoppingcart' element={<ShoppingCart />} />
+              <Route path='/viewcart' element={<ViewCart />} />
+              <Route path='/google' element={<GoogleLogin />} />
+              <Route path='/landingpage' element={<LandingPage />} />
+  
+              <Route path='*' element={<NotFoundPage />} />
+  
+              <Route path='/paymentcancelled' element={<PaymentCancelled />} />
+              <Route path='/aboutus' element={<AboutUsPage />} />
+  
+              <Route path='/notadmin' element={<h1 style={{ marginLeft: '200px' }}>You are not an admin</h1>} />
+              <Route path='/ordercancelled' element={<h1 style={{ marginLeft: '200px' }}>Order has been cancelled</h1>} />
+              <Route path='/errorprocessingorder' element={<h1 style={{ marginLeft: '200px' }}>Error processing order</h1>} />
+              <Route path='/' element={<LandingPage />} />
+  
+          </Routes>
+      </Router>
   );
   
-}
+  
+} 
 
 export default App;

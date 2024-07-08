@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import deleteauserbyitsusername from './module.DeleteUserByUsername.css';
 import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
+import { TextField, Button, Container, Typography } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // los tokens siempre se obtienen del /login.
 const accessToken = localStorage.getItem('accessToken');
 
-const API_URL = process.env.REACT_APP_URL
+const API_URL = process.env.REACT_APP_URL;
 
 function DeleteUserByUsername() {
     const [usernameToDelete, setUsernameToDelete] = useState('');
@@ -14,34 +16,9 @@ function DeleteUserByUsername() {
     const [successMessage, setSuccessMessage] = useState('');
     const [deleteAdminError, setDeleteAdminError] = useState('');
 
-    /*
-    useEffect(() => {
-        const checkAccessTokenExpired = async () => {
-            try {
-                const response = await fetch('http://localhost:3001/access-token', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error('Failed to refresh access token');
-                }
-                // Update the access token in local storage with the new one
-                const data = await response.json();
-                localStorage.setItem('accessToken', data.accessToken);
-            } catch (error) {
-                console.error('Error refreshing access token:', error.message);
-            }
-        }
-        checkAccessTokenExpired();
-    }, []);  */
-
     if (!accessToken) {
-        window.location.href = '/login'
-      
-    };
+        window.location.href = '/login';
+    }
 
     useEffect(() => {
         const checkIsAdmin = async () => {
@@ -75,44 +52,56 @@ function DeleteUserByUsername() {
                 }
             });
 
+            if (response.status === 404) {
+                toast.error('User does not exist');
+                return;
+            }
+
             const data = await response.json();
             if (data.isUserAdmin) {
-                setDeleteAdminError('No puedes eliminar otro admin!');
+                setDeleteAdminError('cannot delete another admin!');
                 setGeneralError('');
                 setSuccessMessage('');
-                return
-            };
+                toast.error('Cannot delete another admin!');
+                return;
+            }
 
             if (!response.ok) {
                 setGeneralError('Error eliminando usuario');
+                toast.error('Error eliminando usuario');
                 return;
             }
-            setSuccessMessage(`Usuario ${usernameToDelete} eliminado con exito`);
+            setSuccessMessage(`Usuario ${usernameToDelete} eliminado con éxito`);
+            toast.success(`Usuario ${usernameToDelete} eliminado con éxito`);
         } catch (error) {
             console.error(`Error: ${error}`);
+            toast.error('An error occurred');
         }
     }
 
     return (
-        <div className="DeleteUserByUsername">
-           
-            <br />
-            <br />
-            <input 
+        <Container className="DeleteUserByUsername">
+            <Typography variant="h4" component="h1" gutterBottom>
+                Delete User By Username
+            </Typography>
+            <TextField 
+                fullWidth
                 type="text" 
                 placeholder="Username to delete" 
                 value={usernameToDelete} 
                 onChange={(e) => setUsernameToDelete(e.target.value)} 
+                sx={{ mb: 2 }}
             />
-            <button onClick={handleDelete}>Delete User</button>
-            {deleteAdminError && <p style={{color: 'red'}}>{deleteAdminError}</p>}
-            {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-            <br />
-            <br />
-            < AdminNavBar/>
-        </div>
-    )
-};
+            <Button variant="contained" color="primary" onClick={handleDelete}>
+                Delete User
+            </Button>
+            {deleteAdminError && <Typography color="error">{deleteAdminError}</Typography>}
+            {generalError && <Typography color="error">{generalError}</Typography>}
+            {successMessage && <Typography color="success.main">{successMessage}</Typography>}
+            <AdminNavBar/>
+            <ToastContainer />
+        </Container>
+    );
+}
 
 export default DeleteUserByUsername;

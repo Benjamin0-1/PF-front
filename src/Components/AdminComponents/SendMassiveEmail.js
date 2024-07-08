@@ -1,44 +1,44 @@
 import React, { useState, useEffect } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
-import  sendMassiveMails from  './module.SendMassiveEmail.css';
 import AdminNavBar from "./AdminNavBar";
+import { TextField, Button, Container, Typography, CircularProgress, Box } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const API_URL = process.env.REACT_APP_URL;
 const accessToken = localStorage.getItem('accessToken');
-
-const API_URL = process.env.REACT_APP_URL
 
 function SendMassiveEmail() {
     const [generalError, setGeneralError] = useState('');
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    if (!accessToken) {
-        window.location.href = '/login'
-    };
-
     useEffect(() => {
+        if (!accessToken) {
+            window.location.href = '/login';
+        }
+        
         const checkIsAdmin = async () => {
-          try {
-            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-              }
-            });
-            const data = await response.json();
-            if (!data.is_admin) {
-              window.location.href = '/notadmin';
+            try {
+                const response = await FetchWithAuth(`${API_URL}/profile-info`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                const data = await response.json();
+                if (!data.is_admin) {
+                    window.location.href = '/notadmin';
+                }
+            } catch (error) {
+                toast.error(`Error: ${error.message}`);
             }
-          } catch (error) {
-            console.log(`error: ${error}`);
-          }
         };
-    
+
         checkIsAdmin();
-      }, []);
+    }, [accessToken]);
 
     const sendEmails = async () => {
         setIsLoading(true);
@@ -52,61 +52,59 @@ function SendMassiveEmail() {
                 body: JSON.stringify({ subject, message })
             });
             if (response.ok) {
-                setSuccessMessage('Emails enviados con exito');
-                setGeneralError('');
-                return;
-            } 
-
+                toast.success('Emails sent successfully');
+                setSubject('');
+                setMessage('');
+            } else {
+                toast.error('Failed to send emails');
+            }
         } catch (error) {
-            console.error('Error sending emails:', error);
-            setGeneralError('Ha ocurrido un error.');
-            setSuccessMessage('');
-        } finally{
-            setIsLoading(false)
+            toast.error(`Error: ${error.message}`);
+        } finally {
+            setIsLoading(false);
         }
-    }
+    };
 
     return (
-        <div className="SendMassiveEmail">
-            
-            <br/>
-            <h2>Send email to all users</h2>
-            <div>
-                <label htmlFor="subject">Subject:</label>
-                <input 
-                    type="text" 
-                    id="subject" 
-                    value={subject} 
-                    onChange={(e) => setSubject(e.target.value)} 
+        <Container maxWidth="sm" className="SendMassiveEmail">
+            <Box sx={{ mt: 4 }}>
+                <Typography variant="h4" component="h2" gutterBottom>
+                    Send email to all users
+                </Typography>
+                <TextField
+                    fullWidth
+                    label="Subject"
+                    variant="outlined"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    margin="normal"
                 />
-            </div>
-            <div>
-                <label htmlFor="message">Body:</label>
-                <textarea 
-                    id="message" 
-                    value={message} 
-                    onChange={(e) => setMessage(e.target.value)} 
+                <TextField
+                    fullWidth
+                    label="Body"
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    margin="normal"
                 />
-            </div>
-            <div>
-                <button onClick={sendEmails}>Send Emails</button>
-            </div>
-            {isLoading && <p>Sending emails...</p>}
-            {generalError && <p className="error">{generalError}</p>}
-            {successMessage && <p style={{color: 'green'}}>{successMessage}</p>}
-            <br />
-
-           <div>
-            <AdminNavBar />
-           </div>
-          
-        </div>
-        
-
-       
-
-        
-    )
-};
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={sendEmails}
+                    disabled={isLoading}
+                    sx={{ mt: 2 }}
+                >
+                    {isLoading ? <CircularProgress size={24} /> : 'Send Emails'}
+                </Button>
+            </Box>
+            <ToastContainer />
+            <Box sx={{ mt: 4 }}>
+                <AdminNavBar />
+            </Box>
+        </Container>
+    );
+}
 
 export default SendMassiveEmail;

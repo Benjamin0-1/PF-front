@@ -1,158 +1,136 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
-import emailAllthenewsletterusers from './module.EmailNewsletter.css';
-import AdminDashboard from "./AdminDashboard";
 import AdminNavBar from "./AdminNavBar";
 import AllNewsLetterEmail from "./AllNewsLetterEmail";
 import ProfileIcon from "../ProfileIcon";
+import { Container, TextField, Button, Box, Typography, CircularProgress } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const API_URL = process.env.REACT_APP_URL;
 const accessToken = localStorage.getItem('accessToken');
 
-const API_URL = process.env.REACT_APP_URL
-
 function EmailNewsletter() {
-    const [generalError, setGeneralError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const [allEmailsSent, setAllEmailsSent] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
     const [subject, setSubject] = useState('');
     const [body, setBody] = useState('');
+    const [allEmailsSent, setAllEmailsSent] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     if (!accessToken) {
-        window.location.href = '/login'
-    };
+        window.location.href = '/login';
+    }
 
     useEffect(() => {
         const checkIsAdmin = async () => {
-          try {
-            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-              }
-            });
-            const data = await response.json();
-            if (!data.is_admin) {
-              window.location.href = '/notadmin';
+            try {
+                const response = await FetchWithAuth(`${API_URL}/profile-info`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                const data = await response.json();
+                if (!data.is_admin) {
+                    window.location.href = '/notadmin';
+                }
+            } catch (error) {
+                toast.error(`Error: ${error.message}`);
             }
-          } catch (error) {
-            console.log(`error: ${error}`);
-          }
         };
-    
+
         checkIsAdmin();
-      }, []);
+    }, [accessToken]);
 
-
-
-      const handleEmailSending = async (e) => {
+    const handleEmailSending = async (e) => {
         e.preventDefault();
 
+        setIsLoading(true);
         try {
-            setIsLoading(true)
-            
             const response = await FetchWithAuth(`${API_URL}/email-all-newsletter`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
                 },
-                body: JSON.stringify({subject, body}) // <--
+                body: JSON.stringify({ subject, body })
             });
 
-            
             if (response.status === 200) {
-            const data = await response.json();
-            console.log("Data received:", data); // Check what is received exactly
-            setAllEmailsSent(data.sentEmails);
-            setSuccessMessage(data.successMessage);
-            setGeneralError('');
-        } else {
-            console.log("Response not OK:", response);
-            setGeneralError('Failed to send emails. Please try again.');
-            setSuccessMessage('');
-        }
-
-
-            
-
+                const data = await response.json();
+                setAllEmailsSent(data.sentEmails);
+                toast.success(data.successMessage);
+            } else {
+                toast.error('Failed to send emails. Please try again.');
+            }
         } catch (error) {
-            console.log(`error: ${error}`);
-            setGeneralError('Ha ocurrido un error.');
-            setSuccessMessage('');
-            
+            toast.error(`Error: ${error.message}`);
         } finally {
             setIsLoading(false);
         }
+    };
 
-
-      };
-
-      // <-- EL COMPONENTE FUNCIONA BIEN Y ENVIA TODOS LOS CORREOS DE MANERA EXITOSA.
-      //    SIN EMBARGO NO RENDERIZA NINGUN TIPO DE MENSAJE, YA SEA DE ERROR O SUCCESS.
-
-      return (
-        <div className="Newsletter">
-            < ProfileIcon/>
-            <h2>Email All Newsletter Subscribers</h2>
-            <form onSubmit={handleEmailSending} className="newsletter-form">
-                <div className="form-group">
-                    <label htmlFor="subject">Subject:</label>
-                    <input 
-                        type="text" 
-                        id="subject" 
-                        value={subject} 
-                        onChange={(e) => setSubject(e.target.value)} 
-                        className="newsletter-input"
-                        required 
+    return (
+        <Container maxWidth="sm" className="EmailNewsletter">
+            <ProfileIcon />
+            <AdminNavBar />
+            <Box sx={{ mt: 4 }}>
+                <Typography variant="h4" component="h2" gutterBottom>
+                    Email All Newsletter Subscribers
+                </Typography>
+                <form onSubmit={handleEmailSending}>
+                    <TextField
+                        fullWidth
+                        label="Subject"
+                        variant="outlined"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                        margin="normal"
+                        required
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="body">Body:</label>
-                    <textarea 
-                        id="body" 
-                        value={body} 
-                        onChange={(e) => setBody(e.target.value)} 
-                        className="newsletter-input"
-                        required 
+                    <TextField
+                        fullWidth
+                        label="Body"
+                        variant="outlined"
+                        value={body}
+                        onChange={(e) => setBody(e.target.value)}
+                        margin="normal"
+                        required
+                        multiline
+                        rows={4}
                     />
-                </div>
-                <button type="submit" className="newsletter-button">Send Emails</button>
-            </form>
-            {isLoading && <p><strong>Loading...</strong></p>}
-            {successMessage && 
-                <div className="success-message">{successMessage}</div>
-            }
-            {generalError && 
-                <div className="error-message">{generalError}</div>
-            }
-            {allEmailsSent.length > 0 && (
-                <div>
-                    <p>Emails Sent:</p>
-                    <ul>
-                        {allEmailsSent.map((email, index) => (
-                            <li key={index}>{email}</li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-            <br />
-
-            < AllNewsLetterEmail/>
-
-          
-            <br/>
-        </div>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={isLoading}
+                        sx={{ mt: 2 }}
+                    >
+                        {isLoading ? <CircularProgress size={24} /> : 'Send Emails'}
+                    </Button>
+                </form>
+                {isLoading && (
+                    <Typography variant="body1" sx={{ mt: 2 }}>
+                        Sending emails...
+                    </Typography>
+                )}
+                {allEmailsSent.length > 0 && (
+                    <Box sx={{ mt: 4 }}>
+                        <Typography variant="h6" component="h3">
+                            Emails Sent:
+                        </Typography>
+                        <ul>
+                            {allEmailsSent.map((email, index) => (
+                                <li key={index}>{email}</li>
+                            ))}
+                        </ul>
+                    </Box>
+                )}
+            </Box>
+            <AllNewsLetterEmail />
+            <ToastContainer />
+        </Container>
     );
-    
-    
-        
-    
-    
-};
-
-
-
+}
 
 export default EmailNewsletter;

@@ -15,11 +15,20 @@ function ViewProfile() {
     const [generalError, setGeneralError] = useState('');
     const [isButtonVisible, setIsButtonVisible] = useState('');
 
-   if (!accessToken) {
-    window.location.href = '/login'
-   }
+
+    const accessToken = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+        if (!accessToken) {
+            window.location.replace('/login');
+        } else {
+            fetchProfile();
+        }
+    }, [accessToken]);
+
 
     const fetchProfile = async () => {
+     
         try {
             const response = await FetchWithAuth(`${API_URL}/profile-info`, {
                 method: 'GET',

@@ -1,53 +1,47 @@
 import React, { useEffect, useState } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
-import updateProductStylesComponent from  './module.UpdateProduct.css';
 import AdminNavBar from "./AdminNavBar";
+import { Container, TextField, Button, Typography, CircularProgress, Box } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const API_URL = process.env.REACT_APP_URL;
 const accessToken = localStorage.getItem('accessToken');
 
-const API_URL = process.env.REACT_APP_URL
-
-//MEJORAS QUE FALTA: <-- PODER EDITAR CATEGORIA Y TAMBIEN BRAND (POR ID).
-
 function UpdateProduct() {
-    const [generalError, setGeneralError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const [productNotFoundError, setProductNotFoundError] = useState('');
     const [productId, setProductId] = useState('');
-
-    // input fields
     const [brandId, setBrandId] = useState('');
-    const [productName, setProductName] = useState(''); // <-- BUG: nombre de producto no se actualiza. (el bug es de front-end, no del back).
+    const [productName, setProductName] = useState('');
     const [stock, setStock] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
-
-    if (!accessToken) {
-        window.location.href = '/login'
-    };
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const checkIsAdmin = async () => {
-          try {
-            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-              }
-            });
-            const data = await response.json();
-            if (!data.is_admin) {
-              window.location.href = '/notadmin';
-            }
-          } catch (error) {
-            console.log(`error: ${error}`);
-          }
-        };
-    
-        checkIsAdmin();
-      }, []);
+        if (!accessToken) {
+            window.location.href = '/login';
+        }
 
+        const checkIsAdmin = async () => {
+            try {
+                const response = await FetchWithAuth(`${API_URL}/profile-info`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                const data = await response.json();
+                if (!data.is_admin) {
+                    window.location.href = '/notadmin';
+                }
+            } catch (error) {
+                toast.error(`Error: ${error.message}`);
+            }
+        };
+
+        checkIsAdmin();
+    }, [accessToken]);
 
     useEffect(() => {
         if (!productId) {
@@ -55,21 +49,21 @@ function UpdateProduct() {
         }
 
         const fetchProductDetail = async () => {
+            setIsLoading(true);
             try {
                 const response = await fetch(`${API_URL}/product-detail/${productId}`);
-    
+
                 if (response.status === 404) {
-                    setGeneralError('Product not found');
-                    return;
-                }
-    
-                if (!response.ok) {
-                    setGeneralError('Failed to fetch product details');
+                    toast.error('Product not found');
+                    setIsLoading(false);
                     return;
                 }
 
-                setProductNotFoundError('');
-                setGeneralError('');
+                if (!response.ok) {
+                    toast.error('Failed to fetch product details');
+                    setIsLoading(false);
+                    return;
+                }
 
                 const productData = await response.json();
                 setBrandId(productData.brandId);
@@ -77,43 +71,44 @@ function UpdateProduct() {
                 setStock(productData.stock);
                 setPrice(productData.price);
                 setDescription(productData.description);
-    
+                setIsLoading(false);
+
             } catch (error) {
-                console.log(`ERROR: ${error}`);
+                toast.error(`ERROR: ${error.message}`);
+                setIsLoading(false);
             }
         };
-    
-        fetchProductDetail(); 
-    
+
+        fetchProductDetail();
+
     }, [productId]);
-    
 
     const handleUpdate = async () => {
-
         const numberRegex = /^[0-9]+$/;
-    const descriptionLengthRegex = /^.{10,}$/;
+        const descriptionLengthRegex = /^.{10,}$/;
 
-    // Check validations
-    if (!numberRegex.test(brandId)) {
-        setGeneralError('Brand ID must be a number.');
-        return;
-    }
-    if (productName.length < 3) {
-        setGeneralError('Product name must be at least 3 characters long.');
-        return;
-    }
-    if (!numberRegex.test(stock)) {
-        setGeneralError('Stock must be a number.');
-        return;
-    }
-    if (!/^\d+(\.\d{1,2})?$/.test(price)) {
-        setGeneralError('Price must be a number.');
-        return;
-    }
-    if (!descriptionLengthRegex.test(description)) {
-        setGeneralError('Description must be at least 10 characters long.');
-        return;
-    }
+        if (!numberRegex.test(brandId)) {
+            toast.error('Brand ID must be a number.');
+            return;
+        }
+        if (productName.length < 3) {
+            toast.error('Product name must be at least 3 characters long.');
+            return;
+        }
+        if (!numberRegex.test(stock)) {
+            toast.error('Stock must be a number.');
+            return;
+        }
+        if (!/^\d+(\.\d{1,2})?$/.test(price)) {
+            toast.error('Price must be a number.');
+            return;
+        }
+        if (!descriptionLengthRegex.test(description)) {
+            toast.error('Description must be at least 10 characters long.');
+            return;
+        }
+
+        setIsLoading(true);
         try {
             const response = await FetchWithAuth(`${API_URL}/update-product/${productId}`, {
                 method: 'PUT',
@@ -123,113 +118,111 @@ function UpdateProduct() {
                 },
                 body: JSON.stringify({
                     brandId,
-                    product: productName, // <-- bug arreglado.
+                    product: productName,
                     stock,
                     price,
                     description
                 })
             });
 
-
             if (response.status === 404) {
-                setProductNotFoundError(`El product con id: ${productId} no existe`);
-                setGeneralError('');
-                setSuccessMessage('');
+                toast.error(`The product with id: ${productId} does not exist`);
+                setIsLoading(false);
                 return;
-            };
+            }
 
             if (!response.ok) {
                 const data = await response.json();
-                setGeneralError('Ha ocurrido un error')
-            };
+                toast.error(data.message || 'An error occurred');
+                setIsLoading(false);
+                return;
+            }
 
-            setSuccessMessage('Product updated successfully');
-            setProductNotFoundError('')
-            setGeneralError('');
+            toast.success('Product updated successfully');
+            setIsLoading(false);
         } catch (error) {
-            setGeneralError(error.message);
-            setSuccessMessage('');
+            toast.error(error.message);
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="UpdateProduct">
-     
-            <br/>
-            <h2>Update Product</h2>
-            <div>
-                <label htmlFor="productId">Product ID to update:</label>
-                <input
-                    type="text"
-                    id="productId"
+        <Container maxWidth="sm" className="UpdateProduct">
+            <Box sx={{ mt: 4 }}>
+                <Typography variant="h4" component="h2" gutterBottom>
+                    Update Product
+                </Typography>
+                <TextField
+                    fullWidth
+                    label="Product ID to update"
+                    variant="outlined"
                     value={productId}
                     onChange={(e) => setProductId(e.target.value)}
+                    margin="normal"
                 />
-            </div>
-            <div>
-                <label htmlFor="brandId">Brand ID:</label>
-                <input
-                    type="text"
-                    id="brandId"
+                <TextField
+                    fullWidth
+                    label="Brand ID"
+                    variant="outlined"
                     value={brandId}
-                    placeholder={brandId !== null && brandId !== '' ? brandId : 'Previous Brand ID'}
+                    placeholder="Previous Brand ID"
                     onChange={(e) => setBrandId(e.target.value)}
+                    margin="normal"
                 />
-            </div>
-            <div>
-                <label htmlFor="productName">Product Name:</label>
-                <input
-                    type="text"
-                    id="productName"
+                <TextField
+                    fullWidth
+                    label="Product Name"
+                    variant="outlined"
                     value={productName}
-                    placeholder={productName !== null && productName !== '' ? productName : 'Previous Product Name'}
+                    placeholder="Previous Product Name"
                     onChange={(e) => setProductName(e.target.value)}
+                    margin="normal"
                 />
-            </div>
-            <div>
-                <label htmlFor="stock">Stock:</label>
-                <input
-                    type="text"
-                    id="stock"
+                <TextField
+                    fullWidth
+                    label="Stock"
+                    variant="outlined"
                     value={stock}
-                    placeholder={stock !== null && stock !== '' ? stock : 'Previous Stock'}
+                    placeholder="Previous Stock"
                     onChange={(e) => setStock(e.target.value)}
+                    margin="normal"
                 />
-            </div>
-            <div>
-                <label htmlFor="price">Price:</label>
-                <input
-                    type="text"
-                    id="price"
+                <TextField
+                    fullWidth
+                    label="Price"
+                    variant="outlined"
                     value={price}
-                    placeholder={price !== null && price !== '' ? price : 'Previous Price'}
+                    placeholder="Previous Price"
                     onChange={(e) => setPrice(e.target.value)}
+                    margin="normal"
                 />
-            </div>
-            <div>
-                <label htmlFor="description">Description:</label>
-                <textarea
-                    id="description"
+                <TextField
+                    fullWidth
+                    label="Description"
+                    variant="outlined"
                     value={description}
-                    placeholder={description !== null && description !== '' ? description : 'Previous Description'}
+                    placeholder="Previous Description"
                     onChange={(e) => setDescription(e.target.value)}
+                    margin="normal"
+                    multiline
+                    rows={4}
                 />
-            </div>
-            <div>
-                <button onClick={handleUpdate}>Update Product</button>
-            </div>
-            {generalError && <p className="error">{generalError}</p>}
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-       <div>
-        < AdminNavBar/>
-       </div>
-
-
-        </div>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleUpdate}
+                    disabled={isLoading}
+                    sx={{ mt: 2 }}
+                >
+                    {isLoading ? <CircularProgress size={24} /> : 'Update Product'}
+                </Button>
+            </Box>
+            <Box sx={{ mt: 4 }}>
+                <AdminNavBar />
+            </Box>
+            <ToastContainer />
+        </Container>
     );
-
-    
-    
 }
 
 export default UpdateProduct;

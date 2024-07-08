@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
-import seeAllthependingorders from  './module.AllPendingOrders.css';
+import { Container, Box, TextField, Button, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import SearchIcon from '@mui/icons-material/Search';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import AdminNavBar from "./AdminNavBar";
 
 const accessToken = localStorage.getItem('accessToken');
-const API_URL = process.env.REACT_APP_URL
+const API_URL = process.env.REACT_APP_URL;
 
 function AllPendingOrders() {
-    const [generalError, setGeneralError] = useState('');
     const [allPendingOrders, setAllPendingOrders] = useState([]);
-    const [noOrdersFound, setNoOrdersFound] = useState('');
-    const [page, setPage] = useState(1);
     const [totalCount, setTotalCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [sortByAsc, setSortByAsc] = useState(true);
-    const [orderAlreadyFulfilledError, setOrderAlreadyFulfilledError] = useState('');
-
-    const [orderFulfilledMessage, setOderFulfilledMessage] = useState('');
-    const [errorFulfillingOrder, setErrorFulfillingOrder] = useState('');
-
+    const [isLoading, setIsLoading] = useState(false);
     const ordersPerPage = 2;
     const totalPages = Math.ceil(totalCount / ordersPerPage);
 
@@ -40,54 +39,16 @@ function AllPendingOrders() {
                     window.location.href = '/notadmin';
                 }
             } catch (error) {
-                console.log(`error: ${error}`);
+                toast.error(`Error: ${error.message}`);
             }
         };
 
         checkIsAdmin();
-    }, []);
-
-     // fulfill
-     const handleFulfill = async (orderId) => {
-        try {
-            const response = await FetchWithAuth(`${API_URL}/orders/fulfill`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
-                body: JSON.stringify({ orderId }) 
-            });
-    
-            const data = await response.json();
-    
-            if (data.orderAlreadyFulfilled) {
-                setOrderAlreadyFulfilledError(`Esta orden numero ${orderId} ya ha sido completada`);
-                setOderFulfilledMessage('');
-                return;
-            };
-
-            
-    
-            setOderFulfilledMessage(`Orden numero ${orderId} completada exitosamente`);
-            setOrderAlreadyFulfilledError('');
-            setErrorFulfillingOrder('');
-    
-            fetchPendingOrders();
-        } catch (error) {
-            console.error(`Error fulfilling order: ${error}`);
-            setErrorFulfillingOrder('Error completando orden.');
-            setOrderAlreadyFulfilledError('');
-            setOderFulfilledMessage('');
-        }
-    };
-
-   // buscar orden by id
-    const handleSearch = async () => {};
+    }, [accessToken]);
 
     const fetchPendingOrders = async () => {
+        setIsLoading(true);
         try {
-            // VERIFY
             const response = await FetchWithAuth(`${API_URL}/all-orders/pending${sortByAsc ? '/asc' : '/desc'}`, {
                 method: 'GET',
                 headers: {
@@ -97,29 +58,60 @@ function AllPendingOrders() {
             });
 
             if (!response.ok) {
-                setGeneralError('Error fetching orders');
+                toast.error('Error fetching orders');
                 return;
             }
 
             const data = await response.json();
             setTotalCount(data.allPendingOrders.length);
             setAllPendingOrders(paginate(data.allPendingOrders, ordersPerPage));
-            setGeneralError('');
-            setNoOrdersFound('');
         } catch (error) {
-            console.error(`Error fetching pending orders: ${error}`);
-            setGeneralError('Error showing orders');
+            toast.error(`Error: ${error.message}`);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     useEffect(() => {
         fetchPendingOrders();
-    }, [accessToken, currentPage, sortByAsc, totalPages]);
+    }, [currentPage, sortByAsc]);
 
     const paginate = (array, pageSize) => {
         const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        return array.slice(startIndex, endIndex);
+        return array.slice(startIndex, startIndex + pageSize);
+    };
+
+    const handleFulfill = async (orderId) => {
+        setIsLoading(true);
+        try {
+            const response = await FetchWithAuth(`${API_URL}/orders/fulfill`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ orderId })
+            });
+
+            const data = await response.json();
+
+            if (data.orderAlreadyFulfilled) {
+                toast.error(`Order ${orderId} is already fulfilled`);
+                return;
+            }
+
+            toast.success(`Order ${orderId} fulfilled successfully`);
+            fetchPendingOrders();
+        } catch (error) {
+            toast.error(`Error: ${error.message}`);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSortToggle = () => {
+        setSortByAsc(prevState => !prevState);
+        setCurrentPage(1);
     };
 
     const handleNextPage = () => {
@@ -134,108 +126,76 @@ function AllPendingOrders() {
         }
     };
 
-    const handleSortToggle = () => {
-        setSortByAsc(prevState => !prevState);
-        setCurrentPage(1); // Reset to first page on sort order change
-    };
-
-
-
     return (
-        <div className="AllPendingOrders">
-            <h1>Total: {totalCount}</h1>
-
-            <div className="search-bar">
-                <input
-                    type="text"
-                    placeholder="Search by Order ID"
-         
-                />
-                <button onClick={handleSearch}>Search</button>
-            </div>
-
-
-
-            <div className="toggle-button">
+        <Container className="AllPendingOrders">
+            <Box sx={{ mt: 4 }}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    All Pending Orders
+                </Typography>
+    
+          
+             {/*   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <TextField
+                        fullWidth
+                        placeholder="Search by Order ID"
+                        variant="outlined"
+                        sx={{ mr: 2 }}
+                    />
+                    <Button variant="contained" color="primary">
+                        <SearchIcon />
+                    </Button>
+                </Box> */}
                 
-                <button onClick={handleSortToggle}>
-                    {sortByAsc ? 'Sort by Price Ascending' : 'Sort by Price Descending'}
-                </button>
-            </div>
-
-
-            <div className="pagination">
-                <button disabled={currentPage === 1} onClick={handlePrevPage}>Previous</button>
-                <span>Page {currentPage} of {totalPages}</span>
-                <button disabled={currentPage === totalPages} onClick={handleNextPage}>Next</button>
-            </div>
-
-
-            
-
-            {generalError && <p className="error">{generalError}</p>}
-            {allPendingOrders.map(order => (
-                <div key={order.id} className="orderContainer">
-                    <h2>Order Details</h2>
-                    <p>Order ID: {order.id}</p>
-                    <p>Order Date: {order.order_date}</p>
-                    <p>User ID: {order.userId}</p>
-                    <p>Total Amount: {order.totalAmount}</p>
-                    <p>Payment Status: {order.paymentStatus}</p>
-                    <p>Shipping ID: {order.shippingId}</p>
-                    <p>Created At: {order.createdAt}</p>
-                    <p>Updated At: {order.updatedAt}</p>
-
-                    <h2>User Details</h2>
-                    <p>User ID: {order.User.id}</p>
-                    <p>First Name: {order.User.first_name}</p>
-                    <p>Last Name: {order.User.last_name}</p>
-                    <p>Username: {order.User.username}</p>
-                    <p>Email: {order.User.email}</p>
-
-                    <p>Is Admin: {order.User.is_admin ? 'Yes' : 'No'}</p>
-                    <p>Two Factor Authentication: {order.User.two_factor_authentication ? 'Enabled' : 'Disabled'}</p>
-                    <p>Created At: {order.User.createdAt}</p>
-                    <p>Updated At: {order.User.updatedAt}</p>
-
-                    <h2>Products</h2>
-                    <ul className="OrderProducts">
-                        {order.Products.map(product => (
-                            <li key={product.id}>
-                                <p>Product ID: {product.id}</p>
-                                <p>Brand ID: {product.brandId}</p>
-                                <p>Price: {product.price}</p>
-                                <p>Product: {product.product}</p>
-                                <p>Description: {product.description}</p>
-                                <p>Stock: {product.stock}</p>
-                                <p>Attributes: {product.attributes}</p>
-
-                                <p>Featured: {product.featured ? 'Yes' : 'No'}</p>
-                                <p>User ID: {product.userId}</p>
-                                <img src={product.image} alt={product.product} className="ProductImage" />
-                                <p>Created At: {product.createdAt}</p>
-                                <p>Updated At: {product.updatedAt}</p>
-                                <button onClick={() => handleFulfill(order.id)} className="FulfillButton">Fulfill Order</button>
-                                {orderAlreadyFulfilledError && <p style={{color: 'red'}}>{orderAlreadyFulfilledError}</p>}
-                                {errorFulfillingOrder && <p style={{color: 'red'}}>{errorFulfillingOrder}</p>}
-                                {orderFulfilledMessage && <p style={{color: 'green'}}>{orderFulfilledMessage}</p>}
-
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
-
-
-        <div className="pagination">
-                <button disabled={currentPage === 1} onClick={handlePrevPage}>Previous</button>
-                <span>Page {currentPage} of {totalPages}</span>
-                <button disabled={currentPage === totalPages} onClick={handleNextPage}>Next</button>
-            </div>
-
-         
-        </div>
+                <Button variant="contained" onClick={handleSortToggle} sx={{ mb: 2 }}>
+                    {sortByAsc ? 'Sort by Date Ascending' : 'Sort by Date Descending'}
+                </Button>
+                {isLoading ? (
+                    <CircularProgress />
+                ) : (
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Order ID</TableCell>
+                                    <TableCell>Order Date</TableCell>
+                                    <TableCell>User ID</TableCell>
+                                    <TableCell>Total Amount</TableCell>
+                                    <TableCell>Actions</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {allPendingOrders.map(order => (
+                                    <TableRow key={order.id}>
+                                        <TableCell>{order.id}</TableCell>
+                                        <TableCell>{order.order_date}</TableCell>
+                                        <TableCell>{order.userId}</TableCell>
+                                        <TableCell>{order.totalAmount}</TableCell>
+                                        <TableCell>
+                                            <Button variant="contained" onClick={() => handleFulfill(order.id)} disabled={isLoading}>
+                                                Fulfill Order
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                )}
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                    <IconButton onClick={handlePrevPage} disabled={currentPage === 1}>
+                        <ArrowBackIosIcon />
+                    </IconButton>
+                    <Typography sx={{ mx: 2 }}>Page {currentPage} of {totalPages}</Typography>
+                    <IconButton onClick={handleNextPage} disabled={currentPage === totalPages}>
+                        <ArrowForwardIosIcon />
+                    </IconButton>
+                </Box>
+            </Box>
+            <ToastContainer />
+            < AdminNavBar/>
+        </Container>
     );
-};
+    
+}
 
 export default AllPendingOrders;

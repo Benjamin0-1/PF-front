@@ -86,7 +86,7 @@ function ReportedProduct() {
                     <p>Report ID: {record.id}</p>
                     <p>User: {record.User.username}</p>
                     <p>Product: {record.Product.product}</p>
-                    <p>Reason: {record.reason}</p>
+                    <p>Reason: {record.reason || 'no reason was given'}</p>
                     <hr />
                 </div>
             ))}

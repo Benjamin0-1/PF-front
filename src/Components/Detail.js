@@ -8,7 +8,9 @@ import LoginIconButton from './LoginIcon';
 import AdminButtonIcon from './AdminButtonIcon';
 import Rating from 'react-rating-stars-component'; 
 import { IoCartOutline, IoHeartOutline, IoFlagOutline, IoCheckmarkOutline, IoPencil } from 'react-icons/io5';
- // nuevos estilos 
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const accessToken = localStorage.accessToken;
@@ -51,6 +53,12 @@ function Detail() {
     };
 
     const addToServerCart = async () => {
+
+        if (!accessToken) {
+            toast.error('You need to be logged in to add items to the cart');
+            return;
+        }
+
         try {
             const response = await FetchWithAuth(`${API_URL}/user/add-to-cart`, {
                 method: 'POST',
@@ -64,10 +72,8 @@ function Detail() {
 
 
             setShowCartSuccessMessage(true);
-
-           
-
-            setProductAddedToCartSuccess('Product added to cart successfully')
+            
+            toast.success('Product added to cart successfully')
          //   alert('Product added to server cart successfully!');
         } catch (error) {
             console.error('Error adding product to cart:', error);
@@ -121,29 +127,37 @@ function Detail() {
             if (!response.ok) {
                 
                 if (responseData.missingRating) {
-                    setReviewError(responseData.missingRating);
+                    toast.error(responseData.missingRating)
+                  //  setReviewError(responseData.missingRating);
                 } else if (responseData.invalidRating) {
-                    setReviewError(responseData.invalidRating);
+                    toast.error(responseData.invalidRating)
+                //    setReviewError(responseData.invalidRating);
                 } else if (responseData.missingProductId) {
-                    setReviewError(responseData.missingProductId);
+                    toast.error(responseData.missingProductId)
+                 //   setReviewError(responseData.missingProductId);
                 } else if (responseData.invalidProductIdFormat) {
-                    setReviewError(responseData.invalidProductIdFormat);
+                    toast.error(responseData.invalidProductIdFormat)
+                  //  setReviewError(responseData.invalidProductIdFormat);
                 } else if (responseData.existingReview) {
-                    setReviewError(responseData.existingReview);
+                    toast.error(responseData.existingReview)
+                    //setReviewError(responseData.existingReview);
                 } else if (responseData.productNotOwned) {
-                    setReviewError(responseData.productNotOwned);
+                    toast.error(responseData.productNotOwned)
+                  //  setReviewError(responseData.productNotOwned);
                 } else {
                     setReviewError('An error has ocurred, please try again.');
                 }
                 return;
             }
     
-            setReviewSuccess(responseData.successMessage);
+            //setReviewSuccess(responseData.successMessage);
+            toast.success(responseData.successMessage); 
             setReviewText('');
             setRating('');
             setShowReviewForm(false);
         } catch (error) {
             setReviewError(`Error writing review: ${error.message}`);
+            toast.error('Error writing review') 
         }
     };
 
@@ -163,10 +177,13 @@ function Detail() {
             if (!response.ok) {
                
                 if (responseData.missingFields) {
+                    toast.error(responseData.missingFields)
                     throw new Error(responseData.missingFields);
                 } else if (responseData.productNotFound) {
+                    toast.error(responseData.productNotFound)
                     throw new Error(responseData.productNotFound);
                 } else if (responseData.productAlreadyReported) {
+                    toast.error(responseData.productAlreadyReported) 
                     throw new Error(responseData.productAlreadyReported);
                 } else {
                     
@@ -175,12 +192,14 @@ function Detail() {
             }
     
            
-            setReportSuccess(responseData.successMessage);
+            toast.success(responseData.successMessage)
+           // setReportSuccess(responseData.successMessage);
            
             setReportError('');
         } catch (error) {
             console.log(`error from catch reporting product: ${error}`);
             setReportError(`Error: ${error.message}`);
+         
         }
     };
     
@@ -202,7 +221,8 @@ function Detail() {
 
             const data = await response.json();
             if (data.productAlreadyAddedToFavorites) {
-                setProductAlreadyAddedToFavoritesError('You have already added this product to your favorites.');
+             //   setProductAlreadyAddedToFavoritesError('You have already added this product to your favorites.');
+             toast.error('You have already added this product to your favorites')
                 setProductAddedSuccessfully('');
                 return;
             };
@@ -212,7 +232,8 @@ function Detail() {
                 return;
             };
 
-            setProductAddedSuccessfully('Product added to favorites.');
+            //setProductAddedSuccessfully('Product added to favorites.');
+            toast.success('Product added to favorites successfully')
             setProductAlreadyAddedToFavoritesError('');
 
         } catch (error) {
@@ -251,6 +272,7 @@ function Detail() {
 
     return (
         <div className='detail-container'>
+            < ToastContainer/>
             <ProfileIcon/>
             <ViewCartIcon/>
             <LoginIconButton/>
@@ -277,17 +299,12 @@ function Detail() {
                 </div>
     
                 <IoCartOutline size={24} onClick={addToServerCart} style={{ cursor: 'pointer' }} title="Add to Cart"/>
-                {showCartSuccessMessage && (
-                    <div className='success-message'>
-                        <p>Product added to cart successfully!</p>
-                    </div>
-                )}
+               
     
                 {favoritesButtonVisible && (
                     <IoHeartOutline size={24} onClick={addToFavorites} style={{ cursor: 'pointer', color: 'red' }} title="Add to Favorites"/>
                 )}
-                {productAlreadyAddedToFavoritesError && <p style={{color: 'red'}}>{productAlreadyAddedToFavoritesError}</p>}
-                {productAddedSuccessfully && <p style={{color: 'green'}}>{productAddedSuccessfully}</p>}
+        
     
                 <IoPencil size={24} onClick={handleReviewToggle} style={{ cursor: 'pointer' }} title="Write a Review"/>
                 
@@ -332,8 +349,7 @@ function Detail() {
                 </select>
 
                     <IoFlagOutline size={24} onClick={handleReport} style={{ cursor: 'pointer' }} title="Report Product"/>
-                    {reportSuccess && <p style={{ color: 'green' }}>{reportSuccess}</p>}
-                    {reportError && <p style={{ color: 'red' }}>{reportError}</p>}
+                   
                 </>
             )}
             </div>

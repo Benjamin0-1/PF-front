@@ -1,43 +1,42 @@
-import React, {useState, useEffect} from "react";
-import FetchWithAuth from "../Auth/FetchWithAuth"; // <-- verifica el importe, aqui funciona.
-import createABrandForproducts from './module.CreateBrand.css'; // estilos.
+import React, { useState, useEffect } from "react";
+import FetchWithAuth from "../Auth/FetchWithAuth";
 import AdminNavBar from "./AdminNavBar";
 import ProfileIcon from "../ProfileIcon";
+import { Container, TextField, Button, Box, Typography } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const accessToken = localStorage.getItem('accessToken'); // <-- verifica el importe, aqui funciona.
-
-const API_URL = process.env.REACT_APP_URL
+const API_URL = process.env.REACT_APP_URL;
+const accessToken = localStorage.getItem('accessToken');
 
 function CreateBrand() {
     const [brandName, setBrandName] = useState('');
-    const [generalError, setGeneralError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
 
-    if (!accessToken) {
-        window.location.href = '/login'
-    };
-
-    const checkIsAdmin = async () => {
-        try {
-            
-            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-            const data = await response.json();
-            if (!data.is_admin) {
-                window.location.href = '/notadmin'
-            };
-
-        } catch (error) {
-            console.log(`error: ${error}`);
+    useEffect(() => {
+        if (!accessToken) {
+            window.location.href = '/login';
         }
-    };
 
-    useEffect(() => { checkIsAdmin() }, []);
+        const checkIsAdmin = async () => {
+            try {
+                const response = await FetchWithAuth(`${API_URL}/profile-info`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                const data = await response.json();
+                if (!data.is_admin) {
+                    window.location.href = '/notadmin';
+                }
+            } catch (error) {
+                toast.error(`Error: ${error.message}`);
+            }
+        };
+
+        checkIsAdmin();
+    }, [accessToken]);
 
     const handleCreation = async () => {
         try {
@@ -47,48 +46,61 @@ function CreateBrand() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
                 },
-                body: JSON.stringify({brandName})
+                body: JSON.stringify({ brandName })
             });
 
+            const data = await response.json();
+            if (data.brandAlreadyExists) {
+                toast.error('Brand already exists')
+                return
+            }
+
             if (!response.ok) {
-                setGeneralError('Ha ocurrido un error');
-                setSuccessMessage('')
+                toast.error('An error occurred while creating the brand');
                 return;
             }
 
-            setSuccessMessage(`Marca ${brandName} creada con exito`);
-            
-            setGeneralError('');
-
+            toast.success(`Brand ${brandName} created successfully`);
+            setBrandName('');
         } catch (error) {
-            console.log(`ERROR: ${error}`);
-            setGeneralError('Ha ocurrido un error');
-            setSuccessMessage('');
+            toast.error(`Error: ${error.message}`);
         }
-    }
+    };
 
     const handleChange = (e) => {
-        setBrandName(e.target.value)
+        setBrandName(e.target.value);
     };
 
     return (
-        <div className="create-brand-container">
-            < ProfileIcon/>
-            <br/>
-            <br/>
-            <input type="text" value={brandName} onChange={handleChange} placeholder="Nombre de la marca" className="brand-input" />
-            <button onClick={handleCreation} className="create-button">Crear Marca</button>
-            {generalError && <p className="error-message">{generalError}</p>}
-            {successMessage && <p className="success-message">{successMessage}</p>}
-
-            <div>
-            < AdminNavBar/>
-        </div>
-        </div>
-
-      
+        <Container maxWidth="sm" className="create-brand-container">
+            <ProfileIcon />
+            <Box sx={{ mt: 4 }}>
+                <Typography variant="h4" component="h2" gutterBottom>
+                    Create Brand
+                </Typography>
+                <TextField
+                    fullWidth
+                    label="Brand Name"
+                    variant="outlined"
+                    value={brandName}
+                    onChange={handleChange}
+                    margin="normal"
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleCreation}
+                    sx={{ mt: 2 }}
+                >
+                    Create Brand
+                </Button>
+            </Box>
+            <Box sx={{ mt: 4 }}>
+                <AdminNavBar />
+            </Box>
+            <ToastContainer />
+        </Container>
     );
-
-};
+}
 
 export default CreateBrand;

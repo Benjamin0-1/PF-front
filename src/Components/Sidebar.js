@@ -45,7 +45,6 @@ const Sidebar = () => {
                 <List>
                     {[
                         { text: "Home", icon: <HomeIcon />, path: "/home" },
-                        { text: "Buy a product", icon: <ShoppingBasketIcon />, path: "/buy" },
                         { text: "Profile", icon: <PersonIcon />, path: "/viewprofile" },
                         { text: "Favorites", icon: <FavoriteIcon />, path: "/favorites" },
                         { text: "FAQs", icon: <HelpIcon />, path: "/faq" },

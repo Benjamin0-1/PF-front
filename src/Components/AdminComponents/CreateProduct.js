@@ -136,6 +136,13 @@ function CreateProduct() {
                 return
             };
 
+            if (formData.categoryNames.length === 0) {
+                setInvalidAttributeError('Debe incluir categoria');
+                setInvalidDescriptionError('');
+                setSuccessMessage('');
+                return
+            }
+
             
             const response = await FetchWithAuth(`${API_URL}/product`, {
                 method: 'POST',

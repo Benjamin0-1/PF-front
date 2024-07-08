@@ -1,58 +1,47 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import FetchWithAuth from "../Auth/FetchWithAuth";
-import banAuserforbadBehavior from './module.BanUser.css'; // estilos
 import AdminNavBar from "./AdminNavBar";
+import { Container, TextField, Button, Box, Typography, CircularProgress } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const API_URL = process.env.REACT_APP_URL;
 const accessToken = localStorage.getItem('accessToken');
 
-const API_URL = process.env.REACT_APP_URL
-
 function BanUser() {
-    const [generalError, setGeneralError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
     const [banDurationHours, setBanDurationHours] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [userId, setUserId] = useState(''); // <-- id de usuario a banear.
-    const [userIdNotFoundError, setUserIdNotFoundError] = useState('');
-    const [userToBanDetails, setUserToBanDetails] = useState([]); // <-- mostrar de manera dinamica.
-    const [detailError, setDetailError] = useState('');
-    const [invalidBanError, setInvalidBanError] = useState('');
-
-    if (!accessToken) {
-        window.location.href = '/login'
-    }
+    const [userId, setUserId] = useState('');
+    const [userToBanDetails, setUserToBanDetails] = useState(null);
 
     useEffect(() => {
-        setInvalidBanError('');
-    }, [userId, banDurationHours]);
-    
-
-    const checkIsAdmin = async () => {
-        try {
-            
-            const response = await FetchWithAuth(`${API_URL}/profile-info`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-            const data = await response.json();
-            if (!data.is_admin) {
-                window.location.href = '/notadmin'
-            };
-
-        } catch (error) {
-            console.log(`error: ${error}`);
+        if (!accessToken) {
+            window.location.href = '/login';
         }
-    };
 
-    useEffect(() => { checkIsAdmin() }, []);
+        const checkIsAdmin = async () => {
+            try {
+                const response = await FetchWithAuth(`${API_URL}/profile-info`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                const data = await response.json();
+                if (!data.is_admin) {
+                    window.location.href = '/notadmin';
+                }
+            } catch (error) {
+                toast.error(`Error: ${error.message}`);
+            }
+        };
+
+        checkIsAdmin();
+    }, [accessToken]);
 
     const fetchUserDetails = async () => {
         try {
-            setDetailError(''); 
-
             const response = await FetchWithAuth(`${API_URL}/user-details/${userId}`, {
                 method: 'GET',
                 headers: {
@@ -61,44 +50,39 @@ function BanUser() {
                 }
             });
 
-            if (response.status == 404) {
-                setDetailError(`Usuario con id: ${userId} no existe`);
+            if (response.status === 404) {
+                toast.error(`User with id: ${userId} does not exist`);
+                setUserToBanDetails(null);
                 return;
             }
 
             if (!response.ok) {
-                console.log(`Error mostrando detalles de usuario: ${response.status}`);
+                toast.error(`Error fetching user details: ${response.status}`);
+                setUserToBanDetails(null);
                 return;
-            };
+            }
 
             const data = await response.json();
-            if (data.length === 0) {
-                console.log('El usuario no existe');
-                return;
-            };
-
-            setUserToBanDetails(data); // <-- 
+            setUserToBanDetails(data);
 
         } catch (error) {
-            console.log(`Error: ${error}`);
-            setDetailError('Ha ocurrido un error al obtener los detalles del usuario.');
+            toast.error(`Error: ${error.message}`);
+            setUserToBanDetails(null);
         }
     };
 
     useEffect(() => {
-        if (userId !== '') {
+        if (userId) {
             fetchUserDetails();
         }
-    }, [userId]); //<-- cada vez que se cambie el userId, se mostrara los nuevos detalles.
-
+    }, [userId]);
 
     const handleBan = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
-            setIsLoading(true)
-
-            const response = await FetchWithAuth(`${API_URL}/${userId}`, {
-                method: 'POST', // <-- tambien puede cambiarse a PUT.
+            const response = await FetchWithAuth(`${API_URL}/ban/${userId}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
@@ -106,84 +90,90 @@ function BanUser() {
                 body: JSON.stringify({ banDurationHours })
             });
 
-            const data = await response.json();
+            if (response.headers.get('content-type')?.includes('application/json')) {
+                const data = await response.json();
 
-            if (data.invalidBan) {
-                setInvalidBanError('No puedes banear a otro admin ni a ti mismo');
-                setGeneralError('');
-                return
-            };
+                if (data.invalidBan) {
+                    toast.error('You cannot ban another admin or yourself');
+                    setIsLoading(false);
+                    return;
+                }
 
-            if (response.status === 404) {
-                setUserIdNotFoundError(`El usuario con id: ${userId} no existe`);
-                setGeneralError('');
-                setSuccessMessage('');
-                setInvalidBanError('')
-                return;
-            };
+                if (response.status === 404) {
+                    toast.error(`User with id: ${userId} does not exist`);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                throw new Error('Invalid response format');
+            }
 
             if (!response.ok) {
-                setGeneralError('Ha ocurrido un error');
+                toast.error('An error occurred while banning the user');
+                setIsLoading(false);
                 return;
-            };
+            }
 
-            setSuccessMessage(`Usuario baneado exitosamente por ${banDurationHours} horas.`);
+            toast.success(`User banned successfully for ${banDurationHours} hours`);
+            setBanDurationHours('');
+            setUserId('');
+            setUserToBanDetails(null);
 
         } catch (error) {
-            console.log(`Error: ${error}`);
-            setGeneralError('Ha ocurrido un error.');
-            setSuccessMessage('');
+            toast.error(`Error: ${error.message}`);
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
     };
 
-
     return (
-        <div className="BanUser">
-            < AdminNavBar/>
-            <br/ >
-            <br />
-            <h2>Ban User</h2>
-            <form onSubmit={handleBan}>
-                <label htmlFor="userId">User ID:</label>
-                <input 
-                    type="number" 
-                    id="userId" 
-                    name="userId" 
-                    value={userId} 
-                    onChange={(e) => setUserId(e.target.value)} 
-                />
-                <label htmlFor="banDuration">Ban Duration (hours):</label>
-                <input 
-                    type="number" 
-                    id="banDuration" 
-                    name="banDuration" 
-                    value={banDurationHours} 
-                    onChange={(e) => setBanDurationHours(e.target.value)} 
-                />
-
-                {userToBanDetails && (
-                    <div className="user-details">
-                        <h3>User Details</h3>
-                        <p>ID: {userToBanDetails.id}</p>
-                        <p>Name: {userToBanDetails.username}</p>
-                        <p>Email: {userToBanDetails.email}</p>
-                        {/* Add more user details here */}
-                    </div>
-                )}
-                {detailError && <p style={{color: 'red'}}>{detailError}</p>}
-
-                <button type="submit">Ban User</button>
-            </form>
-            {isLoading && <p>Loading...</p>}
-            {invalidBanError && <p style={{color: 'red'}}>{invalidBanError}</p>}
-            {userIdNotFoundError && <p style={{ color: 'red' }}>{userIdNotFoundError}</p>}
-            {generalError && <p style={{ color: 'red' }}>{generalError}</p>}
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-        </div>
+        <Container maxWidth="sm" className="BanUser">
+            <AdminNavBar />
+            <Box sx={{ mt: 4 }}>
+                <Typography variant="h4" component="h2" gutterBottom>
+                    Ban User
+                </Typography>
+                <form onSubmit={handleBan}>
+                    <TextField
+                        fullWidth
+                        label="User ID"
+                        variant="outlined"
+                        value={userId}
+                        onChange={(e) => setUserId(e.target.value)}
+                        margin="normal"
+                    />
+                    <TextField
+                        fullWidth
+                        label="Ban Duration (hours)"
+                        variant="outlined"
+                        value={banDurationHours}
+                        onChange={(e) => setBanDurationHours(e.target.value)}
+                        margin="normal"
+                    />
+                    {userToBanDetails && (
+                        <Box className="user-details" sx={{ mt: 2 }}>
+                            <Typography variant="h6" component="h3">
+                                User Details
+                            </Typography>
+                            <Typography>ID: {userToBanDetails.id}</Typography>
+                            <Typography>Name: {userToBanDetails.username}</Typography>
+                            <Typography>Email: {userToBanDetails.email}</Typography>
+                        </Box>
+                    )}
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={isLoading}
+                        sx={{ mt: 2 }}
+                    >
+                        {isLoading ? <CircularProgress size={24} /> : 'Ban User'}
+                    </Button>
+                </form>
+            </Box>
+            <ToastContainer />
+        </Container>
     );
-
-};
+}
 
 export default BanUser;
